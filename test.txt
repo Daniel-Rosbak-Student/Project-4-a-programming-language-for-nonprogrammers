@@ -1,0 +1,20 @@
+program (
+create number apples = 4;
+create number oranges = 5;
+
+create text smoothie = use multiply(apples, oranges) as text;
+
+create flag yes = true;
+
+if yes do (
+    write(smoothie);
+)
+
+# Hello this is comment
+
+create functionality multiply takes (number a, number b) gives number(
+        create number result = a;
+        result * b;
+        returns result;
+    )
+)
