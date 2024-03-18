@@ -10,13 +10,14 @@ grammar Syntax;
 
 program: 'program' wsc '(' wsc (statement | function | comment | controlStructures)* wsc ')' EOF;
 
-value: use | flag | identifier | mathExpression | textExpression | lengthOf | type_convert | listElement;
+value: use | flag | mathExpression | textExpression | lengthOf | type_convert | listElement | identifier;
 lengthOf: l e n g t h o f wsc '(' wsc identifier wsc ')';
-type_convert: (identifier | use) wsc a s wsc type;
-listElement: identifier wsc '(' wsc nonZeroNumber wsc ')';
+type_convert: (use | identifier) wsc a s wsc type;
+type: n u m b e r | t e x t | f l a g | l i s t wsc o f wsc type;
 
-type: n u m b e r | t e x t | f l a g;
-identifier: character (digit | character)*;
+identifier: listElement | nonKeywordName;
+listElement: nonKeywordName wsc '(' wsc nonZeroNumber wsc ')';
+nonKeywordName: character (digit | character)*;
 
 number: ('-')? nonZeroNumber | '0';
 nonZeroNumber: nonZeroDigit digit*;
@@ -31,31 +32,25 @@ textWithoutNewlineOrQuotationmarks: (character | symbolWitoutNewline | digit)*;
 
 
 controlStructures: (loop | if_else) wsc;
-loop: r e p e a t wsc w h i l e wsc booleanExpression wsc d o '(' wsc (statement | controlStructures)* wsc ')';
-//If true/false do something, or continue with more if, optional else at the end.
-if_else: i f wsc booleanExpression wsc d o wsc '(' wsc (statement | controlStructures)* ')' (wsc e l s e wsc '(' wsc (statement | controlStructures)* ')')?;
+loop: r e p e a t wsc w h i l e wsc booleanExpression wsc d o wsc '(' wsc (statement | comment | controlStructures)* wsc ')';
+//If statements to do something based on a boolean expression, or continue with more if, optional else at the end.
+if_else: i f wsc booleanExpression wsc d o wsc '(' wsc (statement | comment | controlStructures)* ')' (wsc e l s e wsc d o wsc '(' wsc (statement | comment | controlStructures)* ')' wsc)?;
 
-function: c r e a t e wsc f u n c t i o n a l i t y wsc identifier wsc takesArgument? wsc givesArgument? '(' wsc (statement | controlStructures)* wsc ')' wsc;
+function: c r e a t e wsc f u n c t i o n a l i t y wsc identifier wsc takesArgument? wsc givesArgument wsc '(' wsc (statement | comment | controlStructures)* wsc ')' wsc;
 takesArgument: t a k e s wsc '(' wsc parameter (wsc',' wsc parameter)* wsc ')';
-givesArgument: g i v e s wsc type;
+givesArgument: g i v e s wsc (type | nothing);
 parameter: type wsc identifier;
 nothing: n o t h i n g;
 
 
 
-statement: (assignment | create | return | break | use | write | read) wsc ';' wsc;
+statement: (create | gives | break | use | write | read | assignment) wsc ';' wsc;
 
-assignment: identifier wsc '=' wsc value | textAssign | mathAssign;
-mathAssign: identifier wsc assignOp wsc mathExpression;
-textAssign: identifier wsc textOperator wsc textExpression;
-
-assignOp: '=' | mathematicalOperator;
-
+assignment: identifier wsc ('=' wsc value | textOperator wsc textExpression | mathematicalOperator wsc mathExpression);
 // Keyword for making new variables.
-create: c r e a t e wsc (n u m b e r wsc identifier ( wsc '=' wsc mathExpression)? | t e x t wsc identifier ( wsc '=' wsc textExpression)? |
-        f l a g wsc identifier ( wsc '=' wsc flag)? | l i s t wsc o f wsc type wsc identifier wsc ('(' wsc (value (wsc ',' wsc value)*)? wsc ')')?);
+create: c r e a t e wsc type wsc identifier (wsc '=' wsc value)?;
 
-return: r e t u r n s wsc (identifier | use | nothing)?;
+gives: g i v e s wsc (use | nothing | identifier);
 break: b r e a k;
 use: u s e wsc identifier wsc ('(' wsc (identifier (wsc ',' wsc identifier)* wsc)? ')')?;
 write: w r i t e wsc '(' wsc textExpression wsc ')';
@@ -63,9 +58,9 @@ read: r e a d wsc ('(' wsc ')')?;
 
 
 
-mathExpression: identifier | listElement | number | mathExpression wsc mathematicalOperator wsc mathExpression | '(' wsc mathExpression wsc mathematicalOperator wsc mathExpression wsc ')' | type_convert;
-textExpression: identifier | listElement | text | textExpression wsc textOperator wsc textExpression | '(' wsc textExpression wsc textOperator wsc textExpression wsc ')' | type_convert;
-booleanExpression: identifier | listElement | flag | booleanExpression wsc booleanOperator wsc booleanExpression | '(' wsc booleanExpression wsc booleanOperator wsc booleanExpression wsc ')' | type_convert;
+mathExpression: mathExpression wsc mathematicalOperator wsc mathExpression | '(' wsc mathExpression wsc mathematicalOperator wsc mathExpression wsc ')' | listElement | number | type_convert | lengthOf | identifier;
+textExpression: textExpression wsc textOperator wsc textExpression | '(' wsc textExpression wsc textOperator wsc textExpression wsc ')' | listElement | text | type_convert | identifier;
+booleanExpression: booleanExpression wsc booleanOperator wsc booleanExpression | '(' wsc booleanExpression wsc booleanOperator wsc booleanExpression wsc ')' | listElement | value | type_convert | identifier;
 
 mathematicalOperator: '+' | '-' | '*' | '/' | 'modulo';
 textOperator: '+';
