@@ -50,7 +50,7 @@ assignment: identifier wsc ('=' wsc value | textOperator wsc textExpression | ma
 // Keyword for making new variables.
 create: c r e a t e wsc type wsc identifier (wsc '=' wsc value)?;
 
-gives: g i v e s wsc (use | nothing | identifier);
+gives: g i v e s wsc (use | nothing | value);
 break: b r e a k;
 use: u s e wsc identifier wsc ('(' wsc (identifier (wsc ',' wsc identifier)* wsc)? ')')?;
 write: w r i t e wsc '(' wsc textExpression wsc ')';
@@ -58,9 +58,9 @@ read: r e a d wsc ('(' wsc ')')?;
 
 
 
-mathExpression: mathExpression wsc mathematicalOperator wsc mathExpression | '(' wsc mathExpression wsc mathematicalOperator wsc mathExpression wsc ')' | listElement | number | type_convert | lengthOf | identifier;
-textExpression: textExpression wsc textOperator wsc textExpression | '(' wsc textExpression wsc textOperator wsc textExpression wsc ')' | listElement | text | type_convert | identifier;
-booleanExpression: booleanExpression wsc booleanOperator wsc booleanExpression | '(' wsc booleanExpression wsc booleanOperator wsc booleanExpression wsc ')' | listElement | value | type_convert | identifier;
+mathExpression: mathExpression wsc mathematicalOperator wsc mathExpression | '(' wsc mathExpression wsc mathematicalOperator wsc mathExpression wsc ')' | listElement | use | number | type_convert | lengthOf | identifier;
+textExpression: textExpression wsc textOperator wsc textExpression | '(' wsc textExpression wsc textOperator wsc textExpression wsc ')' | listElement | use | text | type_convert | identifier;
+booleanExpression: booleanExpression wsc booleanOperator wsc booleanExpression | '(' wsc booleanExpression wsc booleanOperator wsc booleanExpression wsc ')' | listElement | use | value | type_convert | identifier;
 
 mathematicalOperator: '+' | '-' | '*' | '/' | 'modulo';
 textOperator: '+';
