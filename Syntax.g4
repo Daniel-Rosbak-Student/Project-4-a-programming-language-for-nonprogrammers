@@ -10,7 +10,7 @@ grammar Syntax;
 
 program: 'program' wsc '(' wsc (statement | function | comment | controlStructures)* wsc ')' EOF;
 
-value: use | flag | mathExpression | textExpression | lengthOf | type_convert | listElement | identifier;
+value: use | read | flag | mathExpression | textExpression | lengthOf | type_convert | listElement | identifier;
 lengthOf: l e n g t h o f wsc '(' wsc identifier wsc ')';
 type_convert: (use | identifier) wsc a s wsc type;
 type: n u m b e r | t e x t | f l a g | l i s t wsc o f wsc type;
