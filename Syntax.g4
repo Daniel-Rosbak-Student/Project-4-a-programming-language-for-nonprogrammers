@@ -34,7 +34,7 @@ textWithoutNewlineOrQuotationmarks: (character | symbolWitoutNewline | digit)*;
 controlStructures: (loop | if_else) wsc;
 loop: r e p e a t wsc w h i l e wsc booleanExpression wsc d o wsc '(' wsc (statement | comment | controlStructures)* wsc ')';
 //If statements to do something based on a boolean expression, or continue with more if, optional else at the end.
-if_else: i f wsc booleanExpression wsc d o wsc '(' wsc (statement | comment | controlStructures)* ')' (wsc e l s e wsc d o wsc '(' wsc (statement | comment | controlStructures)* ')' wsc)?;
+if_else: r u n wsc i f wsc booleanExpression wsc '(' wsc (statement | comment | controlStructures)* ')' (wsc e l s e wsc r u n wsc '(' wsc (statement | comment | controlStructures)* ')' wsc)?;
 
 function: c r e a t e wsc f u n c t i o n a l i t y wsc identifier wsc takesArgument? wsc givesArgument wsc '(' wsc (statement | comment | controlStructures)* wsc ')' wsc;
 takesArgument: t a k e s wsc '(' wsc parameter (wsc',' wsc parameter)* wsc ')';
@@ -44,7 +44,7 @@ nothing: n o t h i n g;
 
 
 
-statement: (create | gives | break | use | write | read | assignment) wsc ';' wsc;
+statement: (create | gives | break | use | print | read | assignment) wsc ';' wsc;
 
 assignment: identifier wsc ('=' wsc value | textOperator wsc textExpression | mathematicalOperator wsc mathExpression);
 // Keyword for making new variables.
@@ -53,8 +53,8 @@ create: c r e a t e wsc type wsc identifier (wsc '=' wsc value)?;
 gives: g i v e s wsc (use | nothing | value);
 break: b r e a k;
 use: u s e wsc identifier wsc ('(' wsc (identifier (wsc ',' wsc identifier)* wsc)? ')')?;
-write: w r i t e wsc '(' wsc textExpression wsc ')';
-read: r e a d wsc ('(' wsc ')')?;
+print: p r i n t wsc t o wsc s c r e e n wsc '(' wsc textExpression wsc ')';
+read: r e a d wsc u s e r wsc i n p u t wsc ('(' wsc ')')?;
 
 
 
