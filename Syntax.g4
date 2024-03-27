@@ -10,7 +10,7 @@ grammar Syntax;
 
 program: 'program' wsc '(' wsc (statement | function | comment | controlStructures)* wsc ')' EOF;
 
-value: use | read | flag | mathExpression | textExpression | lengthOf | type_convert | listElement | identifier;
+value: use | read | flag | mathExpression | textExpression | lengthOf | type_convert | identifier;
 lengthOf: l e n g t h o f wsc '(' wsc identifier wsc ')';
 type_convert: (use | identifier) wsc a s wsc type;
 type: n u m b e r | t e x t | f l a g | l i s t wsc o f wsc type;
@@ -58,9 +58,9 @@ read: r e a d wsc u s e r wsc i n p u t wsc ('(' wsc ')')?;
 
 
 
-mathExpression: mathExpression wsc mathematicalOperator wsc mathExpression | '(' wsc mathExpression wsc mathematicalOperator wsc mathExpression wsc ')' | listElement | use | number | type_convert | lengthOf | identifier;
-textExpression: textExpression wsc textOperator wsc textExpression | '(' wsc textExpression wsc textOperator wsc textExpression wsc ')' | listElement | use | text | type_convert | identifier;
-booleanExpression: booleanExpression wsc booleanOperator wsc booleanExpression | '(' wsc booleanExpression wsc booleanOperator wsc booleanExpression wsc ')' | listElement | use | value | type_convert | identifier;
+mathExpression: mathExpression wsc mathematicalOperator wsc mathExpression | '(' wsc mathExpression wsc mathematicalOperator wsc mathExpression wsc ')' | use | number | type_convert | lengthOf | identifier;
+textExpression: textExpression wsc textOperator wsc textExpression | '(' wsc textExpression wsc textOperator wsc textExpression wsc ')' | use | text | type_convert | identifier;
+booleanExpression: booleanExpression wsc booleanOperator wsc booleanExpression | '(' wsc booleanExpression wsc booleanOperator wsc booleanExpression wsc ')' | use | value | type_convert | identifier;
 
 mathematicalOperator: '+' | '-' | '*' | '/' | 'modulo';
 textOperator: '+';
