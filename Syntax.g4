@@ -1,22 +1,34 @@
-/*
-Hvad betyder tegn?
-? = 0 eller 1 occurence
-* = 0 eller flere occurences
-+ = 1 eller flere occurences
-| = or
-*/
-
 grammar Syntax;
 
 program: 'program' wsc '(' wsc (statement | function | comment | controlStructures)* wsc ')' EOF;
 
-value: use | read | flag | mathExpression | textExpression | lengthOf | type_convert | identifier;
-lengthOf: l e n g t h o f wsc '(' wsc identifier wsc ')';
-type_convert: (use | identifier) wsc a s wsc type;
+terms: this=term next=terms                                                                         #notLastTerm
+     | this=term                                                                                    #lastTerm
+     ;
+
+term: statement                                                                                     #statementTerm
+    | comment                                                                                       #commentTerm
+    | controlStructures                                                                             #controlTerm
+    ;
+
+value: use                                                                                          #useValue
+     | read                                                                                         #readValue
+     | flag                                                                                         #flagValue
+     | lengthOf                                                                                     #lengthOfValue
+     | type_convert                                                                                 #typeConvertValue
+     | id=identifier                                                                                #identifierValue
+     | listElement                                                                                  #listElementValue
+     | number                                                                                       #numberValue
+     | text                                                                                         #textValue
+     ;
+
+lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
+//TODO: fix length of and typeconvert
+type_convert: (use | id=identifier) wsc a s wsc tp=type;
 type: n u m b e r | t e x t | f l a g | l i s t wsc o f wsc type;
 
-identifier: listElement | nonKeywordName;
-listElement: nonKeywordName wsc '(' wsc nonZeroNumber wsc ')';
+identifier: id=nonKeywordName;
+listElement: id=nonKeywordName wsc '(' wsc index=nonZeroNumber wsc ')';
 nonKeywordName: character (digit | character)*;
 
 number: ('-')? nonZeroNumber | '0';
@@ -29,42 +41,75 @@ flag: t r u e | f a l s e;
 text: '"' (character | symbol | digit)* '"';
 textWithoutNewlineOrQuotationmarks: (character | symbolWitoutNewline | digit)*;
 
+controlStructures: loop wsc                                                                         #loopStructure
+                 | if_else wsc                                                                      #ifElseStructure
+                 ;
 
+loop: r e p e a t wsc w h i l e wsc expr=expression wsc d o wsc '(' wsc trms=terms ')';
 
-controlStructures: (loop | if_else) wsc;
-loop: r e p e a t wsc w h i l e wsc booleanExpression wsc d o wsc '(' wsc (statement | comment | controlStructures)* wsc ')';
 //If statements to do something based on a boolean expression, or continue with more if, optional else at the end.
-if_else: r u n wsc i f wsc booleanExpression wsc '(' wsc (statement | comment | controlStructures)* ')' (wsc e l s e wsc r u n wsc '(' wsc (statement | comment | controlStructures)* ')' wsc)?;
+if_else: r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')'                                                                   #ifNoElse
+       | r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')' wsc e l s e wsc r u n wsc '(' wsc elseChainTrms=terms ')' wsc     #ifWithElse
+       ;
 
-function: c r e a t e wsc f u n c t i o n a l i t y wsc identifier wsc takesArgument? wsc givesArgument wsc '(' wsc (statement | comment | controlStructures)* wsc ')' wsc;
-takesArgument: t a k e s wsc '(' wsc parameter (wsc',' wsc parameter)* wsc ')';
-givesArgument: g i v e s wsc (type | nothing);
-parameter: type wsc identifier;
+function: c r e a t e wsc f u n c t i o n a l i t y wsc id=identifier wsc gives=givesArgument wsc '(' wsc trms=terms ')'                            #functionNoTakes
+        | c r e a t e wsc f u n c t i o n a l i t y wsc id=identifier wsc takes=takesArgument wsc gives=givesArgument wsc '(' wsc trms=terms ')'    #functionWithTakes
+        ;
+
+takesArgument: t a k e s wsc '(' param=parameter wsc ')';
+
+parameter: wsc tp=type wsc id=identifier wsc ',' wsc next=parameter                                 #notLastParameter
+         | tp=type wsc id=identifier                                                                #lastParameter
+         ;
+
+givesArgument: g i v e s wsc tp=nothing                                                             #givesNothing
+             | g i v e s wsc tp=type                                                                #givesType
+             ;
+
 nothing: n o t h i n g;
 
+statement: create wsc ';' wsc                                                                       #createStatement
+         | give wsc ';' wsc                                                                         #giveStatement
+         | break wsc ';' wsc                                                                        #breakStatement
+         | use wsc ';' wsc                                                                          #useStatement
+         | print wsc ';' wsc                                                                        #printStatement
+         | read wsc ';' wsc                                                                         #readStatement
+         | assignment wsc ';' wsc                                                                   #assignStatement
+         ;
 
-
-statement: (create | gives | break | use | print | read | assignment) wsc ';' wsc;
-
-assignment: identifier wsc ('=' wsc value | textOperator wsc textExpression | mathematicalOperator wsc mathExpression);
+assignment: id=identifier wsc '=' wsc expr=expression;
 // Keyword for making new variables.
-create: c r e a t e wsc type wsc identifier (wsc '=' wsc value)?;
+create: c r e a t e wsc tp=type wsc id=identifier                                                   #createNoInput
+      | c r e a t e wsc tp=type wsc id=identifier wsc '=' wsc expr=expression                       #createWithInput
+      ;
 
-gives: g i v e s wsc (use | nothing | value);
+give: g i v e wsc call=use                                                                          #useGive
+    | g i v e wsc void=nothing                                                                      #nothingGive
+    | g i v e wsc expr=expression                                                                   #expressionGive
+    ;
+
 break: b r e a k;
-use: u s e wsc identifier wsc ('(' wsc (identifier (wsc ',' wsc identifier)* wsc)? ')')?;
-print: p r i n t wsc t o wsc s c r e e n wsc '(' wsc textExpression wsc ')';
+
+use: u s e wsc id=identifier (wsc '(' wsc ')')?                                                     #useNoInput
+   | u s e wsc id=identifier wsc '(' input=useInput wsc ')'                                         #useWithInput
+   ;
+useInput: wsc this=identifier wsc ',' wsc next=useInput                                             #notLastInput
+        | this=identifier                                                                           #lastInput
+        ;
+
+print: p r i n t wsc t o wsc s c r e e n wsc '(' wsc input=expression wsc ')';
 read: r e a d wsc u s e r wsc i n p u t wsc ('(' wsc ')')?;
 
 
+expression: left=expression op=operator right=expression                                            #infixExpression
+            | '(' expr=expression ')'                                                               #parensExpression
+            | call=use                                                                              #useExpression
+            | val=value                                                                             #valueExpression
+            ;
 
-mathExpression: mathExpression wsc mathematicalOperator wsc mathExpression | '(' wsc mathExpression wsc mathematicalOperator wsc mathExpression wsc ')' | use | number | type_convert | lengthOf | identifier;
-textExpression: textExpression wsc textOperator wsc textExpression | '(' wsc textExpression wsc textOperator wsc textExpression wsc ')' | use | text | type_convert | identifier;
-booleanExpression: booleanExpression wsc booleanOperator wsc booleanExpression | '(' wsc booleanExpression wsc booleanOperator wsc booleanExpression wsc ')' | use | value | type_convert | identifier;
+//operator: mathematicalOperator | textOperator | booleanOperator;
+operator: '+' | '-' | '*' | '/' | 'modulo' | '=' | '>' | '<' | '<=' | '>=' | a n d | o r | n o t;
 
-mathematicalOperator: '+' | '-' | '*' | '/' | 'modulo';
-textOperator: '+';
-booleanOperator: '=' | '>' | '<' | '<=' | '>=' | a n d | o r | n o t;
 
 
 
