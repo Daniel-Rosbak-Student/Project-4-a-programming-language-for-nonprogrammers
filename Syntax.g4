@@ -64,7 +64,7 @@ booleanExpression: booleanExpression wsc booleanOperator wsc booleanExpression |
 
 mathematicalOperator: '+' | '-' | '*' | '/' | 'modulo';
 textOperator: '+';
-booleanOperator: '=' | '>' | '<' | '<=' | '>=' | a n d | o r;
+booleanOperator: '=' | '>' | '<' | '<=' | '>=' | a n d | o r | n o t;
 
 
 
