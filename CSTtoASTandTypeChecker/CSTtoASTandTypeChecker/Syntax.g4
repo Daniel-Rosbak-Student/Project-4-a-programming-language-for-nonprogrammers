@@ -2,7 +2,7 @@ grammar Syntax;
 
 program: 'program' wsc '(' wsc commands wsc ')' EOF;
 
-commands: this=command wsc next=commands                                                            #notLastCommand
+commands: this=command next=commands                                                            #notLastCommand
         | this=command                                                                              #lastCommand
         ;
 
@@ -10,7 +10,7 @@ command: this=function                                                          
        | this=terms                                                                                 #termsCommand
        ;
 
-terms: this=term wsc next=terms                                                                         #notLastTerm
+terms: this=term next=terms                                                                     #notLastTerm
      | this=term                                                                                    #lastTerm
      ;
 
@@ -46,8 +46,8 @@ flag: t r u e | f a l s e;
 text: '"' (character | symbol | digit)* '"';
 textWithoutNewlineOrQuotationmarks: (character | symbolWithoutNewline | digit)*;
 
-controlStructures: this=loop wsc                                                                         #loopStructure
-                 | this=if_else wsc                                                                      #ifElseStructure
+controlStructures: this=loop wsc                                                                    #loopStructure
+                 | this=if_else wsc                                                                 #ifElseStructure
                  ;
 
 loop: r e p e a t wsc w h i l e wsc expr=expression wsc d o wsc '(' wsc trms=terms ')';
@@ -113,7 +113,7 @@ expression: left=expression wsc op=operator wsc right=expression                
             | expr=expression wsc a s wsc tp=type                                                   #convertExpression
             ;
 
-operator: '+' | '-' | '*' | '/' | 'modulo' | '=' | '>' | '<' | '<=' | '>=' | a n d | o r | n o t;
+operator: '+' | '-' | '*' | '/' | m o d u l o | '=' | '>' | '<' | '<=' | '>=' | a n d | o r | n o t;
 
 character: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' |
            'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' |
