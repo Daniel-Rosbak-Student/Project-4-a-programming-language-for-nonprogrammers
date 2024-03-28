@@ -6,29 +6,26 @@ terms: this=term next=terms                                                     
      | this=term                                                                                    #lastTerm
      ;
 
-term: statement                                                                                     #statementTerm
-    | comment                                                                                       #commentTerm
-    | controlStructures                                                                             #controlTerm
+term: this=statement                                                                                #statementTerm
+    | this=comment                                                                                  #commentTerm
+    | this=controlStructures                                                                        #controlTerm
     ;
 
-value: use                                                                                          #useValue
-     | read                                                                                         #readValue
-     | flag                                                                                         #flagValue
-     | lengthOf                                                                                     #lengthOfValue
-     | type_convert                                                                                 #typeConvertValue
+value: this=use                                                                                     #useValue
+     | this=read                                                                                    #readValue
+     | this=flag                                                                                    #flagValue
+     | this=lengthOf                                                                                #lengthOfValue
      | id=identifier                                                                                #identifierValue
-     | listElement                                                                                  #listElementValue
-     | number                                                                                       #numberValue
-     | text                                                                                         #textValue
+     | this=listElement                                                                             #listElementValue
+     | this=number                                                                                  #numberValue
+     | this=text                                                                                    #textValue
      ;
 
 lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
-//TODO: fix length of and typeconvert
-type_convert: (use | id=identifier) wsc a s wsc tp=type;
-type: n u m b e r | t e x t | f l a g | l i s t wsc o f wsc type;
+type: n u m b e r | t e x t | f l a g | l i s t wsc o f wsc tp=type;
 
 identifier: id=nonKeywordName;
-listElement: id=nonKeywordName wsc '(' wsc index=nonZeroNumber wsc ')';
+listElement: id=nonKeywordName wsc '(' wsc index=expression wsc ')';
 nonKeywordName: character (digit | character)*;
 
 number: ('-')? nonZeroNumber | '0';
@@ -41,15 +38,15 @@ flag: t r u e | f a l s e;
 text: '"' (character | symbol | digit)* '"';
 textWithoutNewlineOrQuotationmarks: (character | symbolWitoutNewline | digit)*;
 
-controlStructures: loop wsc                                                                         #loopStructure
-                 | if_else wsc                                                                      #ifElseStructure
+controlStructures: this=loop wsc                                                                         #loopStructure
+                 | this=if_else wsc                                                                      #ifElseStructure
                  ;
 
 loop: r e p e a t wsc w h i l e wsc expr=expression wsc d o wsc '(' wsc trms=terms ')';
 
 //If statements to do something based on a boolean expression, or continue with more if, optional else at the end.
-if_else: r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')'                                                                   #ifNoElse
-       | r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')' wsc e l s e wsc r u n wsc '(' wsc elseChainTrms=terms ')' wsc     #ifWithElse
+if_else: r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')'                                                              #ifNoElse
+       | r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')' wsc e l s e wsc r u n wsc '(' wsc elseTrms=terms ')' wsc     #ifWithElse
        ;
 
 function: c r e a t e wsc f u n c t i o n a l i t y wsc id=identifier wsc gives=givesArgument wsc '(' wsc trms=terms ')'                            #functionNoTakes
@@ -68,13 +65,13 @@ givesArgument: g i v e s wsc tp=nothing                                         
 
 nothing: n o t h i n g;
 
-statement: create wsc ';' wsc                                                                       #createStatement
-         | give wsc ';' wsc                                                                         #giveStatement
-         | break wsc ';' wsc                                                                        #breakStatement
-         | use wsc ';' wsc                                                                          #useStatement
-         | print wsc ';' wsc                                                                        #printStatement
-         | read wsc ';' wsc                                                                         #readStatement
-         | assignment wsc ';' wsc                                                                   #assignStatement
+statement: this=create wsc ';' wsc                                                                       #createStatement
+         | this=give wsc ';' wsc                                                                         #giveStatement
+         | this=break wsc ';' wsc                                                                        #breakStatement
+         | this=use wsc ';' wsc                                                                          #useStatement
+         | this=print wsc ';' wsc                                                                        #printStatement
+         | this=read wsc ';' wsc                                                                         #readStatement
+         | this=assignment wsc ';' wsc                                                                   #assignStatement
          ;
 
 assignment: id=identifier wsc '=' wsc expr=expression;
@@ -83,8 +80,8 @@ create: c r e a t e wsc tp=type wsc id=identifier                               
       | c r e a t e wsc tp=type wsc id=identifier wsc '=' wsc expr=expression                       #createWithInput
       ;
 
-give: g i v e wsc call=use                                                                          #useGive
-    | g i v e wsc void=nothing                                                                      #nothingGive
+give: g i v e wsc this=use                                                                          #useGive
+    | g i v e wsc this=nothing                                                                      #nothingGive
     | g i v e wsc expr=expression                                                                   #expressionGive
     ;
 
@@ -93,25 +90,22 @@ break: b r e a k;
 use: u s e wsc id=identifier (wsc '(' wsc ')')?                                                     #useNoInput
    | u s e wsc id=identifier wsc '(' input=useInput wsc ')'                                         #useWithInput
    ;
-useInput: wsc this=identifier wsc ',' wsc next=useInput                                             #notLastInput
-        | this=identifier                                                                           #lastInput
+useInput: wsc id=identifier wsc ',' wsc next=useInput                                             #notLastInput
+        | id=identifier                                                                           #lastInput
         ;
 
-print: p r i n t wsc t o wsc s c r e e n wsc '(' wsc input=expression wsc ')';
+print: p r i n t wsc t o wsc s c r e e n wsc '(' wsc expr=expression wsc ')';
 read: r e a d wsc u s e r wsc i n p u t wsc ('(' wsc ')')?;
 
 
-expression: left=expression op=operator right=expression                                            #infixExpression
+expression: left=expression wsc op=operator wsc right=expression                                    #infixExpression
             | '(' expr=expression ')'                                                               #parensExpression
-            | call=use                                                                              #useExpression
-            | val=value                                                                             #valueExpression
+            | this=use                                                                              #useExpression
+            | this=value                                                                            #valueExpression
+            | expr=expression wsc a s wsc tp=type                                                   #convertExpression
             ;
 
-//operator: mathematicalOperator | textOperator | booleanOperator;
 operator: '+' | '-' | '*' | '/' | 'modulo' | '=' | '>' | '<' | '<=' | '>=' | a n d | o r | n o t;
-
-
-
 
 character: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' |
            'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' |
@@ -120,13 +114,12 @@ character: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' |
            'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' |
            'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' |
            'w' | 'x' | 'y' | 'z' ;
+
 symbol: symbolWitoutNewline | '\\newline' | '\n';
 symbolWitoutNewline: '[' | ']' | '{' | '}' | '(' | ')' | '<' | '>' | '\'' | '\\"' | '=' | '|' | '.' | ',' | ';' |
         '-' | '+' | '*' | '?' | '\\enter' | '\\tab' | '\t' | '\r' | '\\carriageReturn'|
         '\f' | '\\formfeed' | '\\backspace' | '\b' | '@' | '!' | '&' | '/' | ':' | '?' | '#' | '$' | '¤' |
         '%' | '´' | '`' | '~' | '^' | '¨' | '_' | '½' | '§' | ' ';
-
-
 
 //wsc stands for WhiteSpace Character
 wsc: (' ' | '\\newline' | '\n' | '\\tab' | '\t')*;
