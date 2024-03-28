@@ -1,4 +1,4 @@
-namespace CSTtoASTandTypeChecker;
+﻿namespace CSTtoASTandTypeChecker;
 
 internal abstract class Node
 {

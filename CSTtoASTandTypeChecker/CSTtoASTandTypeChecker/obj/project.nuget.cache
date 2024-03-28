@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "DzRX0Y6hEsm7x5J1aaMLmaF/9suXGdR3HivVls5p+TF1MGOLNtQD7KkrlN5b51nudCYlNyjHbXKPwKABaEtgAQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Daniel\\RiderProjects\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Daniel\\.nuget\\packages\\antlr4.runtime.standard\\4.13.1\\antlr4.runtime.standard.4.13.1.nupkg.sha512"
+  ],
+  "logs": []
+}
