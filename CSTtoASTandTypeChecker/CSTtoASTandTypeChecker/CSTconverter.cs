@@ -28,7 +28,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     {
         IdentifierNode node = new IdentifierNode();
         node.name = context.id.GetText();
-        Visit(context.expr);
+        node.value = Visit(context.expr);
         return node;
     }
 
@@ -275,8 +275,4 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     {
         return Visit(context.@id);
     }
-
-
-
-
 }

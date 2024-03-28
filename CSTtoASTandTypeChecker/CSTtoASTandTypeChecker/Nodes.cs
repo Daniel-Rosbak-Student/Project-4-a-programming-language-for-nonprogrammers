@@ -192,5 +192,6 @@ internal class TextNode : Node
 internal class IdentifierNode : Node
 {
     public string name { get; set; }
+    public Node value { get; set; }
     public TypeNode type { get; set; }
 }
