@@ -59,6 +59,7 @@ internal class LengthOfNode : PreFixNode
 
 internal class TypeConvertNode : SufFixNode
 {
+    public Node value { get; set; }
     public TypeNode type { get; set; }
 }
 
@@ -138,6 +139,11 @@ internal class TextTypeNode : TypeNode
 {
 }
 
+internal class ListTypeNode : TypeNode
+{
+    public TypeNode type { get; set; }
+}
+
 internal class SignatureNode : TypeNode
 {
     public static List<SignatureNode> signatures = new List<SignatureNode>();
@@ -152,6 +158,7 @@ internal class SignatureNode : TypeNode
 
 internal class ListNode : Node
 {
+    public ListTypeNode type { get; set; }
     public List<Node> values { get; set; }
 }
 
