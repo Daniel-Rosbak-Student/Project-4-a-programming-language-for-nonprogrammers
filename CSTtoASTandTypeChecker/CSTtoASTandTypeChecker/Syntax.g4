@@ -2,7 +2,7 @@ grammar Syntax;
 
 program: 'program' wsc '(' wsc commands wsc ')' EOF;
 
-commands: this=command next=commands                                                            #notLastCommand
+commands: this=command wsc next=commands                                                            #notLastCommand
         | this=command                                                                              #lastCommand
         ;
 
@@ -10,7 +10,7 @@ command: this=function                                                          
        | this=terms                                                                                 #termsCommand
        ;
 
-terms: this=term next=terms                                                                     #notLastTerm
+terms: this=term wsc next=terms                                                                     #notLastTerm
      | this=term                                                                                    #lastTerm
      ;
 
@@ -61,9 +61,9 @@ function: c r e a t e wsc f u n c t i o n a l i t y wsc id=identifier wsc gives=
         | c r e a t e wsc f u n c t i o n a l i t y wsc id=identifier wsc takes=takesArgument wsc gives=givesArgument wsc '(' wsc trms=terms ')'    #functionWithTakes
         ;
 
-takesArgument: t a k e s wsc '(' param=parameter wsc ')';
+takesArgument: t a k e s wsc '(' wsc param=parameter wsc ')';
 
-parameter: wsc tp=type wsc id=identifier wsc ',' wsc next=parameter                                 #notLastParameter
+parameter: tp=type wsc id=identifier wsc ',' wsc next=parameter                                 #notLastParameter
          | tp=type wsc id=identifier                                                                #lastParameter
          ;
 
