@@ -102,7 +102,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitIdentifierValue(SyntaxParser.IdentifierValueContext context)
     {
-        return new TextNode(context.@id.GetText());
+        return new TextNode(context.@this.GetText());
     }
 
 /// <summary>

@@ -837,15 +837,15 @@ public interface ISyntaxListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitSymbol([NotNull] SyntaxParser.SymbolContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="SyntaxParser.symbolWitoutNewline"/>.
+	/// Enter a parse tree produced by <see cref="SyntaxParser.symbolWithoutNewline"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterSymbolWitoutNewline([NotNull] SyntaxParser.SymbolWitoutNewlineContext context);
+	void EnterSymbolWithoutNewline([NotNull] SyntaxParser.SymbolWithoutNewlineContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="SyntaxParser.symbolWitoutNewline"/>.
+	/// Exit a parse tree produced by <see cref="SyntaxParser.symbolWithoutNewline"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitSymbolWitoutNewline([NotNull] SyntaxParser.SymbolWitoutNewlineContext context);
+	void ExitSymbolWithoutNewline([NotNull] SyntaxParser.SymbolWithoutNewlineContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SyntaxParser.wsc"/>.
 	/// </summary>

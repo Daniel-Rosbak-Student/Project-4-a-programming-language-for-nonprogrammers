@@ -274,7 +274,7 @@ expression
 operator
 character
 symbol
-symbolWitoutNewline
+symbolWithoutNewline
 wsc
 comment
 a

@@ -63,7 +63,7 @@ public partial class SyntaxParser : Parser {
 		RULE_parameter = 23, RULE_givesArgument = 24, RULE_nothing = 25, RULE_statement = 26, 
 		RULE_assignment = 27, RULE_create = 28, RULE_give = 29, RULE_break = 30, 
 		RULE_use = 31, RULE_useInput = 32, RULE_print = 33, RULE_read = 34, RULE_expression = 35, 
-		RULE_operator = 36, RULE_character = 37, RULE_symbol = 38, RULE_symbolWitoutNewline = 39, 
+		RULE_operator = 36, RULE_character = 37, RULE_symbol = 38, RULE_symbolWithoutNewline = 39, 
 		RULE_wsc = 40, RULE_comment = 41, RULE_a = 42, RULE_b = 43, RULE_c = 44, 
 		RULE_d = 45, RULE_e = 46, RULE_f = 47, RULE_g = 48, RULE_h = 49, RULE_i = 50, 
 		RULE_j = 51, RULE_k = 52, RULE_l = 53, RULE_m = 54, RULE_n = 55, RULE_o = 56, 
@@ -76,9 +76,9 @@ public partial class SyntaxParser : Parser {
 		"controlStructures", "loop", "if_else", "function", "takesArgument", "parameter", 
 		"givesArgument", "nothing", "statement", "assignment", "create", "give", 
 		"break", "use", "useInput", "print", "read", "expression", "operator", 
-		"character", "symbol", "symbolWitoutNewline", "wsc", "comment", "a", "b", 
-		"c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", 
-		"q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+		"character", "symbol", "symbolWithoutNewline", "wsc", "comment", "a", 
+		"b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", 
+		"p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -738,7 +738,7 @@ public partial class SyntaxParser : Parser {
 		}
 	}
 	public partial class IdentifierValueContext : ValueContext {
-		public IdentifierContext id;
+		public IdentifierContext @this;
 		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
 			return GetRuleContext<IdentifierContext>(0);
 		}
@@ -899,7 +899,7 @@ public partial class SyntaxParser : Parser {
 				EnterOuterAlt(_localctx, 8);
 				{
 				State = 174;
-				((IdentifierValueContext)_localctx).id = identifier();
+				((IdentifierValueContext)_localctx).@this = identifier();
 				}
 				break;
 			}
@@ -2065,11 +2065,11 @@ public partial class SyntaxParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public CharacterContext character(int i) {
 			return GetRuleContext<CharacterContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SymbolWitoutNewlineContext[] symbolWitoutNewline() {
-			return GetRuleContexts<SymbolWitoutNewlineContext>();
+		[System.Diagnostics.DebuggerNonUserCode] public SymbolWithoutNewlineContext[] symbolWithoutNewline() {
+			return GetRuleContexts<SymbolWithoutNewlineContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SymbolWitoutNewlineContext symbolWitoutNewline(int i) {
-			return GetRuleContext<SymbolWitoutNewlineContext>(i);
+		[System.Diagnostics.DebuggerNonUserCode] public SymbolWithoutNewlineContext symbolWithoutNewline(int i) {
+			return GetRuleContext<SymbolWithoutNewlineContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public DigitContext[] digit() {
 			return GetRuleContexts<DigitContext>();
@@ -2222,7 +2222,7 @@ public partial class SyntaxParser : Parser {
 					case T__114:
 						{
 						State = 284;
-						symbolWitoutNewline();
+						symbolWithoutNewline();
 						}
 						break;
 					case T__4:
@@ -5503,8 +5503,8 @@ public partial class SyntaxParser : Parser {
 	}
 
 	public partial class SymbolContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public SymbolWitoutNewlineContext symbolWitoutNewline() {
-			return GetRuleContext<SymbolWitoutNewlineContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public SymbolWithoutNewlineContext symbolWithoutNewline() {
+			return GetRuleContext<SymbolWithoutNewlineContext>(0);
 		}
 		public SymbolContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -5586,7 +5586,7 @@ public partial class SyntaxParser : Parser {
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 715;
-				symbolWitoutNewline();
+				symbolWithoutNewline();
 				}
 				break;
 			case T__78:
@@ -5618,34 +5618,34 @@ public partial class SyntaxParser : Parser {
 		return _localctx;
 	}
 
-	public partial class SymbolWitoutNewlineContext : ParserRuleContext {
-		public SymbolWitoutNewlineContext(ParserRuleContext parent, int invokingState)
+	public partial class SymbolWithoutNewlineContext : ParserRuleContext {
+		public SymbolWithoutNewlineContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_symbolWitoutNewline; } }
+		public override int RuleIndex { get { return RULE_symbolWithoutNewline; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			ISyntaxListener typedListener = listener as ISyntaxListener;
-			if (typedListener != null) typedListener.EnterSymbolWitoutNewline(this);
+			if (typedListener != null) typedListener.EnterSymbolWithoutNewline(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			ISyntaxListener typedListener = listener as ISyntaxListener;
-			if (typedListener != null) typedListener.ExitSymbolWitoutNewline(this);
+			if (typedListener != null) typedListener.ExitSymbolWithoutNewline(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			ISyntaxVisitor<TResult> typedVisitor = visitor as ISyntaxVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitSymbolWitoutNewline(this);
+			if (typedVisitor != null) return typedVisitor.VisitSymbolWithoutNewline(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SymbolWitoutNewlineContext symbolWitoutNewline() {
-		SymbolWitoutNewlineContext _localctx = new SymbolWitoutNewlineContext(Context, State);
-		EnterRule(_localctx, 78, RULE_symbolWitoutNewline);
+	public SymbolWithoutNewlineContext symbolWithoutNewline() {
+		SymbolWithoutNewlineContext _localctx = new SymbolWithoutNewlineContext(Context, State);
+		EnterRule(_localctx, 78, RULE_symbolWithoutNewline);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);

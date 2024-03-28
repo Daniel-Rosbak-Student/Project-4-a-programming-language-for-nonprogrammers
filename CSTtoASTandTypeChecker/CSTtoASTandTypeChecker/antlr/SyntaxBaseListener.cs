@@ -984,17 +984,17 @@ public partial class SyntaxBaseListener : ISyntaxListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitSymbol([NotNull] SyntaxParser.SymbolContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="SyntaxParser.symbolWitoutNewline"/>.
+	/// Enter a parse tree produced by <see cref="SyntaxParser.symbolWithoutNewline"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSymbolWitoutNewline([NotNull] SyntaxParser.SymbolWitoutNewlineContext context) { }
+	public virtual void EnterSymbolWithoutNewline([NotNull] SyntaxParser.SymbolWithoutNewlineContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="SyntaxParser.symbolWitoutNewline"/>.
+	/// Exit a parse tree produced by <see cref="SyntaxParser.symbolWithoutNewline"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSymbolWitoutNewline([NotNull] SyntaxParser.SymbolWitoutNewlineContext context) { }
+	public virtual void ExitSymbolWithoutNewline([NotNull] SyntaxParser.SymbolWithoutNewlineContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SyntaxParser.wsc"/>.
 	/// <para>The default implementation does nothing.</para>

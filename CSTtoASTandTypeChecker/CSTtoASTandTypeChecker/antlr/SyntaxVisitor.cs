@@ -506,11 +506,11 @@ public interface ISyntaxVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSymbol([NotNull] SyntaxParser.SymbolContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SyntaxParser.symbolWitoutNewline"/>.
+	/// Visit a parse tree produced by <see cref="SyntaxParser.symbolWithoutNewline"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitSymbolWitoutNewline([NotNull] SyntaxParser.SymbolWitoutNewlineContext context);
+	Result VisitSymbolWithoutNewline([NotNull] SyntaxParser.SymbolWithoutNewlineContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SyntaxParser.wsc"/>.
 	/// </summary>
