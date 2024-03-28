@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DzRX0Y6hEsm7x5J1aaMLmaF/9suXGdR3HivVls5p+TF1MGOLNtQD7KkrlN5b51nudCYlNyjHbXKPwKABaEtgAQ==",
+  "dgSpecHash": "ReWm6ZGZknf/fbpXYlQCasDY5oJoKmKL2/6RR/IZzU6LW3YfO4IVlHjxlxh0e0nJh0IH6MMH6Nzo8ryumrM/vw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Daniel\\RiderProjects\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj",
+  "projectFilePath": "C:\\Users\\Daniel\\Documents\\GitHub\\Project-4-a-programming-language-for-nonprogrammers\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Daniel\\.nuget\\packages\\antlr4.runtime.standard\\4.13.1\\antlr4.runtime.standard.4.13.1.nupkg.sha512"
   ],

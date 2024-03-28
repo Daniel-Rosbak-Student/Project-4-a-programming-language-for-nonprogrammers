@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Daniel\\RiderProjects\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj": {}
+    "C:\\Users\\Daniel\\Documents\\GitHub\\Project-4-a-programming-language-for-nonprogrammers\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Daniel\\RiderProjects\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj": {
+    "C:\\Users\\Daniel\\Documents\\GitHub\\Project-4-a-programming-language-for-nonprogrammers\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daniel\\RiderProjects\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj",
+        "projectUniqueName": "C:\\Users\\Daniel\\Documents\\GitHub\\Project-4-a-programming-language-for-nonprogrammers\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj",
         "projectName": "CSTtoASTandTypeChecker",
-        "projectPath": "C:\\Users\\Daniel\\RiderProjects\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj",
+        "projectPath": "C:\\Users\\Daniel\\Documents\\GitHub\\Project-4-a-programming-language-for-nonprogrammers\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker.csproj",
         "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daniel\\RiderProjects\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\obj\\",
+        "outputPath": "C:\\Users\\Daniel\\Documents\\GitHub\\Project-4-a-programming-language-for-nonprogrammers\\CSTtoASTandTypeChecker\\CSTtoASTandTypeChecker\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Users\\Daniel\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
