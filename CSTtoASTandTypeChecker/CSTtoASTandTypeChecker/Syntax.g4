@@ -1,8 +1,8 @@
-﻿grammar Syntax;
+grammar Syntax;
 
 program: 'program' wsc '(' wsc commands wsc ')' EOF;
 
-commands: this=command wsc next=commands                                                                #notLastCommand
+commands: this=command wsc next=commands                                                            #notLastCommand
         | this=command                                                                              #lastCommand
         ;
 
@@ -10,7 +10,7 @@ command: this=function                                                          
        | this=terms                                                                                 #termsCommand
        ;
 
-terms: this=term next=terms                                                                         #notLastTerm
+terms: this=term wsc next=terms                                                                         #notLastTerm
      | this=term                                                                                    #lastTerm
      ;
 
@@ -26,7 +26,7 @@ value: this=use                                                                 
      | this=listElement                                                                             #listElementValue
      | this=number                                                                                  #numberValue
      | this=text                                                                                    #textValue
-     | id=identifier                                                                                #identifierValue
+     | this=identifier                                                                              #identifierValue
      ;
 
 lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
@@ -44,7 +44,7 @@ nonZeroDigit: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' ;
 flag: t r u e | f a l s e;
 
 text: '"' (character | symbol | digit)* '"';
-textWithoutNewlineOrQuotationmarks: (character | symbolWitoutNewline | digit)*;
+textWithoutNewlineOrQuotationmarks: (character | symbolWithoutNewline | digit)*;
 
 controlStructures: this=loop wsc                                                                         #loopStructure
                  | this=if_else wsc                                                                      #ifElseStructure
@@ -73,13 +73,13 @@ givesArgument: g i v e s wsc tp=nothing                                         
 
 nothing: n o t h i n g;
 
-statement: this=create wsc ';' wsc                                                                       #createStatement
-         | this=give wsc ';' wsc                                                                         #giveStatement
-         | this=break wsc ';' wsc                                                                        #breakStatement
-         | this=use wsc ';' wsc                                                                          #useStatement
-         | this=print wsc ';' wsc                                                                        #printStatement
-         | this=read wsc ';' wsc                                                                         #readStatement
-         | this=assignment wsc ';' wsc                                                                   #assignStatement
+statement: this=create wsc ';' wsc                                                                  #createStatement
+         | this=give wsc ';' wsc                                                                    #giveStatement
+         | this=break wsc ';' wsc                                                                   #breakStatement
+         | this=use wsc ';' wsc                                                                     #useStatement
+         | this=print wsc ';' wsc                                                                   #printStatement
+         | this=read wsc ';' wsc                                                                    #readStatement
+         | this=assignment wsc ';' wsc                                                              #assignStatement
          ;
 
 assignment: id=identifier wsc '=' wsc expr=expression;
@@ -98,8 +98,8 @@ break: b r e a k;
 use: u s e wsc id=identifier (wsc '(' wsc ')')?                                                     #useNoInput
    | u s e wsc id=identifier wsc '(' input=useInput wsc ')'                                         #useWithInput
    ;
-useInput: wsc id=identifier wsc ',' wsc next=useInput                                             #notLastInput
-        | id=identifier                                                                           #lastInput
+useInput: wsc id=identifier wsc ',' wsc next=useInput                                               #notLastInput
+        | id=identifier                                                                             #lastInput
         ;
 
 print: p r i n t wsc t o wsc s c r e e n wsc '(' wsc expr=expression wsc ')';
@@ -123,8 +123,8 @@ character: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' |
            'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' |
            'w' | 'x' | 'y' | 'z' ;
 
-symbol: symbolWitoutNewline | '\\newline' | '\n';
-symbolWitoutNewline: '[' | ']' | '{' | '}' | '(' | ')' | '<' | '>' | '\'' | '\\"' | '=' | '|' | '.' | ',' | ';' |
+symbol: symbolWithoutNewline | '\\newline' | '\n';
+symbolWithoutNewline: '[' | ']' | '{' | '}' | '(' | ')' | '<' | '>' | '\'' | '\\"' | '=' | '|' | '.' | ',' | ';' |
         '-' | '+' | '*' | '?' | '\\enter' | '\\tab' | '\t' | '\r' | '\\carriageReturn'|
         '\f' | '\\formfeed' | '\\backspace' | '\b' | '@' | '!' | '&' | '/' | ':' | '?' | '#' | '$' | '¤' |
         '%' | '´' | '`' | '~' | '^' | '¨' | '_' | '½' | '§' | ' ';
