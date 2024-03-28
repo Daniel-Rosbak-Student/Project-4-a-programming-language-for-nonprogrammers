@@ -1,24 +1,32 @@
 grammar Syntax;
 
-program: 'program' wsc '(' wsc (statement | function | comment | controlStructures)* wsc ')' EOF;
+program: 'program' wsc '(' wsc commands wsc ')' EOF;
+
+commands: this=command wsc next=commands                                                                #notLastCommand
+        | this=command                                                                              #lastCommand
+        ;
+
+command: this=function                                                                              #functionCommand
+       | this=terms                                                                                 #termsCommand
+       ;
 
 terms: this=term next=terms                                                                         #notLastTerm
      | this=term                                                                                    #lastTerm
      ;
 
-term: this=statement                                                                                #statementTerm
+term: this=controlStructures                                                                        #controlTerm
+    | this=statement                                                                                #statementTerm
     | this=comment                                                                                  #commentTerm
-    | this=controlStructures                                                                        #controlTerm
     ;
 
 value: this=use                                                                                     #useValue
      | this=read                                                                                    #readValue
      | this=flag                                                                                    #flagValue
      | this=lengthOf                                                                                #lengthOfValue
-     | id=identifier                                                                                #identifierValue
      | this=listElement                                                                             #listElementValue
      | this=number                                                                                  #numberValue
      | this=text                                                                                    #textValue
+     | id=identifier                                                                                #identifierValue
      ;
 
 lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
@@ -45,7 +53,7 @@ controlStructures: this=loop wsc                                                
 loop: r e p e a t wsc w h i l e wsc expr=expression wsc d o wsc '(' wsc trms=terms ')';
 
 //If statements to do something based on a boolean expression, or continue with more if, optional else at the end.
-if_else: r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')'                                                              #ifNoElse
+if_else: r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')' wsc                                                          #ifNoElse
        | r u n wsc i f wsc expr=expression wsc '(' wsc trms=terms ')' wsc e l s e wsc r u n wsc '(' wsc elseTrms=terms ')' wsc     #ifWithElse
        ;
 
