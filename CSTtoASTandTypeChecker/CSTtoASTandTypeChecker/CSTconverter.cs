@@ -39,22 +39,76 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitInfixExpression(SyntaxParser.InfixExpressionContext context)
     {
-        return base.VisitInfixExpression(context);
+        InFixNode node = null;
+        switch (context.op.GetText().ToLower())
+        {
+            case "+":
+                node = new AdditionNode();
+                break;
+            case "-":
+                node = new SubtractNode();
+                break;
+            case "*":
+                node = new MultiplyNode();
+                break;
+            case "/":
+                node = new DivideNode();
+                break;
+            case "modulo":
+                node = new ModuloNode();
+                break;
+            case "=":
+                node = new EqualsNode();
+                break;
+            case "<":
+                node = new LessNode();
+                break;
+            case "<=":
+                node = new LessEqualsNode();
+                break;
+            case ">":
+                node = new GreaterNode();
+                break;
+            case ">=":
+                node = new GreaterEqualsNode();
+                break;
+            case "and":
+                node = new AndNode();
+                break;
+            case "or":
+                node = new OrNode();
+                break;
+            case "not":
+                node = new NotNode();
+                break;
+        }
+
+        if (node != null)
+        {
+            node.left = Visit(context.left);
+            node.right = Visit(context.right);
+        }
+
+        return node;
     }
 
     public override Node VisitParensExpression(SyntaxParser.ParensExpressionContext context)
     {
-        return base.VisitParensExpression(context);
+        return Visit(context.expr);
     }
 
     public override Node VisitUseExpression(SyntaxParser.UseExpressionContext context)
     {
-        return base.VisitUseExpression(context);
+        
+        return Visit(context.@this);
     }
 
     public override Node VisitConvertExpression(SyntaxParser.ConvertExpressionContext context)
     {
-        return base.VisitConvertExpression(context);
+        TypeConvertNode node = new TypeConvertNode();
+        node.value = Visit(context.expr);
+        node.type = (TypeNode)Visit(context.tp);
+        return node;
     }
 
     public override Node VisitValueExpression(SyntaxParser.ValueExpressionContext context)
@@ -79,14 +133,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitFlagValue(SyntaxParser.FlagValueContext context)
     {
-        bool Bool = false;
-        if (context.@this.GetText().ToLower() == "true")
-        {
-            Bool = true;
-        }
-        FlagNode flag = new FlagNode(Bool);
-
-        return flag;
+        return new FlagNode(context.@this.GetText().ToLower() == "true");
     }
 
     public override Node VisitLengthOfValue(SyntaxParser.LengthOfValueContext context)
@@ -189,7 +236,24 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitType(SyntaxParser.TypeContext context)
     {
-        return Visit(context.@tp);
+        switch (context.tp.RuleIndex)
+        {
+            //number
+            case 1:
+                return new NumberTypeNode();
+            //text
+            case 2:
+                return new TextTypeNode();
+            //flag
+            case 3:
+                return new FlagTypeNode();
+            //list
+            case 4:
+                ListTypeNode node = new ListTypeNode();
+                node.type = (TypeNode)Visit(context.tp);
+                return node;
+        }
+        return null;
     }
 
     /// <summary>
