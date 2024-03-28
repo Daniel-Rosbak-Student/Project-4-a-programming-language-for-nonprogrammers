@@ -1,4 +1,6 @@
-﻿namespace CSTtoASTandTypeChecker;
+﻿using System.Security.Cryptography;
+
+namespace CSTtoASTandTypeChecker;
 
 internal class CSTconverter : SyntaxBaseVisitor<Node>
 {
@@ -67,22 +69,29 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitUseValue(SyntaxParser.UseValueContext context)
     {
-        return new TextNode(context.@this.GetText());
+        return Visit(context.@this);
     }
 
     public override Node VisitReadValue(SyntaxParser.ReadValueContext context)
     {
-        return new TextNode(context.@this.GetText());
+        return Visit(context.@this);
     }
 
     public override Node VisitFlagValue(SyntaxParser.FlagValueContext context)
     {
-        return new TextNode(context.@this.GetText());
+        bool Bool = false;
+        if (context.@this.GetText().ToLower() == "true")
+        {
+            Bool = true;
+        }
+        FlagNode flag = new FlagNode(Bool);
+
+        return flag;
     }
 
     public override Node VisitLengthOfValue(SyntaxParser.LengthOfValueContext context)
     {
-        return new TextNode(context.@this.GetText());
+        return Visit(context.@this);
     }
 
     public override Node VisitNumberValue(SyntaxParser.NumberValueContext context)
@@ -97,12 +106,14 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitListElementValue(SyntaxParser.ListElementValueContext context)
     {
-        return new TextNode(context.@this.GetText());
+        return Visit(context.@this);
     }
 
     public override Node VisitIdentifierValue(SyntaxParser.IdentifierValueContext context)
     {
-        return new TextNode(context.@this.GetText());
+        IdentifierNode node = new IdentifierNode();
+        node.name = context.@this.GetText();
+        return node;
     }
 
 /// <summary>

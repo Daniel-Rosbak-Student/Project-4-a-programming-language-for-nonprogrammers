@@ -26,7 +26,7 @@ value: this=use                                                                 
      | this=listElement                                                                             #listElementValue
      | this=number                                                                                  #numberValue
      | this=text                                                                                    #textValue
-     | this=identifier                                                                              #identifierValue
+     | id=identifier                                                                                #identifierValue
      ;
 
 lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
@@ -44,7 +44,7 @@ nonZeroDigit: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' ;
 flag: t r u e | f a l s e;
 
 text: '"' (character | symbol | digit)* '"';
-textWithoutNewlineOrQuotationmarks: (character | symbolWithoutNewline | digit)*;
+textWithoutNewlineOrQuotationmarks: (character | symbolWitoutNewline | digit)*;
 
 controlStructures: this=loop wsc                                                                         #loopStructure
                  | this=if_else wsc                                                                      #ifElseStructure
@@ -123,8 +123,8 @@ character: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' |
            'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' |
            'w' | 'x' | 'y' | 'z' ;
 
-symbol: symbolWithoutNewline | '\\newline' | '\n';
-symbolWithoutNewline: '[' | ']' | '{' | '}' | '(' | ')' | '<' | '>' | '\'' | '\\"' | '=' | '|' | '.' | ',' | ';' |
+symbol: symbolWitoutNewline | '\\newline' | '\n';
+symbolWitoutNewline: '[' | ']' | '{' | '}' | '(' | ')' | '<' | '>' | '\'' | '\\"' | '=' | '|' | '.' | ',' | ';' |
         '-' | '+' | '*' | '?' | '\\enter' | '\\tab' | '\t' | '\r' | '\\carriageReturn'|
         '\f' | '\\formfeed' | '\\backspace' | '\b' | '@' | '!' | '&' | '/' | ':' | '?' | '#' | '$' | '¤' |
         '%' | '´' | '`' | '~' | '^' | '¨' | '_' | '½' | '§' | ' ';
