@@ -104,7 +104,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         node.type = (TypeNode)Visit(context.tp);
         return node;
     }
-
+    
     public override Node VisitValueExpression(SyntaxParser.ValueExpressionContext context)
     {
         return Visit(context.@this);
@@ -135,7 +135,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    /*
+    
     public override Node VisitUseValue(SyntaxParser.UseValueContext context)
     {
         return Visit(context.@this);
@@ -144,7 +144,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     public override Node VisitReadValue(SyntaxParser.ReadValueContext context)
     {
         return Visit(context.@this);
-    }*/
+    }
 
     public override Node VisitFlagValue(SyntaxParser.FlagValueContext context)
     {
