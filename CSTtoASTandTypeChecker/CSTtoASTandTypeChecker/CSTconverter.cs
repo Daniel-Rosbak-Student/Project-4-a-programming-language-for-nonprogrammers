@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
 
 namespace CSTtoASTandTypeChecker;
 
@@ -81,6 +82,8 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
             case "not":
                 node = new NotNode();
                 break;
+            default:
+                throw new ValidationException("Bad Operator in InfixExpression");
         }
 
         if (node != null)
@@ -127,7 +130,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitLastInput(SyntaxParser.LastInputContext context)
     {
-        return new InputNode(Visit(context.expr), null);
+        return Visit(context.expr);
     }
 
     /// <summary>
@@ -214,7 +217,13 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         {
             return Visit(context.next);
         }
-        return new CommandNode(Visit(context.@this), Visit(context.next));
+
+        Node next = Visit(context.next);
+        if (next == null)
+        {
+            return Visit(context.@this);
+        }
+        return new CommandNode(Visit(context.@this), next);
     }
 
     public override Node VisitLastTerm(SyntaxParser.LastTermContext context)

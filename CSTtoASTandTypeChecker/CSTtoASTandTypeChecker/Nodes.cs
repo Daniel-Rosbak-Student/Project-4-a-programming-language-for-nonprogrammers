@@ -22,13 +22,13 @@ internal abstract class PreSufFixNode : Node
 internal abstract class ControlNode : Node
 {
     public Node condition { get; set; }
-    public List<Node> nodes { get; set; }
+    public CommandNode nodes { get; set; }
 }
 
 internal class FunctionNode : Node
 {
     public SignatureNode signature { get; set; }
-    public List<Node> nodes { get; set; }
+    public CommandNode nodes { get; set; }
 }
 
 internal class UseNode : Node
