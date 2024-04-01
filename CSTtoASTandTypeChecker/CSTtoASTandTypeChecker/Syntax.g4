@@ -33,7 +33,7 @@ lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
 type: n u m b e r | t e x t | f l a g | l i s t wsc o f wsc tp=type;
 
 identifier: id=nonKeywordName;
-listElement: id=nonKeywordName wsc '(' wsc index=expression wsc ')';
+listElement: id=identifier wsc '(' wsc index=expression wsc ')';
 nonKeywordName: character (digit | character)*;
 
 number: ('-')? nonZeroNumber | '0';
