@@ -63,6 +63,10 @@ internal class TypeConvertNode : SufFixNode
     public TypeNode type { get; set; }
 }
 
+internal class CommandNode : InFixNode
+{
+}
+
 internal class CreateVariableNode : InFixNode
 {
 }
