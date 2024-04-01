@@ -97,12 +97,6 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return Visit(context.expr);
     }
 
-    public override Node VisitUseExpression(SyntaxParser.UseExpressionContext context)
-    {
-        
-        return Visit(context.@this);
-    }
-
     public override Node VisitConvertExpression(SyntaxParser.ConvertExpressionContext context)
     {
         TypeConvertNode node = new TypeConvertNode();
