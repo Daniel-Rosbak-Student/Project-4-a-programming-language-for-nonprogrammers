@@ -98,8 +98,8 @@ break: b r e a k;
 use: u s e wsc id=identifier (wsc '(' wsc ')')?                                                     #useNoInput
    | u s e wsc id=identifier wsc '(' input=useInput wsc ')'                                         #useWithInput
    ;
-useInput: wsc id=identifier wsc ',' wsc next=useInput                                               #notLastInput
-        | id=identifier                                                                             #lastInput
+useInput: wsc expr=expression wsc ',' wsc next=useInput                                             #notLastInput
+        | expr=expression                                                                           #lastInput
         ;
 
 print: p r i n t wsc t o wsc s c r e e n wsc '(' wsc expr=expression wsc ')';

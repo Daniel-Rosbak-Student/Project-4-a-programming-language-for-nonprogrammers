@@ -4632,9 +4632,9 @@ public partial class SyntaxParser : Parser {
 		}
 	}
 	public partial class LastInputContext : UseInputContext {
-		public IdentifierContext id;
-		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
-			return GetRuleContext<IdentifierContext>(0);
+		public ExpressionContext expr;
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
 		public LastInputContext(UseInputContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
@@ -4655,7 +4655,7 @@ public partial class SyntaxParser : Parser {
 		}
 	}
 	public partial class NotLastInputContext : UseInputContext {
-		public IdentifierContext id;
+		public ExpressionContext expr;
 		public UseInputContext next;
 		[System.Diagnostics.DebuggerNonUserCode] public WscContext[] wsc() {
 			return GetRuleContexts<WscContext>();
@@ -4663,8 +4663,8 @@ public partial class SyntaxParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public WscContext wsc(int i) {
 			return GetRuleContext<WscContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
-			return GetRuleContext<IdentifierContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public UseInputContext useInput() {
 			return GetRuleContext<UseInputContext>(0);
@@ -4703,7 +4703,7 @@ public partial class SyntaxParser : Parser {
 				State = 610;
 				wsc();
 				State = 611;
-				((NotLastInputContext)_localctx).id = identifier();
+				((NotLastInputContext)_localctx).expr = expression(0);
 				State = 612;
 				wsc();
 				State = 613;
@@ -4719,7 +4719,7 @@ public partial class SyntaxParser : Parser {
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 617;
-				((LastInputContext)_localctx).id = identifier();
+				((LastInputContext)_localctx).expr = expression(0);
 				}
 				break;
 			}
@@ -7452,8 +7452,8 @@ public partial class SyntaxParser : Parser {
 		599,600,3,92,46,0,600,601,3,80,40,0,601,602,3,16,8,0,602,603,3,80,40,0,
 		603,604,5,2,0,0,604,605,3,64,32,0,605,606,3,80,40,0,606,607,5,3,0,0,607,
 		609,1,0,0,0,608,585,1,0,0,0,608,597,1,0,0,0,609,63,1,0,0,0,610,611,3,80,
-		40,0,611,612,3,16,8,0,612,613,3,80,40,0,613,614,5,16,0,0,614,615,3,80,
-		40,0,615,616,3,64,32,0,616,619,1,0,0,0,617,619,3,16,8,0,618,610,1,0,0,
+		40,0,611,612,3,70,35,0,612,613,3,80,40,0,613,614,5,16,0,0,614,615,3,80,
+		40,0,615,616,3,64,32,0,616,619,1,0,0,0,617,619,3,70,35,0,618,610,1,0,0,
 		0,618,617,1,0,0,0,619,65,1,0,0,0,620,621,3,114,57,0,621,622,3,118,59,0,
 		622,623,3,100,50,0,623,624,3,110,55,0,624,625,3,122,61,0,625,626,3,80,
 		40,0,626,627,3,122,61,0,627,628,3,112,56,0,628,629,3,80,40,0,629,630,3,

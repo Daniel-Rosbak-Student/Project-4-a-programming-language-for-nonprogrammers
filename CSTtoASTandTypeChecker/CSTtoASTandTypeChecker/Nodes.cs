@@ -33,7 +33,23 @@ internal class FunctionNode : Node
 
 internal class UseNode : Node
 {
-    public List<Node> parameters { get; set; }
+    public string id { get; set; }
+    public InputNode inputs { get; set; }
+
+    public UseNode(string x, InputNode y)
+    {
+        id = x;
+        inputs = y;
+    }
+}
+
+internal class InputNode : InFixNode
+{
+    public InputNode(Node x, Node y)
+    {
+        left = x;
+        right = y;
+    }
 }
 
 internal class CommentNode : Node

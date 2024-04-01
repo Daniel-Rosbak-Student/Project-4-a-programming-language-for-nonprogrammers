@@ -21,7 +21,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitAssignStatement(SyntaxParser.AssignStatementContext context)
     {
-        return VisitAssignment(context.@this);
+        return Visit(context.@this);
     }
 
     public override Node VisitAssignment(SyntaxParser.AssignmentContext context)
@@ -114,6 +114,26 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     public override Node VisitValueExpression(SyntaxParser.ValueExpressionContext context)
     {
         return Visit(context.@this);
+    }
+
+    public override Node VisitUseNoInput(SyntaxParser.UseNoInputContext context)
+    {
+        return new UseNode(context.id.GetText(), null);
+    }
+
+    public override Node VisitUseWithInput(SyntaxParser.UseWithInputContext context)
+    {
+        return new UseNode(context.id.GetText(), (InputNode)Visit(context.input));
+    }
+
+    public override Node VisitNotLastInput(SyntaxParser.NotLastInputContext context)
+    {
+        return new InputNode(Visit(context.expr), Visit(context.next));
+    }
+
+    public override Node VisitLastInput(SyntaxParser.LastInputContext context)
+    {
+        return new InputNode(Visit(context.expr), null);
     }
 
     /// <summary>
