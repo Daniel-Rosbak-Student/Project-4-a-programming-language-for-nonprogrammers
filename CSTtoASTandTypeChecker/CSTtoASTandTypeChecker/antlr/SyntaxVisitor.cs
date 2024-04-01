@@ -474,13 +474,6 @@ public interface ISyntaxVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitConvertExpression([NotNull] SyntaxParser.ConvertExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>useExpression</c>
-	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitUseExpression([NotNull] SyntaxParser.UseExpressionContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>parensExpression</c>
 	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
 	/// </summary>

@@ -14,31 +14,42 @@ internal abstract class InFixNode : Node
     public Node right { get; set; }
 }
 
-internal abstract class PreFixNode : Node
+internal abstract class PreSufFixNode : Node
 {
-    public Node right { get; set; }
-}
-
-internal abstract class SufFixNode : Node
-{
-    public Node left { get; set; }
+    public Node node { get; set; }
 }
 
 internal abstract class ControlNode : Node
 {
     public Node condition { get; set; }
-    public List<Node> nodes { get; set; }
+    public CommandNode nodes { get; set; }
 }
 
 internal class FunctionNode : Node
 {
     public SignatureNode signature { get; set; }
-    public List<Node> nodes { get; set; }
+    public CommandNode nodes { get; set; }
 }
 
 internal class UseNode : Node
 {
-    public List<Node> parameters { get; set; }
+    public string id { get; set; }
+    public InputNode inputs { get; set; }
+
+    public UseNode(string x, InputNode y)
+    {
+        id = x;
+        inputs = y;
+    }
+}
+
+internal class InputNode : InFixNode
+{
+    public InputNode(Node x, Node y)
+    {
+        left = x;
+        right = y;
+    }
 }
 
 internal class CommentNode : Node
@@ -57,11 +68,23 @@ internal class RepeatNode : ControlNode
 {
 }
 
-internal class LengthOfNode : PreFixNode
+internal class ReadNode : Node
 {
 }
 
-internal class TypeConvertNode : SufFixNode
+internal class PrintNode : PreSufFixNode
+{
+    public PrintNode(Node input)
+    {
+        node = input;
+    }
+}
+
+internal class LengthOfNode : PreSufFixNode
+{
+}
+
+internal class TypeConvertNode : PreSufFixNode
 {
     public Node value { get; set; }
     public TypeNode type { get; set; }

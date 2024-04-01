@@ -741,17 +741,6 @@ public partial class SyntaxBaseVisitor<Result> : AbstractParseTreeVisitor<Result
 	/// <return>The visitor result.</return>
 	public virtual Result VisitConvertExpression([NotNull] SyntaxParser.ConvertExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>useExpression</c>
-	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitUseExpression([NotNull] SyntaxParser.UseExpressionContext context) { return VisitChildren(context); }
-	/// <summary>
 	/// Visit a parse tree produced by the <c>parensExpression</c>
 	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
 	/// <para>

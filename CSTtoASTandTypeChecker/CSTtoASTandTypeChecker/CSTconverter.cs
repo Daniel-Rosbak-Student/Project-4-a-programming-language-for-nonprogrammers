@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
 
 namespace CSTtoASTandTypeChecker;
 
@@ -21,7 +22,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitAssignStatement(SyntaxParser.AssignStatementContext context)
     {
-        return VisitAssignment(context.@this);
+        return Visit(context.@this);
     }
 
     public override Node VisitAssignment(SyntaxParser.AssignmentContext context)
@@ -81,6 +82,8 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
             case "not":
                 node = new NotNode();
                 break;
+            default:
+                throw new ValidationException("Bad Operator in InfixExpression");
         }
 
         if (node != null)
@@ -97,12 +100,6 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return Visit(context.expr);
     }
 
-    public override Node VisitUseExpression(SyntaxParser.UseExpressionContext context)
-    {
-        
-        return Visit(context.@this);
-    }
-
     public override Node VisitConvertExpression(SyntaxParser.ConvertExpressionContext context)
     {
         TypeConvertNode node = new TypeConvertNode();
@@ -110,10 +107,30 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         node.type = (TypeNode)Visit(context.tp);
         return node;
     }
-
+    
     public override Node VisitValueExpression(SyntaxParser.ValueExpressionContext context)
     {
         return Visit(context.@this);
+    }
+
+    public override Node VisitUseNoInput(SyntaxParser.UseNoInputContext context)
+    {
+        return new UseNode(context.id.GetText(), null);
+    }
+
+    public override Node VisitUseWithInput(SyntaxParser.UseWithInputContext context)
+    {
+        return new UseNode(context.id.GetText(), (InputNode)Visit(context.input));
+    }
+
+    public override Node VisitNotLastInput(SyntaxParser.NotLastInputContext context)
+    {
+        return new InputNode(Visit(context.expr), Visit(context.next));
+    }
+
+    public override Node VisitLastInput(SyntaxParser.LastInputContext context)
+    {
+        return Visit(context.expr);
     }
 
     /// <summary>
@@ -121,6 +138,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
+    
     public override Node VisitUseValue(SyntaxParser.UseValueContext context)
     {
         return Visit(context.@this);
@@ -199,7 +217,13 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         {
             return Visit(context.next);
         }
-        return new CommandNode(Visit(context.@this), Visit(context.next));
+
+        Node next = Visit(context.next);
+        if (next == null)
+        {
+            return Visit(context.@this);
+        }
+        return new CommandNode(Visit(context.@this), next);
     }
 
     public override Node VisitLastTerm(SyntaxParser.LastTermContext context)
@@ -272,5 +296,15 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     public override Node VisitListElement(SyntaxParser.ListElementContext context)
     {
         return Visit(context.@id);
+    }
+
+    public override Node VisitRead(SyntaxParser.ReadContext context)
+    {
+        return new ReadNode();
+    }
+
+    public override Node VisitPrint(SyntaxParser.PrintContext context)
+    {
+        return new PrintNode(Visit(context.expr));
     }
 }
