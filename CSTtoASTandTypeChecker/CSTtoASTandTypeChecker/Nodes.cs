@@ -70,12 +70,6 @@ internal class RepeatNode : ControlNode
 
 internal class ReadNode : Node
 {
-    public Node Identifier { get; set; }
-
-    public LengthOfNode(Node identifier)
-    {
-        Identifier = identifier;
-    }
 }
 
 internal class PrintNode : PreSufFixNode
@@ -88,6 +82,12 @@ internal class PrintNode : PreSufFixNode
 
 internal class LengthOfNode : PreSufFixNode
 {
+    public Node Identifier { get; set; }
+
+    public LengthOfNode(Node identifier)
+    {
+        Identifier = identifier;
+    }
 }
 
 internal class TypeConvertNode : PreSufFixNode
@@ -231,6 +231,18 @@ internal class TextNode : Node
     public string value { get; set; }
 }
 
+internal class ListElementNode : Node
+{
+    public string id { get; set; }
+    public Node index;
+
+    public ListElementNode(string x, Node y)
+    {
+        id = x;
+        index = y;
+    }
+}
+
 internal class IdentifierNode : Node
 {
     public string name { get; set; }
@@ -238,7 +250,6 @@ internal class IdentifierNode : Node
     public TypeNode type { get; set; }
 }
 
-internal class ReadNode : Node
+internal class BreakNode : Node
 {
-    
 }
