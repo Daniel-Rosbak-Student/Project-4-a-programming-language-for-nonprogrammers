@@ -121,6 +121,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
+    /*
     public override Node VisitUseValue(SyntaxParser.UseValueContext context)
     {
         return Visit(context.@this);
@@ -129,7 +130,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     public override Node VisitReadValue(SyntaxParser.ReadValueContext context)
     {
         return Visit(context.@this);
-    }
+    }*/
 
     public override Node VisitFlagValue(SyntaxParser.FlagValueContext context)
     {
@@ -272,5 +273,15 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     public override Node VisitListElement(SyntaxParser.ListElementContext context)
     {
         return Visit(context.@id);
+    }
+
+    public override Node VisitRead(SyntaxParser.ReadContext context)
+    {
+        return new ReadNode();
+    }
+
+    public override Node VisitPrint(SyntaxParser.PrintContext context)
+    {
+        return new PrintNode(Visit(context.expr));
     }
 }
