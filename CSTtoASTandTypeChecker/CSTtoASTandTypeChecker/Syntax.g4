@@ -63,7 +63,7 @@ function: c r e a t e wsc f u n c t i o n a l i t y wsc id=identifier wsc gives=
 
 takesArgument: t a k e s wsc '(' wsc param=parameter wsc ')';
 
-parameter: tp=type wsc id=identifier wsc ',' wsc next=parameter                                 #notLastParameter
+parameter: tp=type wsc id=identifier wsc ',' wsc next=parameter                                     #notLastParameter
          | tp=type wsc id=identifier                                                                #lastParameter
          ;
 

@@ -325,18 +325,17 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitNotLastParameter(SyntaxParser.NotLastParameterContext context)
     {
-        return base.VisitNotLastParameter(context);
+        return new ParameterNode(Visit(context.tp),Visit(context.id), Visit(context.next));
     }
     
     public override Node VisitLastParameter(SyntaxParser.LastParameterContext context)
     {
-        return base.VisitLastParameter(context);
+        return new ParameterNode(Visit(context.tp),Visit(context.id), null);
     }
 
     public override Node VisitLoop(SyntaxParser.LoopContext context)
     {
-        Node loop = Visit(context.expr);
-        return loop;
+        return new RepeatNode(Visit(context.expr), Visit(context.trms));
     }
 
     public override Node VisitCreateStatement(SyntaxParser.CreateStatementContext context)
@@ -346,26 +345,24 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitIfWithElse(SyntaxParser.IfWithElseContext context)
     {
-        IfNode ifNode = new IfNode();
-        return ifNode;
+        return new IfNode(Visit(context.expr), Visit(context.trms), Visit(context.elseTrms));
     }
 
     public override Node VisitIfNoElse(SyntaxParser.IfNoElseContext context)
     {
-        IfNode ifNode = new IfNode();
-        return ifNode;
+        return new IfNode(Visit(context.expr), Visit(context.trms), null);
     }
 
     public override Node VisitFunctionWithTakes(SyntaxParser.FunctionWithTakesContext context)
     {
-        FunctionNode functionNode = new FunctionNode();
-        return functionNode;
+        SignatureNode sign = new SignatureNode(Visit(context.id), Visit(context.takes), Visit(context.gives));
+        return new FunctionNode(sign, Visit(context.trms));
     }
 
     public override Node VisitFunctionNoTakes(SyntaxParser.FunctionNoTakesContext context)
     {
-        FunctionNode functionNode = new FunctionNode();
-        return functionNode;
+        SignatureNode sign = new SignatureNode(Visit(context.id), null, Visit(context.gives));
+        return new FunctionNode(sign, Visit(context.trms));
     }
 
     

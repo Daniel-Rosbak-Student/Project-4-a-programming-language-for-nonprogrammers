@@ -13,6 +13,17 @@ public class Program
         ITokenSource lexer = new SyntaxLexer(stream);
         ITokenStream tokens = new CommonTokenStream(lexer);
         SyntaxParser parser = new SyntaxParser(tokens);
-        IParseTree tree = parser.program();
+        try
+        {
+            var CST = parser.program();
+            var AST = new CSTconverter().VisitProgram(CST);
+            
+            Console.WriteLine("SUCCESS");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }
