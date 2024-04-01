@@ -70,6 +70,12 @@ internal class RepeatNode : ControlNode
 
 internal class ReadNode : Node
 {
+    public Node Identifier { get; set; }
+
+    public LengthOfNode(Node identifier)
+    {
+        Identifier = identifier;
+    }
 }
 
 internal class PrintNode : PreSufFixNode
@@ -230,4 +236,9 @@ internal class IdentifierNode : Node
     public string name { get; set; }
     public Node value { get; set; }
     public TypeNode type { get; set; }
+}
+
+internal class ReadNode : Node
+{
+    
 }

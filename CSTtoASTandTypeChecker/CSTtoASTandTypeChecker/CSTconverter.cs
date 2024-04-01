@@ -141,12 +141,14 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     
     public override Node VisitUseValue(SyntaxParser.UseValueContext context)
     {
-        return Visit(context.@this);
+        UseNode node = new UseNode();
+        return node;
     }
 
     public override Node VisitReadValue(SyntaxParser.ReadValueContext context)
     {
-        return Visit(context.@this);
+        ReadNode node = new ReadNode();
+        return node;
     }
 
     public override Node VisitFlagValue(SyntaxParser.FlagValueContext context)
@@ -156,7 +158,9 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitLengthOfValue(SyntaxParser.LengthOfValueContext context)
     {
-        return Visit(context.@this);
+        Node identifierNode = Visit(context.lengthOf());
+        LengthOfNode node = new LengthOfNode(identifierNode);
+        return node;
     }
 
     public override Node VisitNumberValue(SyntaxParser.NumberValueContext context)
@@ -171,7 +175,9 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitListElementValue(SyntaxParser.ListElementValueContext context)
     {
-        return Visit(context.@this);
+        ListNode node = new ListNode();
+        node.values = new List<Node> { VisitListElementValue()};
+        return node;
     }
 
     public override Node VisitIdentifierValue(SyntaxParser.IdentifierValueContext context)
@@ -248,7 +254,9 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitLengthOf(SyntaxParser.LengthOfContext context)
     {
-        return Visit(context.@id);
+        Node identifierNode = Visit(context.id);
+        LengthOfNode node = new LengthOfNode(identifierNode);
+        return node;
     }
 
     /// <summary>
@@ -285,7 +293,9 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitIdentifier(SyntaxParser.IdentifierContext context)
     {
-        return Visit(context.@id);
+        IdentifierNode node = new IdentifierNode();
+        node.name = context.id.GetText();
+        return node;
     }
 
     /// <summary>
@@ -295,7 +305,9 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitListElement(SyntaxParser.ListElementContext context)
     {
-        return Visit(context.@id);
+        ListNode node = new ListNode();
+        node.values = new List<Node> { VisitListElement()};
+        return node;
     }
 
     public override Node VisitRead(SyntaxParser.ReadContext context)
