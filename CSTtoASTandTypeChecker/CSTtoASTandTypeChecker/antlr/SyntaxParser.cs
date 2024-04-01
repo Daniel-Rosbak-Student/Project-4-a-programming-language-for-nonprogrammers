@@ -1252,7 +1252,7 @@ public partial class SyntaxParser : Parser {
 	}
 
 	public partial class ListElementContext : ParserRuleContext {
-		public NonKeywordNameContext id;
+		public IdentifierContext id;
 		public ExpressionContext index;
 		[System.Diagnostics.DebuggerNonUserCode] public WscContext[] wsc() {
 			return GetRuleContexts<WscContext>();
@@ -1260,8 +1260,8 @@ public partial class SyntaxParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public WscContext wsc(int i) {
 			return GetRuleContext<WscContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NonKeywordNameContext nonKeywordName() {
-			return GetRuleContext<NonKeywordNameContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
+			return GetRuleContext<IdentifierContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
@@ -1297,7 +1297,7 @@ public partial class SyntaxParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 224;
-			_localctx.id = nonKeywordName();
+			_localctx.id = identifier();
 			State = 225;
 			wsc();
 			State = 226;
@@ -7383,7 +7383,7 @@ public partial class SyntaxParser : Parser {
 		3,122,61,0,214,215,3,80,40,0,215,216,3,112,56,0,216,217,3,94,47,0,217,
 		218,3,80,40,0,218,219,3,14,7,0,219,221,1,0,0,0,220,193,1,0,0,0,220,200,
 		1,0,0,0,220,205,1,0,0,0,220,210,1,0,0,0,221,15,1,0,0,0,222,223,3,20,10,
-		0,223,17,1,0,0,0,224,225,3,20,10,0,225,226,3,80,40,0,226,227,5,2,0,0,227,
+		0,223,17,1,0,0,0,224,225,3,16,8,0,225,226,3,80,40,0,226,227,5,2,0,0,227,
 		228,3,80,40,0,228,229,3,70,35,0,229,230,3,80,40,0,230,231,5,3,0,0,231,
 		19,1,0,0,0,232,237,3,74,37,0,233,236,3,26,13,0,234,236,3,74,37,0,235,233,
 		1,0,0,0,235,234,1,0,0,0,236,239,1,0,0,0,237,235,1,0,0,0,237,238,1,0,0,

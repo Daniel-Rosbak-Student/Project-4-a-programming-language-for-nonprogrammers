@@ -33,12 +33,12 @@ internal class FunctionNode : Node
 
 internal class UseNode : Node
 {
-    public string id { get; set; }
+    public IdentifierNode id { get; set; }
     public InputNode inputs { get; set; }
 
-    public UseNode(string x, InputNode y)
+    public UseNode(Node x, InputNode y)
     {
-        id = x;
+        id = (IdentifierNode)x;
         inputs = y;
     }
 }
@@ -46,6 +46,15 @@ internal class UseNode : Node
 internal class InputNode : InFixNode
 {
     public InputNode(Node x, Node y)
+    {
+        left = x;
+        right = y;
+    }
+}
+
+internal class ParameterNode : InFixNode
+{
+    public ParameterNode(Node x, Node y)
     {
         left = x;
         right = y;
@@ -82,11 +91,11 @@ internal class PrintNode : PreSufFixNode
 
 internal class LengthOfNode : PreSufFixNode
 {
-    public Node Identifier { get; set; }
+    public IdentifierNode Identifier { get; set; }
 
-    public LengthOfNode(Node identifier)
+    public LengthOfNode(Node x)
     {
-        Identifier = identifier;
+        Identifier = (IdentifierNode)x;
     }
 }
 
@@ -105,12 +114,31 @@ internal class CommandNode : InFixNode
     }
 }
 
-internal class CreateVariableNode : InFixNode
+internal class CreateVariableNode : Node
 {
+    public IdentifierNode name { get; set; }
+    public TypeNode type { get; set; }
+    public Node value { get; set; }
+    public CreateVariableNode(Node x, Node y, Node z)
+    {
+        name = (IdentifierNode)x;
+        type = (TypeNode)y;
+        value = z;
+    }
+    public CreateVariableNode(Node x, Node y)
+    {
+        name = (IdentifierNode)x;
+        type = (TypeNode)y;
+    }
 }
 
 internal class AssignNode : InFixNode
 {
+    public AssignNode(Node x, Node y)
+    {
+        left = x;
+        right = y;
+    }
 }
 
 internal class AdditionNode : InFixNode
@@ -186,15 +214,23 @@ internal class ListTypeNode : TypeNode
     public TypeNode type { get; set; }
 }
 
+internal class NothingNode : TypeNode
+{
+}
+
 internal class SignatureNode : TypeNode
 {
-    public static List<SignatureNode> signatures = new List<SignatureNode>();
-    public List<TypeNode> takes { get; set; }
+    public IdentifierNode id { get; set; }
+    public ParameterNode takes { get; set; }
     public TypeNode gives { get; set; }
+    public CommandNode commands { get; set; }
 
-    SignatureNode ()
+    SignatureNode (IdentifierNode x, ParameterNode y, TypeNode z, CommandNode p)
     {
-        signatures.Add(this);
+        id = x;
+        takes = y;
+        gives = z;
+        commands = p;
     }
 }
 
@@ -233,12 +269,12 @@ internal class TextNode : Node
 
 internal class ListElementNode : Node
 {
-    public string id { get; set; }
+    public IdentifierNode id { get; set; }
     public Node index;
 
-    public ListElementNode(string x, Node y)
+    public ListElementNode(Node x, Node y)
     {
-        id = x;
+        id = (IdentifierNode)x;
         index = y;
     }
 }
@@ -246,10 +282,18 @@ internal class ListElementNode : Node
 internal class IdentifierNode : Node
 {
     public string name { get; set; }
-    public Node value { get; set; }
-    public TypeNode type { get; set; }
 }
 
 internal class BreakNode : Node
 {
+}
+
+internal class GiveNode : Node
+{
+    public Node value { get; set; }
+
+    public GiveNode(Node x)
+    {
+        value = x;
+    }
 }

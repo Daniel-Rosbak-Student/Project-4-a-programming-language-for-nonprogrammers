@@ -28,10 +28,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitAssignment(SyntaxParser.AssignmentContext context)
     {
-        IdentifierNode node = new IdentifierNode();
-        node.name = context.id.GetText();
-        node.value = Visit(context.expr);
-        return node;
+        return new AssignNode(Visit(context.id), Visit(context.expr));
     }
 
     /// <summary>
@@ -116,12 +113,12 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitUseNoInput(SyntaxParser.UseNoInputContext context)
     {
-        return new UseNode(context.id.GetText(), null);
+        return new UseNode(Visit(context.id), null);
     }
 
     public override Node VisitUseWithInput(SyntaxParser.UseWithInputContext context)
     {
-        return new UseNode(context.id.GetText(), (InputNode)Visit(context.input));
+        return new UseNode(Visit(context.id), (InputNode)Visit(context.input));
     }
 
     public override Node VisitNotLastInput(SyntaxParser.NotLastInputContext context)
@@ -303,7 +300,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitListElement(SyntaxParser.ListElementContext context)
     {
-        return new ListElementNode(context.id.GetText(), Visit(context.index));
+        return new ListElementNode(Visit(context.id), Visit(context.index));
     }
 
     public override Node VisitRead(SyntaxParser.ReadContext context)
@@ -371,44 +368,46 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return functionNode;
     }
 
+    
+    //------------------------------------------------------------------------------------------------------------------
     public override Node VisitCreateWithInput(SyntaxParser.CreateWithInputContext context)
     {
-        return base.VisitCreateWithInput(context);
+        return new CreateVariableNode(Visit(context.id), Visit(context.tp), Visit(context.expr));
     }
 
     public override Node VisitCreateNoInput(SyntaxParser.CreateNoInputContext context)
     {
-        return base.VisitCreateNoInput(context);
+        return new CreateVariableNode(Visit(context.id), Visit(context.tp));
     }
 
     public override Node VisitTakesArgument(SyntaxParser.TakesArgumentContext context)
     {
-        return base.VisitTakesArgument(context);
+        return Visit(context.param);
     }
 
     public override Node VisitGivesType(SyntaxParser.GivesTypeContext context)
     {
-        return base.VisitGivesType(context);
+        return Visit(context.tp);
     }
 
     public override Node VisitGivesNothing(SyntaxParser.GivesNothingContext context)
     {
-        return base.VisitGivesNothing(context);
+        return new NothingNode();
     }
 
     public override Node VisitUseGive(SyntaxParser.UseGiveContext context)
     {
-        return base.VisitUseGive(context);
+        return new GiveNode(Visit(context.@this));
     }
 
     public override Node VisitNothingGive(SyntaxParser.NothingGiveContext context)
     {
-        return base.VisitNothingGive(context);
+        return new GiveNode(null);
     }
 
     public override Node VisitExpressionGive(SyntaxParser.ExpressionGiveContext context)
     {
-        return base.VisitExpressionGive(context);
+        return new GiveNode(Visit(context.expr));
     }
     
 }
