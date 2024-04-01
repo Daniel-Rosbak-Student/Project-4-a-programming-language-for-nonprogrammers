@@ -55,6 +55,12 @@ internal class RepeatNode : ControlNode
 
 internal class LengthOfNode : PreFixNode
 {
+    public Node Identifier { get; set; }
+
+    public LengthOfNode(Node identifier)
+    {
+        Identifier = identifier;
+    }
 }
 
 internal class TypeConvertNode : SufFixNode
@@ -198,4 +204,9 @@ internal class IdentifierNode : Node
     public string name { get; set; }
     public Node value { get; set; }
     public TypeNode type { get; set; }
+}
+
+internal class ReadNode : Node
+{
+    
 }
