@@ -195,6 +195,10 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitNotLastTerm(SyntaxParser.NotLastTermContext context)
     {
+        if (context.@this.RuleIndex == 3)
+        {
+            return Visit(context.next);
+        }
         return new CommandNode(Visit(context.@this), Visit(context.next));
     }
 
@@ -211,11 +215,6 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     public override Node VisitControlTerm(SyntaxParser.ControlTermContext context)
     {
         return Visit(context.@this);
-    }
-
-    public override Node VisitCommentTerm(SyntaxParser.CommentTermContext context)
-    {
-        return new CommentNode();
     }
 
     /// <summary>
