@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 
 namespace CSTtoASTandTypeChecker;
@@ -337,32 +338,37 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitLoop(SyntaxParser.LoopContext context)
     {
-        return base.VisitLoop(context);
+        Node loop = Visit(context.expr);
+        return loop;
     }
 
     public override Node VisitCreateStatement(SyntaxParser.CreateStatementContext context)
     {
-        return base.VisitCreateStatement(context);
+        return Visit(context.@this);
     }
 
     public override Node VisitIfWithElse(SyntaxParser.IfWithElseContext context)
     {
-        return base.VisitIfWithElse(context);
+        IfNode ifNode = new IfNode();
+        return ifNode;
     }
 
     public override Node VisitIfNoElse(SyntaxParser.IfNoElseContext context)
     {
-        return base.VisitIfNoElse(context);
+        IfNode ifNode = new IfNode();
+        return ifNode;
     }
 
     public override Node VisitFunctionWithTakes(SyntaxParser.FunctionWithTakesContext context)
     {
-        return base.VisitFunctionWithTakes(context);
+        FunctionNode functionNode = new FunctionNode();
+        return functionNode;
     }
 
     public override Node VisitFunctionNoTakes(SyntaxParser.FunctionNoTakesContext context)
     {
-        return base.VisitFunctionNoTakes(context);
+        FunctionNode functionNode = new FunctionNode();
+        return functionNode;
     }
 
     public override Node VisitCreateWithInput(SyntaxParser.CreateWithInputContext context)
