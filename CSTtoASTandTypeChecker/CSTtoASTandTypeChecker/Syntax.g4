@@ -108,7 +108,6 @@ read: r e a d wsc u s e r wsc i n p u t wsc ('(' wsc ')')?;
 
 expression: left=expression wsc op=operator wsc right=expression                                    #infixExpression
             | '(' expr=expression ')'                                                               #parensExpression
-            | this=use                                                                              #useExpression
             | this=value                                                                            #valueExpression
             | expr=expression wsc a s wsc tp=type                                                   #convertExpression
             ;

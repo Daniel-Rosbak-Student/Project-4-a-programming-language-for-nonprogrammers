@@ -920,20 +920,6 @@ public partial class SyntaxBaseListener : ISyntaxListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitConvertExpression([NotNull] SyntaxParser.ConvertExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>useExpression</c>
-	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterUseExpression([NotNull] SyntaxParser.UseExpressionContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>useExpression</c>
-	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitUseExpression([NotNull] SyntaxParser.UseExpressionContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by the <c>parensExpression</c>
 	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
 	/// <para>The default implementation does nothing.</para>

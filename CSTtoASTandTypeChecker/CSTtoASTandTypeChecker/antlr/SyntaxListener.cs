@@ -783,18 +783,6 @@ public interface ISyntaxListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitConvertExpression([NotNull] SyntaxParser.ConvertExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>useExpression</c>
-	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUseExpression([NotNull] SyntaxParser.UseExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>useExpression</c>
-	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUseExpression([NotNull] SyntaxParser.UseExpressionContext context);
-	/// <summary>
 	/// Enter a parse tree produced by the <c>parensExpression</c>
 	/// labeled alternative in <see cref="SyntaxParser.expression"/>.
 	/// </summary>
