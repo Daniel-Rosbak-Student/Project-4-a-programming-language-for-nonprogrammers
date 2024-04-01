@@ -170,8 +170,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 /// <returns></returns>
     public override Node VisitNotLastCommand(SyntaxParser.NotLastCommandContext context)
     {
-        Visit(context.@this);
-        return Visit(context.@next);
+        return new CommandNode(Visit(context.@this), Visit(context.next));
     }
 
     public override Node VisitLastCommand(SyntaxParser.LastCommandContext context)
@@ -196,7 +195,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     /// <returns></returns>
     public override Node VisitNotLastTerm(SyntaxParser.NotLastTermContext context)
     {
-        return Visit(context.@this);
+        return new CommandNode(Visit(context.@this), Visit(context.next));
     }
 
     public override Node VisitLastTerm(SyntaxParser.LastTermContext context)
@@ -216,7 +215,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitCommentTerm(SyntaxParser.CommentTermContext context)
     {
-        return Visit(context.@this);
+        return new CommentNode();
     }
 
     /// <summary>

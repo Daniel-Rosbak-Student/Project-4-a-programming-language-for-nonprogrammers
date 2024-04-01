@@ -41,6 +41,10 @@ internal class UseNode : Node
     public List<Node> parameters { get; set; }
 }
 
+internal class CommentNode : Node
+{
+}
+
 internal class IfNode : ControlNode
 {
 }
@@ -65,6 +69,11 @@ internal class TypeConvertNode : SufFixNode
 
 internal class CommandNode : InFixNode
 {
+    public CommandNode(Node x, Node y)
+    {
+        left = x;
+        right = y;
+    }
 }
 
 internal class CreateVariableNode : InFixNode
