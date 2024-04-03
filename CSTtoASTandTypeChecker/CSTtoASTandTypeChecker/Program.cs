@@ -18,6 +18,8 @@ public class Program
             var CST = parser.program();
             var AST = new CSTconverter().VisitProgram(CST);
             
+            AST.typeCheck();
+            
             Console.WriteLine("SUCCESS");
         }
         catch (Exception e)

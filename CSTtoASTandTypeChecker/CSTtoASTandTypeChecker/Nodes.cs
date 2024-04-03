@@ -2,10 +2,15 @@
 
 internal abstract class Node
 {
+    public abstract TypeNode typeCheck();
 }
-
+//----------------------------------------Fatma---------------------------------------------
 internal abstract class TypeNode : Node
 {
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal abstract class InFixNode : Node
@@ -29,6 +34,10 @@ internal class FunctionNode : Node
         signature = (SignatureNode)x;
         cmds = y;
     }
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class UseNode : Node
@@ -41,14 +50,22 @@ internal class UseNode : Node
         id = (IdentifierNode)x;
         inputs = y;
     }
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
-
+//----------------------------------------Daniel---------------------------------------------
 internal class InputNode : InFixNode
 {
     public InputNode(Node x, Node y)
     {
         left = x;
         right = y;
+    }
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
     }
 }
 
@@ -63,10 +80,11 @@ internal class ParameterNode : Node
         id = (IdentifierNode)y;
         next = (ParameterNode)z;
     }
-}
-
-internal class CommentNode : Node
-{
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class IfNode : Node
@@ -81,6 +99,10 @@ internal class IfNode : Node
         Body = y;
         ElseBody = z;
     }
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class RepeatNode : Node
@@ -93,10 +115,18 @@ internal class RepeatNode : Node
         condition = x;
         Body = y;
     }
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
-
+//----------------------------------------Armin---------------------------------------------
 internal class ReadNode : Node
 {
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class PrintNode : PreSufFixNode
@@ -104,6 +134,11 @@ internal class PrintNode : PreSufFixNode
     public PrintNode(Node input)
     {
         node = input;
+    }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
     }
 }
 
@@ -115,14 +150,24 @@ internal class LengthOfNode : PreSufFixNode
     {
         Identifier = (IdentifierNode)x;
     }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class TypeConvertNode : PreSufFixNode
 {
     public Node value { get; set; }
     public TypeNode type { get; set; }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
-
+//----------------------------------------Niklas---------------------------------------------
 internal class CommandNode : InFixNode
 {
     public CommandNode(Node x, Node y)
@@ -130,10 +175,16 @@ internal class CommandNode : InFixNode
         left = x;
         right = y;
     }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class CreateVariableNode : Node
 {
+    public static List<CreateVariableNode> variables { get; set; }
     public IdentifierNode name { get; set; }
     public TypeNode type { get; set; }
     public Node value { get; set; }
@@ -142,11 +193,52 @@ internal class CreateVariableNode : Node
         name = (IdentifierNode)x;
         type = (TypeNode)y;
         value = z;
+        addToVariables(this);
     }
     public CreateVariableNode(Node x, Node y)
     {
         name = (IdentifierNode)x;
         type = (TypeNode)y;
+        addToVariables(this);
+    }
+
+    private void addToVariables(CreateVariableNode variable)
+    {
+        if (variableExists(variable.name.name))
+        {
+            throw new Exception("variable declared more than once!");
+        }
+        variables.Add(this);
+    }
+
+    public static bool variableExists(string name)
+    {
+        foreach (CreateVariableNode variable in variables)
+        {
+            if (variable.name.name == name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static CreateVariableNode getVariable(string name)
+    {
+        for (int i = 0; i < variables.Count; i++)
+        {
+            if (variables[i].name.name == name)
+            {
+                return variables[i];
+            }
+        }
+
+        return null;
+    }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
     }
 }
 
@@ -157,61 +249,83 @@ internal class AssignNode : InFixNode
         left = x;
         right = y;
     }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
+internal abstract class NumberInFixNode : InFixNode
+{
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
+}
+//----------------------------------------Mathias---------------------------------------------
 internal class AdditionNode : InFixNode
 {
+    //denne gælder også for tekst
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
-internal class SubtractNode : InFixNode
+internal class SubtractNode : NumberInFixNode
 {
 }
 
-internal class MultiplyNode : InFixNode
+internal class MultiplyNode : NumberInFixNode
 {
 }
 
-internal class DivideNode : InFixNode
+internal class DivideNode : NumberInFixNode
 {
 }
 
-internal class ModuloNode : InFixNode
+internal class ModuloNode : NumberInFixNode
 {
 }
 
-internal class TextAdditionNode : InFixNode
+internal abstract class FlagInFixNode : InFixNode
+{
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+internal class EqualsNode : FlagInFixNode
 {
 }
 
-internal class EqualsNode : InFixNode
+internal class GreaterNode : FlagInFixNode
 {
 }
 
-internal class GreaterNode : InFixNode
+internal class GreaterEqualsNode : FlagInFixNode
 {
 }
 
-internal class GreaterEqualsNode : InFixNode
+internal class LessNode : FlagInFixNode
 {
 }
 
-internal class LessNode : InFixNode
+internal class LessEqualsNode : FlagInFixNode
 {
 }
 
-internal class LessEqualsNode : InFixNode
+internal class AndNode : FlagInFixNode
 {
 }
 
-internal class AndNode : InFixNode
+internal class OrNode : FlagInFixNode
 {
 }
 
-internal class OrNode : InFixNode
-{
-}
-
-internal class NotNode : InFixNode
+internal class NotNode : FlagInFixNode
 {
 }
 
@@ -250,12 +364,6 @@ internal class SignatureNode : TypeNode
     }
 }
 
-internal class ListNode : Node
-{
-    public ListTypeNode type { get; set; }
-    public List<Node> values { get; set; }
-}
-
 internal class NumberNode : Node
 {
     public NumberNode(double x)
@@ -263,6 +371,11 @@ internal class NumberNode : Node
         value = x;
     }
     public double value { get; set; }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class FlagNode : Node
@@ -272,8 +385,13 @@ internal class FlagNode : Node
         value = x;
     }
     public bool value { get; set; }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
-
+//----------------------------------------Vaal---------------------------------------------
 internal class TextNode : Node
 {
     public TextNode(string x)
@@ -281,6 +399,11 @@ internal class TextNode : Node
         value = x;
     }
     public string value { get; set; }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class ListElementNode : Node
@@ -293,15 +416,28 @@ internal class ListElementNode : Node
         id = (IdentifierNode)x;
         index = y;
     }
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class IdentifierNode : Node
 {
     public string name { get; set; }
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class BreakNode : Node
 {
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 internal class GiveNode : Node
@@ -311,5 +447,9 @@ internal class GiveNode : Node
     public GiveNode(Node x)
     {
         value = x;
+    }
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
     }
 }
