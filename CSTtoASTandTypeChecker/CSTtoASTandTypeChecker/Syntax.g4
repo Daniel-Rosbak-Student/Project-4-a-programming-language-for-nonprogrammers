@@ -30,7 +30,12 @@ value: this=use                                                                 
      ;
 
 lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
-type: n u m b e r | t e x t | f l a g | l i s t wsc o f wsc tp=type;
+type: n u m b e r                                                                                   #numberType
+    | t e x t                                                                                       #textType
+    | f l a g                                                                                       #flagType
+    | l i s t wsc o f wsc tp=type                                                                   #listType
+    ;
+
 
 identifier: id=nonKeywordName;
 listElement: id=identifier wsc '(' wsc index=expression wsc ')';
@@ -129,7 +134,7 @@ symbolWithoutNewline: '[' | ']' | '{' | '}' | '(' | ')' | '<' | '>' | '\'' | '\\
         '%' | '´' | '`' | '~' | '^' | '¨' | '_' | '½' | '§' | ' ';
 
 //wsc stands for WhiteSpace Character
-wsc: (' ' | '\\newline' | '\n' | '\\tab' | '\t')*;
+wsc: (' ' | '\\newline' | '\n' | '\\tab' | '\t' | '\r')*;
 
 // Lets you add comment text with # prefix.
 comment: '#' textWithoutNewlineOrQuotationmarks wsc;

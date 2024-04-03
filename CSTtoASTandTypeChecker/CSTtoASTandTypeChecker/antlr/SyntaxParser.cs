@@ -132,16 +132,17 @@ public partial class SyntaxParser : Parser {
 	}
 
 	public partial class ProgramContext : ParserRuleContext {
+		public CommandsContext cmds;
 		[System.Diagnostics.DebuggerNonUserCode] public WscContext[] wsc() {
 			return GetRuleContexts<WscContext>();
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public WscContext wsc(int i) {
 			return GetRuleContext<WscContext>(i);
 		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Eof() { return GetToken(SyntaxParser.Eof, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public CommandsContext commands() {
 			return GetRuleContext<CommandsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Eof() { return GetToken(SyntaxParser.Eof, 0); }
 		public ProgramContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -181,7 +182,7 @@ public partial class SyntaxParser : Parser {
 			State = 139;
 			wsc();
 			State = 140;
-			commands();
+			_localctx.cmds = commands();
 			State = 141;
 			wsc();
 			State = 142;
@@ -1027,7 +1028,18 @@ public partial class SyntaxParser : Parser {
 	}
 
 	public partial class TypeContext : ParserRuleContext {
-		public TypeContext tp;
+		public TypeContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_type; } }
+	 
+		public TypeContext() { }
+		public virtual void CopyFrom(TypeContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class NumberTypeContext : TypeContext {
 		[System.Diagnostics.DebuggerNonUserCode] public NContext n() {
 			return GetRuleContext<NContext>(0);
 		}
@@ -1046,15 +1058,25 @@ public partial class SyntaxParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public RContext r() {
 			return GetRuleContext<RContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TContext[] t() {
-			return GetRuleContexts<TContext>();
+		public NumberTypeContext(TypeContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ISyntaxListener typedListener = listener as ISyntaxListener;
+			if (typedListener != null) typedListener.EnterNumberType(this);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TContext t(int i) {
-			return GetRuleContext<TContext>(i);
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ISyntaxListener typedListener = listener as ISyntaxListener;
+			if (typedListener != null) typedListener.ExitNumberType(this);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public XContext x() {
-			return GetRuleContext<XContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ISyntaxVisitor<TResult> typedVisitor = visitor as ISyntaxVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumberType(this);
+			else return visitor.VisitChildren(this);
 		}
+	}
+	public partial class FlagTypeContext : TypeContext {
 		[System.Diagnostics.DebuggerNonUserCode] public FContext f() {
 			return GetRuleContext<FContext>(0);
 		}
@@ -1067,11 +1089,68 @@ public partial class SyntaxParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public GContext g() {
 			return GetRuleContext<GContext>(0);
 		}
+		public FlagTypeContext(TypeContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ISyntaxListener typedListener = listener as ISyntaxListener;
+			if (typedListener != null) typedListener.EnterFlagType(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ISyntaxListener typedListener = listener as ISyntaxListener;
+			if (typedListener != null) typedListener.ExitFlagType(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ISyntaxVisitor<TResult> typedVisitor = visitor as ISyntaxVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitFlagType(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class TextTypeContext : TypeContext {
+		[System.Diagnostics.DebuggerNonUserCode] public TContext[] t() {
+			return GetRuleContexts<TContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public TContext t(int i) {
+			return GetRuleContext<TContext>(i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public EContext e() {
+			return GetRuleContext<EContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public XContext x() {
+			return GetRuleContext<XContext>(0);
+		}
+		public TextTypeContext(TypeContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ISyntaxListener typedListener = listener as ISyntaxListener;
+			if (typedListener != null) typedListener.EnterTextType(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ISyntaxListener typedListener = listener as ISyntaxListener;
+			if (typedListener != null) typedListener.ExitTextType(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ISyntaxVisitor<TResult> typedVisitor = visitor as ISyntaxVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitTextType(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class ListTypeContext : TypeContext {
+		public TypeContext tp;
+		[System.Diagnostics.DebuggerNonUserCode] public LContext l() {
+			return GetRuleContext<LContext>(0);
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public IContext i() {
 			return GetRuleContext<IContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public SContext s() {
 			return GetRuleContext<SContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public TContext t() {
+			return GetRuleContext<TContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public WscContext[] wsc() {
 			return GetRuleContexts<WscContext>();
@@ -1082,28 +1161,27 @@ public partial class SyntaxParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public OContext o() {
 			return GetRuleContext<OContext>(0);
 		}
+		[System.Diagnostics.DebuggerNonUserCode] public FContext f() {
+			return GetRuleContext<FContext>(0);
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public TypeContext type() {
 			return GetRuleContext<TypeContext>(0);
 		}
-		public TypeContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_type; } }
+		public ListTypeContext(TypeContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			ISyntaxListener typedListener = listener as ISyntaxListener;
-			if (typedListener != null) typedListener.EnterType(this);
+			if (typedListener != null) typedListener.EnterListType(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			ISyntaxListener typedListener = listener as ISyntaxListener;
-			if (typedListener != null) typedListener.ExitType(this);
+			if (typedListener != null) typedListener.ExitListType(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			ISyntaxVisitor<TResult> typedVisitor = visitor as ISyntaxVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitType(this);
+			if (typedVisitor != null) return typedVisitor.VisitListType(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -1118,6 +1196,7 @@ public partial class SyntaxParser : Parser {
 			switch (TokenStream.LA(1)) {
 			case T__38:
 			case T__64:
+				_localctx = new NumberTypeContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 193;
@@ -1136,6 +1215,7 @@ public partial class SyntaxParser : Parser {
 				break;
 			case T__44:
 			case T__70:
+				_localctx = new TextTypeContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 200;
@@ -1150,6 +1230,7 @@ public partial class SyntaxParser : Parser {
 				break;
 			case T__30:
 			case T__56:
+				_localctx = new FlagTypeContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
 				State = 205;
@@ -1164,6 +1245,7 @@ public partial class SyntaxParser : Parser {
 				break;
 			case T__36:
 			case T__62:
+				_localctx = new ListTypeContext(_localctx);
 				EnterOuterAlt(_localctx, 4);
 				{
 				State = 210;
@@ -1183,7 +1265,7 @@ public partial class SyntaxParser : Parser {
 				State = 217;
 				wsc();
 				State = 218;
-				_localctx.tp = type();
+				((ListTypeContext)_localctx).tp = type();
 				}
 				break;
 			default:
@@ -5775,7 +5857,7 @@ public partial class SyntaxParser : Parser {
 					{
 					State = 728;
 					_la = TokenStream.LA(1);
-					if ( !(((((_la - 78)) & ~0x3f) == 0 && ((1L << (_la - 78)) & 68719489027L) != 0)) ) {
+					if ( !(((((_la - 78)) & ~0x3f) == 0 && ((1L << (_la - 78)) & 68719505411L) != 0)) ) {
 					ErrorHandler.RecoverInline(this);
 					}
 					else {
@@ -7337,7 +7419,7 @@ public partial class SyntaxParser : Parser {
 		68,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,
 		48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,82,84,86,88,90,92,94,
 		96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,
-		132,134,0,30,1,0,6,14,1,0,26,77,3,0,2,4,16,23,80,114,3,0,78,79,90,91,114,
+		132,134,0,30,1,0,6,14,1,0,26,77,3,0,2,4,16,23,80,114,3,0,78,79,90,92,114,
 		114,2,0,26,26,52,52,2,0,27,27,53,53,2,0,28,28,54,54,2,0,29,29,55,55,2,
 		0,30,30,56,56,2,0,31,31,57,57,2,0,32,32,58,58,2,0,33,33,59,59,2,0,34,34,
 		60,60,2,0,35,35,61,61,2,0,36,36,62,62,2,0,37,37,63,63,2,0,38,38,64,64,

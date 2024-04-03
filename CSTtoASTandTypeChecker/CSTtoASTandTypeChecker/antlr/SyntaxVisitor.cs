@@ -163,11 +163,33 @@ public interface ISyntaxVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLengthOf([NotNull] SyntaxParser.LengthOfContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SyntaxParser.type"/>.
+	/// Visit a parse tree produced by the <c>numberType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitType([NotNull] SyntaxParser.TypeContext context);
+	Result VisitNumberType([NotNull] SyntaxParser.NumberTypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>textType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTextType([NotNull] SyntaxParser.TextTypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>flagType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFlagType([NotNull] SyntaxParser.FlagTypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>listType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListType([NotNull] SyntaxParser.ListTypeContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SyntaxParser.identifier"/>.
 	/// </summary>

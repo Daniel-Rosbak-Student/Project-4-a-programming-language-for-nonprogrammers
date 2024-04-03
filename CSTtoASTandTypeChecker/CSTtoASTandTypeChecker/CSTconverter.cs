@@ -9,7 +9,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitProgram(SyntaxParser.ProgramContext context)
     {
-        return Visit(context.commands());
+        return Visit(context.cmds);
     }
 
     
@@ -224,31 +224,28 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return node;
     }
 
-    
-    public override Node VisitType(SyntaxParser.TypeContext context)
+    public override Node VisitNumberType(SyntaxParser.NumberTypeContext context)
     {
-        switch (context.tp.RuleIndex)
-        {
-            //number
-            case 1:
-                return new NumberTypeNode();
-            //text
-            case 2:
-                return new TextTypeNode();
-            //flag
-            case 3:
-                return new FlagTypeNode();
-            //list
-            case 4:
-                ListTypeNode node = new ListTypeNode();
-                node.type = (TypeNode)Visit(context.tp);
-                return node;
-            default:
-                throw new Exception("Bad type in VisitType");
-        }
+        return new NumberTypeNode();
     }
 
-    
+    public override Node VisitTextType(SyntaxParser.TextTypeContext context)
+    {
+        return new TextTypeNode();
+    }
+
+    public override Node VisitFlagType(SyntaxParser.FlagTypeContext context)
+    {
+        return new FlagTypeNode();
+    }
+
+    public override Node VisitListType(SyntaxParser.ListTypeContext context)
+    {
+        ListTypeNode node = new ListTypeNode();
+        node.type = (TypeNode)Visit(context.tp);
+        return node;
+    }
+
     public override Node VisitIdentifier(SyntaxParser.IdentifierContext context)
     {
         IdentifierNode node = new IdentifierNode();

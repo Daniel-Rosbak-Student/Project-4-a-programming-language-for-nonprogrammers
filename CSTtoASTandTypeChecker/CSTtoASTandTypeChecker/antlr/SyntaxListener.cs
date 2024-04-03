@@ -255,15 +255,53 @@ public interface ISyntaxListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLengthOf([NotNull] SyntaxParser.LengthOfContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="SyntaxParser.type"/>.
+	/// Enter a parse tree produced by the <c>numberType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterType([NotNull] SyntaxParser.TypeContext context);
+	void EnterNumberType([NotNull] SyntaxParser.NumberTypeContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="SyntaxParser.type"/>.
+	/// Exit a parse tree produced by the <c>numberType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitType([NotNull] SyntaxParser.TypeContext context);
+	void ExitNumberType([NotNull] SyntaxParser.NumberTypeContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>textType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTextType([NotNull] SyntaxParser.TextTypeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>textType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTextType([NotNull] SyntaxParser.TextTypeContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>flagType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFlagType([NotNull] SyntaxParser.FlagTypeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>flagType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFlagType([NotNull] SyntaxParser.FlagTypeContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>listType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterListType([NotNull] SyntaxParser.ListTypeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>listType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitListType([NotNull] SyntaxParser.ListTypeContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SyntaxParser.identifier"/>.
 	/// </summary>

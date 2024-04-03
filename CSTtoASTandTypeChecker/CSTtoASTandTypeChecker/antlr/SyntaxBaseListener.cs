@@ -298,17 +298,61 @@ public partial class SyntaxBaseListener : ISyntaxListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLengthOf([NotNull] SyntaxParser.LengthOfContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="SyntaxParser.type"/>.
+	/// Enter a parse tree produced by the <c>numberType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterType([NotNull] SyntaxParser.TypeContext context) { }
+	public virtual void EnterNumberType([NotNull] SyntaxParser.NumberTypeContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="SyntaxParser.type"/>.
+	/// Exit a parse tree produced by the <c>numberType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitType([NotNull] SyntaxParser.TypeContext context) { }
+	public virtual void ExitNumberType([NotNull] SyntaxParser.NumberTypeContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>textType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterTextType([NotNull] SyntaxParser.TextTypeContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>textType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitTextType([NotNull] SyntaxParser.TextTypeContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>flagType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterFlagType([NotNull] SyntaxParser.FlagTypeContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>flagType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitFlagType([NotNull] SyntaxParser.FlagTypeContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>listType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterListType([NotNull] SyntaxParser.ListTypeContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>listType</c>
+	/// labeled alternative in <see cref="SyntaxParser.type"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitListType([NotNull] SyntaxParser.ListTypeContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SyntaxParser.identifier"/>.
 	/// <para>The default implementation does nothing.</para>
