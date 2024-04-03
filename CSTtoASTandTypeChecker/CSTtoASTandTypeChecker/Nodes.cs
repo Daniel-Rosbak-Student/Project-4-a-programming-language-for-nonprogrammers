@@ -19,21 +19,15 @@ internal abstract class PreSufFixNode : Node
     public Node node { get; set; }
 }
 
-internal abstract class ControlNode : Node
-{
-    public Node condition { get; set; }
-    public CommandNode nodes { get; set; }
-}
-
 internal class FunctionNode : Node
 {
     public SignatureNode signature { get; set; }
-    public CommandNode nodes { get; set; }
+    public Node cmds { get; set; }
 
     public FunctionNode(Node x, Node y)
     {
         signature = (SignatureNode)x;
-        nodes = (CommandNode)y;
+        cmds = y;
     }
 }
 
@@ -75,29 +69,29 @@ internal class CommentNode : Node
 {
 }
 
-internal class IfNode : ControlNode
+internal class IfNode : Node
 {
     public Node condition { get; set; }
-    public CommandNode Body { get; set; }
-    public CommandNode ElseBody { get; set; }
+    public Node Body { get; set; }
+    public Node ElseBody { get; set; }
 
     public IfNode(Node x, Node y, Node z)
     {
         condition = x;
-        Body = (CommandNode)y;
-        ElseBody = (CommandNode)z;
+        Body = y;
+        ElseBody = z;
     }
 }
 
-internal class RepeatNode : ControlNode
+internal class RepeatNode : Node
 {
     public Node condition { get; set; }
-    public CommandNode Body { get; set; }
+    public Node Body { get; set; }
 
     public RepeatNode(Node x, Node y)
     {
         condition = x;
-        Body = (CommandNode)y;
+        Body = y;
     }
 }
 

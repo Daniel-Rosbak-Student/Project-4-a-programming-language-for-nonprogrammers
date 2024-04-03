@@ -188,11 +188,6 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     
     public override Node VisitNotLastTerm(SyntaxParser.NotLastTermContext context)
     {
-        if (context.@this.RuleIndex == 3)
-        {
-            return Visit(context.next);
-        }
-
         Node next = Visit(context.next);
         if (next == null)
         {
@@ -361,5 +356,34 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     {
         return new GiveNode(Visit(context.expr));
     }
-    
+
+    public override Node VisitIfElseStructure(SyntaxParser.IfElseStructureContext context)
+    {
+        return Visit(context.@this);
+    }
+
+    public override Node VisitLoopStructure(SyntaxParser.LoopStructureContext context)
+    {
+        return Visit(context.@this);
+    }
+
+    public override Node VisitPrintStatement(SyntaxParser.PrintStatementContext context)
+    {
+        return Visit(context.@this);
+    }
+
+    public override Node VisitGiveStatement(SyntaxParser.GiveStatementContext context)
+    {
+        return Visit(context.@this);
+    }
+
+    public override Node VisitReadStatement(SyntaxParser.ReadStatementContext context)
+    {
+        return Visit(context.@this);
+    }
+
+    public override Node VisitUseStatement(SyntaxParser.UseStatementContext context)
+    {
+        return Visit(context.@this);
+    }
 }

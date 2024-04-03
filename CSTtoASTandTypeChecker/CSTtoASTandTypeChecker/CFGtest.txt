@@ -1,7 +1,7 @@
 ﻿program (
     create text player1 = "stone";
+    #Hej
     create text player2 = "paper";
-    create list of text mogens;
     
     create functionality evaluateRPS takes (text p1, text p2) gives text (
         run if p1 = p2 (
