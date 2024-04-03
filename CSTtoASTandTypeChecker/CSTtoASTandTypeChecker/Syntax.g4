@@ -1,6 +1,6 @@
 grammar Syntax;
 
-program: 'program' wsc '(' wsc commands wsc ')' EOF;
+program: 'program' wsc '(' wsc cmds=commands wsc ')' EOF;
 
 commands: this=command wsc next=commands                                                            #notLastCommand
         | this=command                                                                              #lastCommand

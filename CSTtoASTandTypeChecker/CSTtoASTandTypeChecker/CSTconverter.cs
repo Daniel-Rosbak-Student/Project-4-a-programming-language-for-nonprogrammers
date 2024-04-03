@@ -6,21 +6,13 @@ namespace CSTtoASTandTypeChecker;
 
 internal class CSTconverter : SyntaxBaseVisitor<Node>
 {
-    /// <summary>
-    /// Program Visit (visit all children)
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+
     public override Node VisitProgram(SyntaxParser.ProgramContext context)
     {
         return Visit(context.commands());
     }
 
-    /// <summary>
-    /// Assignment Visits
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    
     public override Node VisitAssignStatement(SyntaxParser.AssignStatementContext context)
     {
         return Visit(context.@this);
@@ -31,11 +23,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return new AssignNode(Visit(context.id), Visit(context.expr));
     }
 
-    /// <summary>
-    /// Expression Visits
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    
     public override Node VisitInfixExpression(SyntaxParser.InfixExpressionContext context)
     {
         InFixNode node = null;
@@ -130,12 +118,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     {
         return Visit(context.expr);
     }
-
-    /// <summary>
-    /// All Value Visits
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    
     
     public override Node VisitUseValue(SyntaxParser.UseValueContext context)
     {
@@ -180,12 +163,8 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         node.name = context.@this.GetText();
         return node;
     }
-
-/// <summary>
-/// Command visits
-/// </summary>
-/// <param name="context"></param>
-/// <returns></returns>
+    
+    
     public override Node VisitNotLastCommand(SyntaxParser.NotLastCommandContext context)
     {
         return new CommandNode(Visit(context.@this), Visit(context.next));
@@ -206,11 +185,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return Visit(context.@this);
     }
 
-    /// <summary>
-    /// Terms visits
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    
     public override Node VisitNotLastTerm(SyntaxParser.NotLastTermContext context)
     {
         if (context.@this.RuleIndex == 3)
@@ -241,11 +216,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return Visit(context.@this);
     }
 
-    /// <summary>
-    /// Length of visit
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    
     public override Node VisitLengthOf(SyntaxParser.LengthOfContext context)
     {
         Node identifierNode = Visit(context.id);
@@ -253,11 +224,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return node;
     }
 
-    /// <summary>
-    /// Type visit
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    
     public override Node VisitType(SyntaxParser.TypeContext context)
     {
         switch (context.tp.RuleIndex)
@@ -281,11 +248,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         }
     }
 
-    /// <summary>
-    /// Identifier visit
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    
     public override Node VisitIdentifier(SyntaxParser.IdentifierContext context)
     {
         IdentifierNode node = new IdentifierNode();
@@ -293,11 +256,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return node;
     }
 
-    /// <summary>
-    /// ListElement visit
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    
     public override Node VisitListElement(SyntaxParser.ListElementContext context)
     {
         return new ListElementNode(Visit(context.id), Visit(context.index));
@@ -366,7 +325,6 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     }
 
     
-    //------------------------------------------------------------------------------------------------------------------
     public override Node VisitCreateWithInput(SyntaxParser.CreateWithInputContext context)
     {
         return new CreateVariableNode(Visit(context.id), Visit(context.tp), Visit(context.expr));
