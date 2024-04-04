@@ -261,7 +261,15 @@ internal class AssignNode : InFixNode
     
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+
+        if (leftType.GetType() == rightType.GetType())
+        {
+            return leftType;
+        }
+
+        throw new Exception("Bad typing in Assignment, attempting to assign a " + rightType + " to a " + leftType);
     }
 }
 
