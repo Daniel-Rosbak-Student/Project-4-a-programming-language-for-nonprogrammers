@@ -80,7 +80,7 @@ internal class ParameterNode : Node
         id = (IdentifierNode)y;
         next = (ParameterNode)z;
     }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -135,7 +135,7 @@ internal class PrintNode : PreSufFixNode
     {
         node = input;
     }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -150,7 +150,7 @@ internal class LengthOfNode : PreSufFixNode
     {
         Identifier = (IdentifierNode)x;
     }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -161,7 +161,7 @@ internal class TypeConvertNode : PreSufFixNode
 {
     public Node value { get; set; }
     public TypeNode type { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -175,10 +175,13 @@ internal class CommandNode : InFixNode
         left = x;
         right = y;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        left.typeCheck();
+        right.typeCheck();
+
+        return null;
     }
 }
 
@@ -222,7 +225,7 @@ internal class CreateVariableNode : Node
         }
         return false;
     }
-    
+
     public static CreateVariableNode getVariable(string name)
     {
         for (int i = 0; i < variables.Count; i++)
@@ -235,10 +238,17 @@ internal class CreateVariableNode : Node
 
         return null;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode variableValue = value.typeCheck();
+
+        if (type.GetType() == value.GetType())
+        {
+            return type;
+        }
+
+        throw new Exception("Bad typing in create, attempting to assign a " + variableValue.GetType() + " to a " + type.GetType() + ".");
     }
 }
 
@@ -249,18 +259,33 @@ internal class AssignNode : InFixNode
         left = x;
         right = y;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+
+        if (leftType.GetType() == rightType.GetType())
+        {
+            return leftType;
+        }
+
+        throw new Exception("Bad typing in Assignment, attempting to assign a " + rightType + " to a " + leftType);
     }
 }
-
 internal abstract class NumberInFixNode : InFixNode
 {
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+
+        if (leftType.GetType() == rightType.GetType() && leftType.GetType() == typeof(NumberTypeNode))
+        {
+            return leftType;
+        }
+
+            throw new Exception("Bad typing in NumberInfixExpression, attempting to perform invalid operations with a " + leftType.GetType() + " on a " + rightType.GetType() + ".");
     }
 }
 //----------------------------------------Mathias---------------------------------------------
@@ -371,7 +396,7 @@ internal class NumberNode : Node
         value = x;
     }
     public double value { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -385,7 +410,7 @@ internal class FlagNode : Node
         value = x;
     }
     public bool value { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -399,7 +424,7 @@ internal class TextNode : Node
         value = x;
     }
     public string value { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -425,7 +450,7 @@ internal class ListElementNode : Node
 internal class IdentifierNode : Node
 {
     public string name { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
