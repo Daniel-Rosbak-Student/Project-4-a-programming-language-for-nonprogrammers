@@ -65,7 +65,9 @@ internal class InputNode : InFixNode
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return left.typeCheck();
+        
+        //Hvad skal der gøres her, vi skal returne typen fra alle inputs
     }
 }
 
@@ -83,7 +85,9 @@ internal class ParameterNode : Node
     
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return type;
+        
+        //Hvad skal der gøres her, vi skal returne typen fra alle parametre
     }
 }
 
@@ -101,7 +105,10 @@ internal class IfNode : Node
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        condition.typeCheck();
+        Body.typeCheck();
+        ElseBody.typeCheck();
+        return null;
     }
 }
 
@@ -117,7 +124,9 @@ internal class RepeatNode : Node
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        condition.typeCheck();
+        Body.typeCheck();
+        return null;
     }
 }
 //----------------------------------------Armin---------------------------------------------
