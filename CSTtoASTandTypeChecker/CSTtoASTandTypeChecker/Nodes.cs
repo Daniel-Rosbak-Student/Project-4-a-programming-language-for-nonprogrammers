@@ -17,11 +17,28 @@ internal abstract class InFixNode : Node
 {
     public Node left { get; set; }
     public Node right { get; set; }
+
+    public override TypeNode TypeCheck()
+        {
+// Type check  left og right hvis der er behov
+            if (left != null)
+                left.typeCheck();
+            if (right != null)
+                right.typeCheck();
+            return null;
+        }
 }
 
 internal abstract class PreSufFixNode : Node
 {
     public Node node { get; set; }
+
+    public override TypeNode typeCheck()
+        {
+            if (node != null)
+                node.typeCheck();
+            return null;
+        }
 }
 
 internal class FunctionNode : Node
@@ -34,10 +51,15 @@ internal class FunctionNode : Node
         signature = (SignatureNode)x;
         cmds = y;
     }
-    public override TypeNode typeCheck()
-    {
-        throw new NotImplementedException();
-    }
+     public override TypeNode typeCheck()
+        {
+// Type check  signature og commands hvis der er behov
+            if (signature != null)
+                signature.typeCheck();
+            if (cmds != null)
+                cmds.typeCheck();
+            return null;
+         }
 }
 
 internal class UseNode : Node
@@ -50,10 +72,15 @@ internal class UseNode : Node
         id = (IdentifierNode)x;
         inputs = y;
     }
-    public override TypeNode typeCheck()
-    {
-        throw new NotImplementedException();
-    }
+     public override TypeNode typeCheck()
+        {
+/// Type check identifier og inputs hvis der er behov
+            if (id != null)
+                id.typeCheck();
+            if (inputs != null)
+                inputs.typeCheck();
+            return null;
+        }
 }
 //----------------------------------------Daniel---------------------------------------------
 internal class InputNode : InFixNode
