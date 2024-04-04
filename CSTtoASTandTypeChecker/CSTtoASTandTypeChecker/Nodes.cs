@@ -161,7 +161,7 @@ internal class ReadNode : Node
 {
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return null; // Vi læser kun noget, det har vel ikke brug for typecheck?
     }
 }
 
@@ -174,7 +174,12 @@ internal class PrintNode : PreSufFixNode
 
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        if (node != null)
+        {
+            node.typeCheck();
+        }
+
+        return null;
     }
 }
 
@@ -189,7 +194,12 @@ internal class LengthOfNode : PreSufFixNode
 
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        if (Identifier != null)
+        {
+            return Identifier.typeCheck();
+        }
+
+        return null;
     }
 }
 
@@ -200,7 +210,14 @@ internal class TypeConvertNode : PreSufFixNode
 
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode typeOne = value.typeCheck();
+
+        if (typeOne.GetType() == type.GetType())
+        {
+            return type;
+        } else {
+            throw new Exception("Cannot convert types, something went wrong.");
+        }
     }
 }
 //----------------------------------------Niklas---------------------------------------------
