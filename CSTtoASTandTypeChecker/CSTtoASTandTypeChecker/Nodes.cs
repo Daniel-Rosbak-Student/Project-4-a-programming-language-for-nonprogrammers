@@ -269,76 +269,136 @@ internal class AdditionNode : InFixNode
     //denne gælder også for tekst
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
     }
 }
 
 internal class SubtractNode : NumberInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class MultiplyNode : NumberInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class DivideNode : NumberInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class ModuloNode : NumberInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
+    }
 }
 
 internal abstract class FlagInFixNode : InFixNode
 {
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
     }
 }
 
 internal class EqualsNode : FlagInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class GreaterNode : FlagInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class GreaterEqualsNode : FlagInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class LessNode : FlagInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class LessEqualsNode : FlagInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class AndNode : FlagInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class OrNode : FlagInFixNode
 {
+        public override TypeNode typeCheck()
+    {
+        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class NotNode : FlagInFixNode
 {
+    public override TypeNode typeCheck()
+    {
+        return left.typeCheck() is FlagTypeNode ? new FlagTypeNode() : throw new Exception("Type mismatch");
+    }
 }
 
 internal class NumberTypeNode : TypeNode
 {
+        public override TypeNode typeCheck()
+    {
+        return new NumberTypeNode();
+    }
 }
 
 internal class FlagTypeNode : TypeNode
 {
+        public override TypeNode typeCheck()
+    {
+        return new FlagTypeNode();
+    }
 }
 
 internal class TextTypeNode : TypeNode
 {
+        public override TypeNode typeCheck()
+    {
+        return new TextTypeNode();
+    }
 }
 
 internal class ListTypeNode : TypeNode
@@ -390,6 +450,7 @@ internal class FlagNode : Node
     {
         throw new NotImplementedException();
     }
+} }
 }
 //----------------------------------------Vaal---------------------------------------------
 internal class TextNode : Node
