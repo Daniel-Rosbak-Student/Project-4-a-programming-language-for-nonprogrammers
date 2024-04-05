@@ -17,6 +17,7 @@ public class Program
         {
             var CST = parser.program();
             var AST = new CSTconverter().VisitProgram(CST);
+            typeChecker.typeCheck(AST);
             
             Console.WriteLine("SUCCESS");
         }

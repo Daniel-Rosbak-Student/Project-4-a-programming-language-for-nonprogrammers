@@ -1,5 +1,13 @@
 ﻿namespace CSTtoASTandTypeChecker;
 
+internal class typeChecker
+{
+    public static void typeCheck(Node AST)
+    {
+        ScopeNode.typeCheckStart(AST);
+        Console.WriteLine("The program is properly typed");
+    }
+}
 internal abstract class Node
 {
     public abstract TypeNode typeCheck();
@@ -37,14 +45,25 @@ internal abstract class PreSufFixNode : Node
 
 internal abstract class ScopeNode : Node
 {
-    
-    public override TypeNode typeCheck()
+    public static ScopeVariables scope { get; set; }
+    public static void typeCheckStart(Node AST)
     {
-        throw new NotImplementedException();
+        scope = new ScopeVariables();
+        AST.typeCheck();
+    }
+
+    public static void addScope()
+    {
+        scope = new ScopeVariables(scope);
+    }
+
+    public static void removeScope()
+    {
+        scope = scope.upperScopes;
     }
 }
 
-internal class FunctionNode : ScopeNode
+internal class FunctionNode : Node
 {
     private static List<FunctionNode> functions = new List<FunctionNode>();
     public SignatureNode signature { get; set; }
@@ -93,19 +112,26 @@ internal class FunctionNode : ScopeNode
     
     public override TypeNode typeCheck()
     {
+        ScopeNode.addScope();
         // Type check  signature og commands hvis der er behov
         if (signature != null)
+        {
             signature.typeCheck();
+        }
         else
         {
             throw new Exception("Signature does not exist");
         }
+
         if (cmds != null)
+        {
             cmds.typeCheck();
+        }
         else
         {
             throw new Exception("commands does not exist for function: " + signature.id.name);
         }
+        ScopeNode.removeScope();
         return signature.gives;
     }
 }
@@ -195,6 +221,8 @@ internal class ParameterNode : Node
 
     public override TypeNode typeCheck()
     {
+        new CreateVariableNode(id, type).addToVariables();
+        
         List<TypeNode> list = new List<TypeNode>();
         list.Add(type.typeCheck());
         if (next != null)
@@ -210,7 +238,7 @@ internal class ParameterNode : Node
     }
 }
 
-internal class IfNode : ScopeNode
+internal class IfNode : Node
 {
     public Node condition { get; set; }
     public Node Body { get; set; }
@@ -225,13 +253,20 @@ internal class IfNode : ScopeNode
     public override TypeNode typeCheck()
     {
         condition.typeCheck();
+        ScopeNode.addScope();
         Body.typeCheck();
-        ElseBody.typeCheck();
+        ScopeNode.removeScope();
+        ScopeNode.addScope();
+        if (ElseBody != null)
+        {
+            ElseBody.typeCheck();
+        }
+        ScopeNode.removeScope();
         return null;
     }
 }
 
-internal class RepeatNode : ScopeNode
+internal class RepeatNode : Node
 {
     public Node condition { get; set; }
     public Node Body { get; set; }
@@ -244,7 +279,9 @@ internal class RepeatNode : ScopeNode
     public override TypeNode typeCheck()
     {
         condition.typeCheck();
+        ScopeNode.addScope();
         Body.typeCheck();
+        ScopeNode.removeScope();
         return null;
     }
 }
@@ -321,16 +358,22 @@ internal class CommandNode : InFixNode
 
     public override TypeNode typeCheck()
     {
-        left.typeCheck();
-        right.typeCheck();
+        if (left != null)
+        {
+            left.typeCheck();
+        }
 
+        if (right != null)
+        {
+            right.typeCheck();
+        }
+        
         return null;
     }
 }
 
 internal class CreateVariableNode : Node
 {
-    private static List<CreateVariableNode> variables = new List<CreateVariableNode>();
     public IdentifierNode name { get; set; }
     public TypeNode type { get; set; }
     public Node value { get; set; }
@@ -346,18 +389,18 @@ internal class CreateVariableNode : Node
         type = (TypeNode)y;
     }
 
-    private void addToVariables(CreateVariableNode variable)
+    public void addToVariables()
     {
-        if (variableExists(variable.name.name))
+        if (variableExists(name.name))
         {
             throw new Exception("variable declared more than once!");
         }
-        variables.Add(this);
+        ScopeNode.scope.Add(this);
     }
 
     public static bool variableExists(string name)
     {
-        foreach (CreateVariableNode variable in variables)
+        foreach (CreateVariableNode variable in ScopeNode.scope.variables)
         {
             if (variable.name.name == name)
             {
@@ -369,11 +412,11 @@ internal class CreateVariableNode : Node
 
     public static CreateVariableNode getVariable(string name)
     {
-        for (int i = 0; i < variables.Count; i++)
+        for (int i = 0; i < ScopeNode.scope.variables.Count; i++)
         {
-            if (variables[i].name.name == name)
+            if (ScopeNode.scope.variables[i].name.name == name)
             {
-                return variables[i];
+                return ScopeNode.scope.variables[i];
             }
         }
 
@@ -382,7 +425,7 @@ internal class CreateVariableNode : Node
 
     public override TypeNode typeCheck()
     {
-        addToVariables(this);
+        addToVariables();
 
         TypeNode variableValue = null;
         if (value != null)
@@ -402,15 +445,31 @@ internal class CreateVariableNode : Node
 internal class ScopeVariables
 {
     public ScopeVariables upperScopes { get; set; }
-    private List<CreateVariableNode> variables { get; set; }
+    public List<CreateVariableNode> variables { get; set; }
     public ScopeVariables()
     {
+        variables = new List<CreateVariableNode>();
+    }
+    public ScopeVariables(ScopeVariables upperScope)
+    {
+        upperScopes = upperScope;
         variables = new List<CreateVariableNode>();
     }
 
     public void Add(CreateVariableNode var)
     {
         variables.Add(var);
+    }
+
+    public List<CreateVariableNode> getCurrentVariables()
+    {
+        List<CreateVariableNode> vars = new List<CreateVariableNode>();
+        vars.AddRange(variables);
+        if (upperScopes != null)
+        {
+            vars.AddRange(upperScopes.getCurrentVariables());
+        }
+        return vars;
     }
 }
 
@@ -500,7 +559,9 @@ internal abstract class FlagInFixNode : InFixNode
 {
     public override TypeNode typeCheck()
     {
-        if (left.typeCheck() == right.typeCheck())
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+        if (leftType.GetType() == rightType.GetType())
         {
             return new FlagTypeNode();
         }
@@ -572,6 +633,12 @@ internal class SignatureNode : TypeNode
         id = (IdentifierNode)x;
         takes = (ParameterNode)y;
         gives = (TypeNode)z;
+    }
+
+    public override TypeNode typeCheck()
+    {
+        takes.typeCheck();
+        return gives.typeCheck();
     }
 }
 
