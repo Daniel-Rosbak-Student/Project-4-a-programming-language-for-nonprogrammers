@@ -360,7 +360,7 @@ internal class TypeConvertNode : PreSufFixNode
 
     public override TypeNode typeCheck()
     {
-        TypeNode typeValue = value.typeCheck(); // Conversition happens here
+        value.typeCheck(); // Conversition happens here
 
         return type;
     }
@@ -662,7 +662,7 @@ internal class SignatureNode : TypeNode
 
 internal class ListOfTypes : TypeNode
 {
-    private List<TypeNode> types = new List<TypeNode>();
+    private List<TypeNode> types;
 
     public ListOfTypes(List<TypeNode> list)
     {
