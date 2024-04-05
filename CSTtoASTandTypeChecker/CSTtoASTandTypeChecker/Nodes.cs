@@ -22,6 +22,13 @@ internal abstract class InFixNode : Node
 internal abstract class PreSufFixNode : Node
 {
     public Node node { get; set; }
+
+    public override TypeNode typeCheck()
+    {
+        if (node != null)
+            node.typeCheck();
+        return null;
+    }
 }
 
 internal class FunctionNode : Node
@@ -36,7 +43,12 @@ internal class FunctionNode : Node
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        // Type check  signature og commands hvis der er behov
+        if (signature != null)
+            signature.typeCheck();
+        if (cmds != null)
+            cmds.typeCheck();
+        return null;
     }
 }
 
@@ -52,7 +64,12 @@ internal class UseNode : Node
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        /// Type check identifier og inputs hvis der er behov
+        if (id != null)
+            id.typeCheck();
+        if (inputs != null)
+            inputs.typeCheck();
+        return null;
     }
 }
 //----------------------------------------Daniel---------------------------------------------
@@ -65,7 +82,9 @@ internal class InputNode : InFixNode
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return left.typeCheck();
+        
+        //Hvad skal der gøres her, vi skal returne typen fra alle inputs
     }
 }
 
@@ -80,10 +99,12 @@ internal class ParameterNode : Node
         id = (IdentifierNode)y;
         next = (ParameterNode)z;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return type;
+        
+        //Hvad skal der gøres her, vi skal returne typen fra alle parametre
     }
 }
 
@@ -101,7 +122,10 @@ internal class IfNode : Node
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        condition.typeCheck();
+        Body.typeCheck();
+        ElseBody.typeCheck();
+        return null;
     }
 }
 
@@ -117,7 +141,9 @@ internal class RepeatNode : Node
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        condition.typeCheck();
+        Body.typeCheck();
+        return null;
     }
 }
 //----------------------------------------Armin---------------------------------------------
@@ -125,7 +151,7 @@ internal class ReadNode : Node
 {
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return null; // Vi læser kun noget, det har vel ikke brug for typecheck?
     }
 }
 
@@ -135,10 +161,15 @@ internal class PrintNode : PreSufFixNode
     {
         node = input;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        if (node != null)
+        {
+            node.typeCheck();
+        }
+
+        return null;
     }
 }
 
@@ -150,21 +181,33 @@ internal class LengthOfNode : PreSufFixNode
     {
         Identifier = (IdentifierNode)x;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        if (Identifier != null)
+        {
+            return Identifier.typeCheck();
+        }
+
+        return null;
     }
 }
 
 internal class TypeConvertNode : PreSufFixNode
 {
-    public Node value { get; set; }
+    public Node value { get; set; } // The value the user wants to convert to
     public TypeNode type { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode typeValue = value.typeCheck(); // Conversition happens here
+
+        if (typeValue.GetType() == value.GetType()) // Check if correct
+        {
+            return type;
+        } else {
+            throw new Exception("Cannot convert types, something went wrong.");
+        }
     }
 }
 //----------------------------------------Niklas---------------------------------------------
@@ -175,10 +218,13 @@ internal class CommandNode : InFixNode
         left = x;
         right = y;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        left.typeCheck();
+        right.typeCheck();
+
+        return null;
     }
 }
 
@@ -222,7 +268,7 @@ internal class CreateVariableNode : Node
         }
         return false;
     }
-    
+
     public static CreateVariableNode getVariable(string name)
     {
         for (int i = 0; i < variables.Count; i++)
@@ -235,10 +281,17 @@ internal class CreateVariableNode : Node
 
         return null;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode variableValue = value.typeCheck();
+
+        if (type.GetType() == value.GetType())
+        {
+            return type;
+        }
+
+        throw new Exception("Bad typing in create, attempting to assign a " + variableValue.GetType() + " to a " + type.GetType() + ".");
     }
 }
 
@@ -249,18 +302,33 @@ internal class AssignNode : InFixNode
         left = x;
         right = y;
     }
-    
+
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+
+        if (leftType.GetType() == rightType.GetType())
+        {
+            return leftType;
+        }
+
+        throw new Exception("Bad typing in Assignment, attempting to assign a " + rightType + " to a " + leftType);
     }
 }
-
 internal abstract class NumberInFixNode : InFixNode
 {
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+
+        if (leftType.GetType() == rightType.GetType() && leftType.GetType() == typeof(NumberTypeNode))
+        {
+            return leftType;
+        }
+
+        throw new Exception("Bad typing in NumberInfixExpression, attempting to perform invalid operations with a " + leftType.GetType() + " on a " + rightType.GetType() + ".");
     }
 }
 //----------------------------------------Mathias---------------------------------------------
@@ -431,7 +499,7 @@ internal class NumberNode : Node
         value = x;
     }
     public double value { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -445,7 +513,7 @@ internal class FlagNode : Node
         value = x;
     }
     public bool value { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -460,7 +528,7 @@ internal class TextNode : Node
         value = x;
     }
     public string value { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
@@ -486,7 +554,7 @@ internal class ListElementNode : Node
 internal class IdentifierNode : Node
 {
     public string name { get; set; }
-    
+
     public override TypeNode typeCheck()
     {
         throw new NotImplementedException();
