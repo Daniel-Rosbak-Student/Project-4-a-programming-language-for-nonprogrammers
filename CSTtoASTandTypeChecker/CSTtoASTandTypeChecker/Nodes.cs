@@ -46,9 +46,13 @@ internal abstract class PreSufFixNode : Node
 internal abstract class ScopeNode : Node
 {
     public static ScopeVariables scope { get; set; }
+    
+    public static SignatureNode CurrentSignature { get; set; }
+    public static bool hasGive { get; set; }
     public static void typeCheckStart(Node AST)
     {
         scope = new ScopeVariables();
+        CurrentSignature = null;
         AST.typeCheck();
     }
 
@@ -112,6 +116,15 @@ internal class FunctionNode : Node
     
     public override TypeNode typeCheck()
     {
+        if (ScopeNode.CurrentSignature == null)
+        {
+            ScopeNode.CurrentSignature = signature;
+        }
+        else
+        {
+            throw new Exception("Cannot define function within a function");
+        }
+        ScopeNode.hasGive = false;
         ScopeNode.addScope();
         // Type check  signature og commands hvis der er behov
         if (signature != null)
@@ -132,7 +145,12 @@ internal class FunctionNode : Node
             throw new Exception("commands does not exist for function: " + signature.id.name);
         }
         ScopeNode.removeScope();
-        return signature.gives;
+        ScopeNode.CurrentSignature = null;
+        if (ScopeNode.hasGive)
+        {
+            return signature.gives;
+        }
+        throw new Exception("Function must have at least 1 give statement");
     }
 }
 
@@ -400,7 +418,7 @@ internal class CreateVariableNode : Node
 
     public static bool variableExists(string name)
     {
-        foreach (CreateVariableNode variable in ScopeNode.scope.variables)
+        foreach (CreateVariableNode variable in ScopeNode.scope.getCurrentVariables())
         {
             if (variable.name.name == name)
             {
@@ -412,11 +430,11 @@ internal class CreateVariableNode : Node
 
     public static CreateVariableNode getVariable(string name)
     {
-        for (int i = 0; i < ScopeNode.scope.variables.Count; i++)
+        for (int i = 0; i < ScopeNode.scope.getCurrentVariables().Count; i++)
         {
-            if (ScopeNode.scope.variables[i].name.name == name)
+            if (ScopeNode.scope.getCurrentVariables()[i].name.name == name)
             {
-                return ScopeNode.scope.variables[i];
+                return ScopeNode.scope.getCurrentVariables()[i];
             }
         }
 
@@ -748,7 +766,18 @@ internal class GiveNode : Node
     }
     public override TypeNode typeCheck()
     {
-        return null;
+        SignatureNode sign = ScopeNode.CurrentSignature;
+        if (sign != null)
+        {
+            if (value.typeCheck().GetType() == sign.gives.typeCheck().GetType())
+            {
+                ScopeNode.hasGive = true;
+                return sign.gives;
+            }
+
+            throw new Exception("Bad typing in give, trying to give " + value.typeCheck() + " in a function that gives " + sign.gives);
+        }
+        throw new Exception("cannot use give outside function declaration");
     }
 }
 
