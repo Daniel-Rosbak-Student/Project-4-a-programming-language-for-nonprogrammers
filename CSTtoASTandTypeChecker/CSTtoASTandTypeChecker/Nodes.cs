@@ -9,7 +9,7 @@ internal abstract class TypeNode : Node
 {
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return this;
     }
 }
 
@@ -27,12 +27,26 @@ internal abstract class PreSufFixNode : Node
     {
         if (node != null)
             node.typeCheck();
+        else
+        {
+            throw new Exception("keyword contents does not exist");
+        }
         return null;
     }
 }
 
-internal class FunctionNode : Node
+internal abstract class ScopeNode : Node
 {
+    
+    public override TypeNode typeCheck()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+internal class FunctionNode : ScopeNode
+{
+    private static List<FunctionNode> functions = new List<FunctionNode>();
     public SignatureNode signature { get; set; }
     public Node cmds { get; set; }
 
@@ -40,15 +54,59 @@ internal class FunctionNode : Node
     {
         signature = (SignatureNode)x;
         cmds = y;
+        addToListOfFunctions(this);
     }
+
+    private void addToListOfFunctions(FunctionNode function)
+    {
+        if (functionExists(function.signature.id.name))
+        {
+            throw new Exception("Function with identifier: " + function.signature.id.name + " is declared twice");
+        }
+        functions.Add(function);
+    }
+
+    public static bool functionExists(string name)
+    {
+        foreach (FunctionNode func in functions)
+        {
+            if (name == func.signature.id.name)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static SignatureNode getSignature(string name)
+    {
+        foreach (FunctionNode func in functions)
+        {
+            if (name == func.signature.id.name)
+            {
+                return func.signature;
+            }
+        }
+        throw new Exception("Signature does not exist");
+    }
+    
     public override TypeNode typeCheck()
     {
         // Type check  signature og commands hvis der er behov
         if (signature != null)
             signature.typeCheck();
+        else
+        {
+            throw new Exception("Signature does not exist");
+        }
         if (cmds != null)
             cmds.typeCheck();
-        return null;
+        else
+        {
+            throw new Exception("commands does not exist for function: " + signature.id.name);
+        }
+        return signature.gives;
     }
 }
 
@@ -64,12 +122,34 @@ internal class UseNode : Node
     }
     public override TypeNode typeCheck()
     {
-        /// Type check identifier og inputs hvis der er behov
-        if (id != null)
-            id.typeCheck();
-        if (inputs != null)
-            inputs.typeCheck();
-        return null;
+        SignatureNode signature;
+        if (FunctionNode.functionExists(id.name))
+        {
+            signature = FunctionNode.getSignature(id.name);
+            ListOfTypes parameters = (ListOfTypes)signature.takes.typeCheck();
+            ListOfTypes input = (ListOfTypes)inputs.typeCheck();
+            List<TypeNode> paramList = parameters.getList();
+            List<TypeNode> inputList = input.getList();
+            if (paramList.Count == inputList.Count)
+            {
+                for (int i = 0; i < inputList.Count(); i++)
+                {
+                    if (inputList[i].GetType() != paramList[i].GetType())
+                    {
+                        throw new Exception("Invalid type of input in use call for function named: " + id.name);
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Invalid amount of inputs in use call for function named: " + id.name);
+            }
+        }
+        else
+        {
+            throw new Exception("Use call: " + id.name + " unsuccessful as no such function exists");
+        }
+        return signature.gives;
     }
 }
 //----------------------------------------Daniel---------------------------------------------
@@ -82,9 +162,22 @@ internal class InputNode : InFixNode
     }
     public override TypeNode typeCheck()
     {
-        return left.typeCheck();
+        List<TypeNode> list = new List<TypeNode>();
+        list.Add(left.typeCheck());
+        if (right.GetType() == typeof(ListOfTypes))
+        {
+            ListOfTypes types = (ListOfTypes)right.typeCheck();
+            foreach (TypeNode type in types.getList())
+            {
+                list.Add(type);
+            }
+        }
+        else
+        {
+            list.Add(right.typeCheck());
+        }
         
-        //Hvad skal der gøres her, vi skal returne typen fra alle inputs
+        return new ListOfTypes(list);
     }
 }
 
@@ -102,13 +195,22 @@ internal class ParameterNode : Node
 
     public override TypeNode typeCheck()
     {
-        return type;
+        List<TypeNode> list = new List<TypeNode>();
+        list.Add(type.typeCheck());
+        if (next != null)
+        {
+            ListOfTypes types = (ListOfTypes)next.typeCheck();
+            foreach (TypeNode type in types.getList())
+            {
+                list.Add(type);
+            }
+        }
         
-        //Hvad skal der gøres her, vi skal returne typen fra alle parametre
+        return new ListOfTypes(list);
     }
 }
 
-internal class IfNode : Node
+internal class IfNode : ScopeNode
 {
     public Node condition { get; set; }
     public Node Body { get; set; }
@@ -129,7 +231,7 @@ internal class IfNode : Node
     }
 }
 
-internal class RepeatNode : Node
+internal class RepeatNode : ScopeNode
 {
     public Node condition { get; set; }
     public Node Body { get; set; }
@@ -151,7 +253,7 @@ internal class ReadNode : Node
 {
     public override TypeNode typeCheck()
     {
-        return null; // Vi læser kun noget, det har vel ikke brug for typecheck?
+        return new TextTypeNode();
     }
 }
 
@@ -168,7 +270,10 @@ internal class PrintNode : PreSufFixNode
         {
             node.typeCheck();
         }
-
+        else
+        {
+            throw new Exception("Print statement missing body");
+        }
         return null;
     }
 }
@@ -189,7 +294,7 @@ internal class LengthOfNode : PreSufFixNode
             return Identifier.typeCheck();
         }
 
-        return null;
+        return new NumberTypeNode();
     }
 }
 
@@ -202,12 +307,7 @@ internal class TypeConvertNode : PreSufFixNode
     {
         TypeNode typeValue = value.typeCheck(); // Conversition happens here
 
-        if (typeValue.GetType() == value.GetType()) // Check if correct
-        {
-            return type;
-        } else {
-            throw new Exception("Cannot convert types, something went wrong.");
-        }
+        return type;
     }
 }
 //----------------------------------------Niklas---------------------------------------------
@@ -230,7 +330,7 @@ internal class CommandNode : InFixNode
 
 internal class CreateVariableNode : Node
 {
-    public static List<CreateVariableNode> variables { get; set; }
+    private static List<CreateVariableNode> variables = new List<CreateVariableNode>();
     public IdentifierNode name { get; set; }
     public TypeNode type { get; set; }
     public Node value { get; set; }
@@ -239,13 +339,11 @@ internal class CreateVariableNode : Node
         name = (IdentifierNode)x;
         type = (TypeNode)y;
         value = z;
-        addToVariables(this);
     }
     public CreateVariableNode(Node x, Node y)
     {
         name = (IdentifierNode)x;
         type = (TypeNode)y;
-        addToVariables(this);
     }
 
     private void addToVariables(CreateVariableNode variable)
@@ -284,14 +382,35 @@ internal class CreateVariableNode : Node
 
     public override TypeNode typeCheck()
     {
-        TypeNode variableValue = value.typeCheck();
+        addToVariables(this);
 
-        if (type.GetType() == value.GetType())
+        TypeNode variableValue = null;
+        if (value != null)
         {
-            return type;
+            variableValue = value.typeCheck();
+            
+            if (type.GetType() == variableValue.GetType())
+            {
+                return type;
+            }
         }
 
         throw new Exception("Bad typing in create, attempting to assign a " + variableValue.GetType() + " to a " + type.GetType() + ".");
+    }
+}
+
+internal class ScopeVariables
+{
+    public ScopeVariables upperScopes { get; set; }
+    private List<CreateVariableNode> variables { get; set; }
+    public ScopeVariables()
+    {
+        variables = new List<CreateVariableNode>();
+    }
+
+    public void Add(CreateVariableNode var)
+    {
+        variables.Add(var);
     }
 }
 
@@ -337,136 +456,100 @@ internal class AdditionNode : InFixNode
     //denne gælder også for tekst
     public override TypeNode typeCheck()
     {
-        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+        if (leftType.GetType() == rightType.GetType() && (leftType.GetType() == typeof(NumberTypeNode) || leftType.GetType() == typeof(TextTypeNode)))
+        {
+            return leftType;
+        }
+        throw new Exception("Type mismatch in addition");
     }
 }
 
 internal class SubtractNode : NumberInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class MultiplyNode : NumberInFixNode
 {
-        public override TypeNode typeCheck()
+    public override TypeNode typeCheck()
     {
-        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+        if ((leftType.GetType() == typeof(NumberTypeNode) && rightType.GetType() == typeof(TextTypeNode)) || ( leftType.GetType() == typeof(TextTypeNode) && rightType.GetType() == typeof(NumberTypeNode)))
+        {
+            return new TextTypeNode();
+        }
+        if (leftType.GetType() == rightType.GetType() && leftType.GetType() == typeof(NumberTypeNode))
+        {
+            return new NumberTypeNode();
+        }
+        throw new Exception("Type mismatch in multiplication");
     }
 }
 
 internal class DivideNode : NumberInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class ModuloNode : NumberInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? left.typeCheck() : throw new Exception("Type mismatch");
-    }
 }
 
 internal abstract class FlagInFixNode : InFixNode
 {
     public override TypeNode typeCheck()
     {
-        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
+        if (left.typeCheck() == right.typeCheck())
+        {
+            return new FlagTypeNode();
+        }
+        throw new Exception("Type mismatch in flag comparison");
     }
 }
 
 internal class EqualsNode : FlagInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class GreaterNode : FlagInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class GreaterEqualsNode : FlagInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class LessNode : FlagInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class LessEqualsNode : FlagInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class AndNode : FlagInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class OrNode : FlagInFixNode
 {
-        public override TypeNode typeCheck()
-    {
-        return left.typeCheck() == right.typeCheck() ? new FlagTypeNode() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class NotNode : FlagInFixNode
 {
-    public override TypeNode typeCheck()
-    {
-        return left.typeCheck() is FlagTypeNode ? new FlagTypeNode() : throw new Exception("Type mismatch");
-    }
 }
 
 internal class NumberTypeNode : TypeNode
 {
-        public override TypeNode typeCheck()
-    {
-        return new NumberTypeNode();
-    }
 }
 
 internal class FlagTypeNode : TypeNode
 {
-        public override TypeNode typeCheck()
-    {
-        return new FlagTypeNode();
-    }
 }
 
 internal class TextTypeNode : TypeNode
 {
-        public override TypeNode typeCheck()
-    {
-        return new TextTypeNode();
-    }
 }
 
 internal class ListTypeNode : TypeNode
@@ -492,6 +575,21 @@ internal class SignatureNode : TypeNode
     }
 }
 
+internal class ListOfTypes : TypeNode
+{
+    private List<TypeNode> types = new List<TypeNode>();
+
+    public ListOfTypes(List<TypeNode> list)
+    {
+        types = list;
+    }
+
+    public List<TypeNode> getList()
+    {
+        return types;
+    }
+}
+
 internal class NumberNode : Node
 {
     public NumberNode(double x)
@@ -502,7 +600,7 @@ internal class NumberNode : Node
 
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return new NumberTypeNode();
     }
 }
 
@@ -516,10 +614,10 @@ internal class FlagNode : Node
 
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return new FlagTypeNode();
     }
-} }
 }
+
 //----------------------------------------Vaal---------------------------------------------
 internal class TextNode : Node
 {
@@ -531,7 +629,7 @@ internal class TextNode : Node
 
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return new TextTypeNode();
     }
 }
 
@@ -547,7 +645,7 @@ internal class ListElementNode : Node
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return id.typeCheck();
     }
 }
 
@@ -557,7 +655,11 @@ internal class IdentifierNode : Node
 
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        if (CreateVariableNode.variableExists(name))
+        {
+            return CreateVariableNode.getVariable(name).type;
+        }
+        throw new Exception("Variable with name: " + name + " does not exist");
     }
 }
 
@@ -565,7 +667,7 @@ internal class BreakNode : Node
 {
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return null;
     }
 }
 
@@ -579,6 +681,11 @@ internal class GiveNode : Node
     }
     public override TypeNode typeCheck()
     {
-        throw new NotImplementedException();
+        return null;
     }
 }
+
+//TODO: add typechecking for function variables
+//TODO: add scope to variables
+//TODO: add typechecking to give nodes, so they give the proper type
+//

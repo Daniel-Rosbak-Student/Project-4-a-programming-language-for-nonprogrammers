@@ -15,8 +15,8 @@ public class Program
         SyntaxParser parser = new SyntaxParser(tokens);
         try
         {
-            //var CST = parser.program();
-            //var AST = new CSTconverter().VisitProgram(CST);
+            var CST = parser.program();
+            var AST = new CSTconverter().VisitProgram(CST);
             
             Console.WriteLine("SUCCESS");
         }
