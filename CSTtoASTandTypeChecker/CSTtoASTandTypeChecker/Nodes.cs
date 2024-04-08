@@ -547,7 +547,7 @@ internal class SubtractNode : NumberInFixNode
 {
 }
 
-internal class MultiplyNode : NumberInFixNode
+internal class MultiplyNode : InFixNode
 {
     public override TypeNode typeCheck()
     {
