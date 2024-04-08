@@ -270,16 +270,21 @@ internal class IfNode : Node
     }
     public override TypeNode typeCheck()
     {
+        bool originalGive = ScopeNode.hasGive;
+        ScopeNode.hasGive = false;
         condition.typeCheck();
         ScopeNode.addScope();
         Body.typeCheck();
         ScopeNode.removeScope();
+        bool bodyGive = ScopeNode.hasGive;
+        ScopeNode.hasGive = false;
         ScopeNode.addScope();
         if (ElseBody != null)
         {
             ElseBody.typeCheck();
         }
         ScopeNode.removeScope();
+        ScopeNode.hasGive = (bodyGive && ScopeNode.hasGive) || originalGive;
         return null;
     }
 }
@@ -780,8 +785,3 @@ internal class GiveNode : Node
         throw new Exception("cannot use give outside function declaration");
     }
 }
-
-//TODO: add typechecking for function variables
-//TODO: add scope to variables
-//TODO: add typechecking to give nodes, so they give the proper type
-//
