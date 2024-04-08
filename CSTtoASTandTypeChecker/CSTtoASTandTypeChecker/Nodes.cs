@@ -126,7 +126,7 @@ internal class FunctionNode : Node
         }
         ScopeNode.hasGive = false;
         ScopeNode.addScope();
-        // Type check  signature og commands hvis der er behov
+        
         if (signature != null)
         {
             signature.typeCheck();
