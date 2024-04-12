@@ -11,38 +11,97 @@ internal class CodeGeneratorVisitor
 
     internal void finish()
     {
-        string temp = "#include <stdio.h> \n ";
-        temp += output + "}";
-        output = temp;
+        string temp = output;
+        output = "#include <stdio.h> \n ";
+        output += temp + "}";
     }
     //-------------------------------Daniel----------------------------------
     internal void visit(FunctionNode node)
     {
-        
+        string temp = output;
+        output = "";
+        node.signature.gives.accept(this);
+        output += " ";
+        node.signature.id.accept(this);
+        output += "(";
+        if (node.signature.takes != null)
+        {
+            node.signature.takes.accept(this);
+        }
+        output += "){";
+        node.cmds.accept(this);
+        output += "}";
+        output += temp;
     }
     internal void visit(UseNode node)
     {
-        
+        node.id.accept(this);
+        output += "(";
+        if (node.inputs != null)
+        {
+            node.inputs.accept(this);
+        }
+        output += ")";
     }
     internal void visit(InputNode node)
     {
-        
+        node.left.accept(this);
+        if (node.right != null)
+        {
+            output += ",";
+            node.right.accept(this);
+        }
     }
     internal void visit(ParameterNode node)
     {
-        
+        Type list = typeof(ListTypeNode);
+        Type param = node.type.GetType();
+
+        if (param == list)
+        {
+            node.type.accept(this);
+            output += " ";
+            node.id.accept(this);
+            output += "[]";
+        }
+        else
+        {
+            node.type.accept(this);
+            output += " ";
+            node.id.accept(this);
+        }
+
+        if (node.next != null)
+        {
+            output += ",";
+            node.next.accept(this);
+        }
     }
     internal void visit(IfNode node)
     {
-        
+        output += "if(";
+        node.condition.accept(this);
+        output += "){";
+        node.Body.accept(this);
+        if (node.ElseBody != null)
+        {
+            output += "}else{";
+            node.ElseBody.accept(this);
+        }
+        output += "}";
     }
     internal void visit(RepeatNode node)
     {
-        
+        output += "while(";
+        node.condition.accept(this);
+        output += "){";
+        node.Body.accept(this);
+        output += "}";
     }
     internal void visit(ReadNode node)
     {
-        
+        //TODO: somehow get the variable it is assigning to
+        output += "scanf(\"%s\", %???)";
     }
     //--------------------------------Armin---------------------------------
     internal void visit(PrintNode node)
