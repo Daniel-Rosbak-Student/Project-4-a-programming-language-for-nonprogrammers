@@ -12,7 +12,7 @@ internal class CodeGeneratorVisitor
     internal void finish()
     {
         string temp = "#include <stdio.h> \n ";
-        temp += output;
+        temp += output + "}";
         output = temp;
     }
     //-------------------------------Daniel----------------------------------
