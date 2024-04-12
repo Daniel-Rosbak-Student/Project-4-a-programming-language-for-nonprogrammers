@@ -17,11 +17,15 @@ public class Program
         {
             var CST = parser.program();
             var AST = new CSTconverter().VisitProgram(CST);
-            typeChecker.typeCheck(AST);
+            TypeChecker.typeCheck(AST);
+
+            CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
+            AST.accept(cgv);
+            cgv.finish();
             
             Console.WriteLine("SUCCESS");
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             Console.WriteLine(e);
             throw;
