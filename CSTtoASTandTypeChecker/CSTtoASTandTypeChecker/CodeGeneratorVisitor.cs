@@ -227,8 +227,12 @@ internal class CodeGeneratorVisitor
     //--------------------------------Niklas---------------------------------
     internal void visit(FlagNode node)
     {
+        //flagnode representere bare en boolean så enten true eller false, så den skal bare skrive 1 eller 0 ud
         output += "int ";
+        //hvis vi kalder accept direkte på vores input kører vi bare i ring
         node.accept(this);
+        //dette kan konverteres til en ternary expression((comp)?true:false;) ellers kan du også bare skrive værdien da vi allerede kigger på en boolean
+        //Husk på at der er forskel mellem enkelt = og dobbelt =
         if (node.value = false)
         {
             output += "0";
@@ -241,24 +245,34 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(TextNode node)
     {
+        //very good
         output += node.value;
     }
     internal void visit(ListElementNode node)
     {
+        //ListElement er bare for at tage fat i et element i en liste, ikke for at skabe et nyt variabel
+        //Vi ved heller ikke om det er en liste af char
         output += "char* " + " " + node.id + " " + "[" + node.index + "]";
+        //Igen hvis vi kører det på vores input kører vi i ring, vi skal køre metoden på de objekter som vores input indeholder
+        //I dette tilfælde er det ID og INDEX, det tilføjer også det relevante C kode til output
+        //Tænk tilbage til Typechecking, hvor de enkelte type checks returnere en type, her bliver teksten bare tilføjet til output
+        //For at se et eksempel kan du kigge i visit(functionNode)
         node.accept(this);
 
     }
     internal void visit(IdentifierNode node)
     {
+        //lige præcis
         output += node.name;
     }
     internal void visit(BreakNode node)
     {
+        //jepper
         output += "break";
     }
     internal void visit(GiveNode node)
     {
+        //Her skal vi lige kalde accept på VALUE
         output += "return " + node.value;
     }
 }
