@@ -245,7 +245,7 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(ListElementNode node)
     {
-        output += "char* " + " " + node.id + " " + node.index;
+        output += "char* " + " " + node.id + " " + "[" + node.index + "]";
         node.accept(this);
 
     }
