@@ -241,7 +241,7 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(TextNode node)
     {
-        node.accept(this);
+        output += node.value;
     }
     internal void visit(ListElementNode node)
     {
