@@ -225,6 +225,7 @@ internal class CodeGeneratorVisitor
         output += node.value;
     }
     //--------------------------------Niklas---------------------------------
+    //yes?
     internal void visit(FlagNode node)
     {
         output += node.value ? "1" : "0";    }
