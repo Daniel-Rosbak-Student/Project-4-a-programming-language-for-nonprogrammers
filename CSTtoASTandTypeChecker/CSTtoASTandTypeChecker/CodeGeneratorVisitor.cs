@@ -106,15 +106,27 @@ internal class CodeGeneratorVisitor
     //--------------------------------Armin---------------------------------
     internal void visit(PrintNode node)
     {
-        
+        output += "printf(";
+        node.text.accept(this);
+        output += ")";
     }
     internal void visit(LengthOfNode node)
     {
-        
+        output += "sizeof(";
+        node.Identifier.accept(this);
+        output += ")";
     }
     internal void visit(TypeConvertNode node)
     {
-        
+        // Type casting, so you would say: (number)text for example
+        output += "(";
+        node.type.accept(this);
+        output += ")";
+    
+        if (node.value != null)
+        {
+            node.value.accept(this);
+        }
     }
     internal void visit(CommandNode node)
     {
@@ -131,19 +143,52 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(CreateVariableNode node)
     {
-        
+        node.type.accept(this);
+        output += " ";
+        node.name.accept(this);
+    
+        if (node.value != null)
+        {
+            output += " = ";
+            node.value.accept(this);
+        }
     }
     internal void visit(AssignNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " = ";
+        }
+
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(AdditionNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " + ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(SubtractNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " - ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     //--------------------------------Vaalmigi---------------------------------
     internal void visit(MultiplyNode node)

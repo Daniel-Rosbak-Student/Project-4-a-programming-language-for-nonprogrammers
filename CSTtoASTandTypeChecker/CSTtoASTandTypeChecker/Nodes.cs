@@ -327,9 +327,10 @@ internal class ReadNode : Node
 
 internal class PrintNode : PreSufFixNode
 {
+    public Node text { get; set; }
     public PrintNode(Node input)
     {
-        node = input;
+        text = input;
     }
 
     public override TypeNode typeCheck()
