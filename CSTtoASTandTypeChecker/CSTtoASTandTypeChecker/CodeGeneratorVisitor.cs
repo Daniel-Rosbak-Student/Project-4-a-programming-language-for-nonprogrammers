@@ -227,27 +227,14 @@ internal class CodeGeneratorVisitor
     //--------------------------------Niklas---------------------------------
     internal void visit(FlagNode node)
     {
-        output += "int ";
-        node.accept(this);
-        if (node.value = false)
-        {
-            output += "0";
-        }
-        else
-        {
-            output += "1";
-        }
-        //skal måske lige kigges lidt grundigere igennem.
-    }
+        output += node.value ? "1" : "0";    }
     internal void visit(TextNode node)
     {
         output += node.value;
     }
     internal void visit(ListElementNode node)
     {
-        output += "char* " + " " + node.id + " " + "[" + node.index + "]";
-        node.accept(this);
-
+        output += "[" + node.index + "]";
     }
     internal void visit(IdentifierNode node)
     {
@@ -259,6 +246,7 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(GiveNode node)
     {
+        node.accept(this);
         output += "return " + node.value;
     }
 }
