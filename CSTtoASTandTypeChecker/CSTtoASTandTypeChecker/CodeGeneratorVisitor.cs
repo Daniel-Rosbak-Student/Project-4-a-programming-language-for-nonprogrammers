@@ -173,27 +173,63 @@ internal class CodeGeneratorVisitor
     //--------------------------------Fatma---------------------------------
     internal void visit(LessNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " < ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(LessEqualsNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " <= ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(AndNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " && ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        } 
     }
     internal void visit(OrNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " || ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(NotNode node)
     {
-        
+        output += "!";
+        if (node != null && node is Node)
+        {
+            node.accept(this);
+        }
     }
     internal void visit(NumberTypeNode node)
     {
-        
+        output += "int";  
     }
     //--------------------------------Mathias---------------------------------
     internal void visit(FlagTypeNode node)
