@@ -6,15 +6,15 @@ internal class CodeGeneratorVisitor
 
     internal CodeGeneratorVisitor()
     {
-        output = "int main(){";
+        output = "int main(){\n";
     }
 
     internal void finish()
     {
         string temp = output;
-        output = "#include <stdio.h> \n ";
-        output += temp + "}";
-        File.WriteAllText(@"..\\..\\..\\Output.txt", output);
+        output = "#include <stdio.h> \n";
+        output += temp + "\nreturn 0;\n}";
+        File.WriteAllText(@"..\\..\\..\\Output.c", output);
     }
     //-------------------------------Daniel----------------------------------
     internal void visit(FunctionNode node)
@@ -22,9 +22,9 @@ internal class CodeGeneratorVisitor
         string temp = output;
         output = "";
         node.signature.generate(this);
-        output += "{";
+        output += "{\n";
         node.cmds.generate(this);
-        output += "}";
+        output += "\n}\n";
         output += temp;
     }
     internal void visit(UseNode node)
@@ -35,7 +35,7 @@ internal class CodeGeneratorVisitor
         {
             node.inputs.generate(this);
         }
-        output += ")";
+        output += ");";
     }
     internal void visit(InputNode node)
     {
@@ -69,20 +69,20 @@ internal class CodeGeneratorVisitor
     {
         output += "if(";
         node.condition.generate(this);
-        output += "){";
+        output += "){\n";
         node.Body.generate(this);
         if (node.ElseBody != null)
         {
-            output += "}else{";
+            output += "\n}else{\n";
             node.ElseBody.generate(this);
         }
-        output += "}";
+        output += "\n}";
     }
     internal void visit(RepeatNode node)
     {
         output += "while(";
         node.condition.generate(this);
-        output += "){";
+        output += "){\n";
         node.Body.generate(this);
         output += "}";
     }
@@ -94,14 +94,14 @@ internal class CodeGeneratorVisitor
         //mogens = "mogens" + temp;
         //
         //TODO: somehow get the variable it is assigning to
-        output += "scanf(\"%s\", %???)";
+        output += "scanf(\"%s\", %???);";
     }
     //--------------------------------Armin---------------------------------
     internal void visit(PrintNode node)
     {
         output += "printf(";
         node.node.generate(this);
-        output += ")";
+        output += ");";
     }
     internal void visit(LengthOfNode node)
     {
@@ -123,12 +123,11 @@ internal class CodeGeneratorVisitor
         if (node.left != null)
         {
             node.left.generate(this);
-            output += ";";
+            output += "\n";
         }
         if (node.right != null)
         {
             node.right.generate(this);
-            output += ";";
         }
     }
     internal void visit(CreateVariableNode node)
@@ -142,12 +141,14 @@ internal class CodeGeneratorVisitor
             output += " = ";
             node.value.generate(this);
         }
+        output += ";";
     }
     internal void visit(AssignNode node)
     {
         node.left.generate(this);
         output += " = ";
         node.right.generate(this);
+        output += ";";
     }
     internal void visit(AdditionNode node)
     {
@@ -260,7 +261,7 @@ internal class CodeGeneratorVisitor
         {
             node.takes.generate(this);
         }
-        output += ")";
+        output += ")\n";
     }
     internal void visit(NumberNode node)
     {
@@ -273,7 +274,7 @@ internal class CodeGeneratorVisitor
         output += node.value ? "1" : "0";    }
     internal void visit(TextNode node)
     {
-        output += "\"" + node.value + "\"";
+        output += node.value;
     }
     internal void visit(ListElementNode node)
     {
@@ -286,7 +287,7 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(BreakNode node)
     {
-        output += "break";
+        output += "break;";
     }
     internal void visit(GiveNode node)
     {
@@ -296,5 +297,6 @@ internal class CodeGeneratorVisitor
             output += " ";
             node.value.generate(this);
         }
+        output += ";";
     }
 }
