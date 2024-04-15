@@ -327,11 +327,11 @@ internal class CodeGeneratorVisitor
     //--------------------------------Mathias---------------------------------
     internal void visit(FlagTypeNode node)
     {
-
+        output += node.value ? "true" : "false";
     }
     internal void visit(TextTypeNode node)
     {
-
+        output += "\"" + node.value + "\"";
     }
     internal void visit(ListTypeNode node)
     {
@@ -339,7 +339,7 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(NothingNode node)
     {
-
+        output += "null";
     }
     internal void visit(SignatureNode node)
     {
