@@ -193,27 +193,75 @@ internal class CodeGeneratorVisitor
     //--------------------------------Vaalmigi---------------------------------
     internal void visit(MultiplyNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " * ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(DivideNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " / ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(ModuloNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " % ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(EqualsNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " == ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     internal void visit(GreaterNode node)
     {
-        
+          if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " > ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }   
     }
     internal void visit(GreaterEqualsNode node)
     {
-        
+        if (node.left != null)
+        {
+            node.left.accept(this);
+            output += " >= ";
+        }
+        if (node.right != null)
+        {
+            node.right.accept(this);
+        }
     }
     //--------------------------------Fatma---------------------------------
     internal void visit(LessNode node)
