@@ -65,9 +65,6 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
             case "or":
                 node = new OrNode();
                 break;
-            case "not":
-                node = new NotNode();
-                break;
             default:
                 throw new ValidationException("Bad Operator in InfixExpression");
         }
@@ -163,8 +160,12 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         node.name = context.@this.GetText();
         return node;
     }
-    
-    
+
+    public override Node VisitNotValue(SyntaxParser.NotValueContext context)
+    {
+        return new NotNode(Visit(context.@this));
+    }
+
     public override Node VisitNotLastCommand(SyntaxParser.NotLastCommandContext context)
     {
         return new CommandNode(Visit(context.@this), Visit(context.next));
@@ -349,7 +350,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitNothingGive(SyntaxParser.NothingGiveContext context)
     {
-        return new GiveNode(new NothingNode());
+        return new GiveNode(null);
     }
 
     public override Node VisitExpressionGive(SyntaxParser.ExpressionGiveContext context)

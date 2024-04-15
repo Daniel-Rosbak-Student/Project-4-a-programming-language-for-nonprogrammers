@@ -18,9 +18,9 @@ public class Program
             var CST = parser.program();
             var AST = new CSTconverter().VisitProgram(CST);
             TypeChecker.typeCheck(AST);
-
+            
             CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
-            AST.accept(cgv);
+            AST.generate(cgv);
             cgv.finish();
             
             Console.WriteLine("SUCCESS");

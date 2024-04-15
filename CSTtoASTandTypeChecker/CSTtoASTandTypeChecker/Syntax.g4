@@ -27,6 +27,7 @@ value: this=use                                                                 
      | this=number                                                                                  #numberValue
      | this=text                                                                                    #textValue
      | this=identifier                                                                              #identifierValue
+     | n o t wsc this=value                                                                              #notValue
      ;
 
 lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
@@ -117,7 +118,7 @@ expression: left=expression wsc op=operator wsc right=expression                
             | expr=expression wsc a s wsc tp=type                                                   #convertExpression
             ;
 
-operator: '+' | '-' | '*' | '/' | m o d u l o | '=' | '>' | '<' | '<=' | '>=' | a n d | o r | n o t;
+operator: '+' | '-' | '*' | '/' | m o d u l o | '=' | '>' | '<' | '<=' | '>=' | a n d | o r;
 
 character: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' |
            'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' |

@@ -245,6 +245,18 @@ public interface ISyntaxListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitIdentifierValue([NotNull] SyntaxParser.IdentifierValueContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>notValue</c>
+	/// labeled alternative in <see cref="SyntaxParser.value"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNotValue([NotNull] SyntaxParser.NotValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>notValue</c>
+	/// labeled alternative in <see cref="SyntaxParser.value"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNotValue([NotNull] SyntaxParser.NotValueContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SyntaxParser.lengthOf"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

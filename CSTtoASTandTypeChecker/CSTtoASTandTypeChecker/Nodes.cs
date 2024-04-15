@@ -11,7 +11,7 @@ internal class TypeChecker
 internal abstract class Node
 {
     public abstract TypeNode typeCheck();
-    public abstract void accept(CodeGeneratorVisitor cgv);
+    public abstract void generate(CodeGeneratorVisitor cgv);
 }
 
 internal abstract class TypeNode : Node
@@ -153,7 +153,7 @@ internal class FunctionNode : Node
         }
         throw new Exception("Function must have at least 1 give statement");
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class UseNode : Node
@@ -197,7 +197,7 @@ internal class UseNode : Node
         }
         return signature.gives;
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class InputNode : InFixNode
@@ -226,7 +226,7 @@ internal class InputNode : InFixNode
         
         return new ListOfTypes(list);
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class ParameterNode : Node
@@ -258,7 +258,7 @@ internal class ParameterNode : Node
         
         return new ListOfTypes(list);
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class IfNode : Node
@@ -292,7 +292,7 @@ internal class IfNode : Node
         ScopeNode.hasGive = (bodyGive && ScopeNode.hasGive) || originalGive;
         return null;
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class RepeatNode : Node
@@ -313,7 +313,7 @@ internal class RepeatNode : Node
         ScopeNode.removeScope();
         return null;
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class ReadNode : Node
@@ -322,15 +322,14 @@ internal class ReadNode : Node
     {
         return new TextTypeNode();
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class PrintNode : PreSufFixNode
 {
-    public Node text { get; set; }
     public PrintNode(Node input)
     {
-        text = input;
+        node = input;
     }
 
     public override TypeNode typeCheck()
@@ -345,7 +344,7 @@ internal class PrintNode : PreSufFixNode
         }
         return null;
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class LengthOfNode : PreSufFixNode
@@ -366,7 +365,7 @@ internal class LengthOfNode : PreSufFixNode
 
         return new NumberTypeNode();
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class TypeConvertNode : PreSufFixNode
@@ -380,7 +379,7 @@ internal class TypeConvertNode : PreSufFixNode
 
         return type;
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class CommandNode : InFixNode
@@ -405,7 +404,7 @@ internal class CommandNode : InFixNode
         
         return null;
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class CreateVariableNode : Node
@@ -476,7 +475,7 @@ internal class CreateVariableNode : Node
 
         throw new Exception("Bad typing in create, attempting to assign a " + variableValue.GetType() + " to a " + type.GetType() + ".");
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class ScopeVariables
@@ -530,7 +529,7 @@ internal class AssignNode : InFixNode
 
         throw new Exception("Bad typing in Assignment, attempting to assign a " + rightType + " to a " + leftType);
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 internal abstract class NumberInFixNode : InFixNode
 {
@@ -561,12 +560,12 @@ internal class AdditionNode : InFixNode
         }
         throw new Exception("Type mismatch in addition");
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class SubtractNode : NumberInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class MultiplyNode : InFixNode
@@ -585,17 +584,17 @@ internal class MultiplyNode : InFixNode
         }
         throw new Exception("Type mismatch in multiplication");
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class DivideNode : NumberInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class ModuloNode : NumberInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal abstract class FlagInFixNode : InFixNode
@@ -614,68 +613,81 @@ internal abstract class FlagInFixNode : InFixNode
 
 internal class EqualsNode : FlagInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class GreaterNode : FlagInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class GreaterEqualsNode : FlagInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class LessNode : FlagInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class LessEqualsNode : FlagInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class AndNode : FlagInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class OrNode : FlagInFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class NotNode : FlagInFixNode
+internal class NotNode : PreSufFixNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public NotNode(Node x)
+    {
+        node = x;
+    }
+    public override TypeNode typeCheck()
+    {
+        if (node.typeCheck().GetType() == typeof(FlagTypeNode))
+        {
+            return new FlagTypeNode();
+        }
+        throw new Exception("Not flag in not");
+    }
+
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class NumberTypeNode : TypeNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class FlagTypeNode : TypeNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class TextTypeNode : TypeNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class ListTypeNode : TypeNode
 {
     public TypeNode type { get; set; }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class NothingNode : TypeNode
 {
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class SignatureNode : TypeNode
@@ -696,7 +708,7 @@ internal class SignatureNode : TypeNode
         takes.typeCheck();
         return gives.typeCheck();
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class ListOfTypes : TypeNode
@@ -712,7 +724,7 @@ internal class ListOfTypes : TypeNode
     {
         return types;
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){}
 }
 
 internal class NumberNode : Node
@@ -727,7 +739,7 @@ internal class NumberNode : Node
     {
         return new NumberTypeNode();
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class FlagNode : Node
@@ -742,7 +754,7 @@ internal class FlagNode : Node
     {
         return new FlagTypeNode();
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class TextNode : Node
@@ -757,7 +769,7 @@ internal class TextNode : Node
     {
         return new TextTypeNode();
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class ListElementNode : Node
@@ -774,7 +786,7 @@ internal class ListElementNode : Node
     {
         return id.typeCheck();
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class IdentifierNode : Node
@@ -789,7 +801,7 @@ internal class IdentifierNode : Node
         }
         throw new Exception("Variable with name: " + name + " does not exist");
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class BreakNode : Node
@@ -798,7 +810,7 @@ internal class BreakNode : Node
     {
         return null;
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
 internal class GiveNode : Node
@@ -824,5 +836,5 @@ internal class GiveNode : Node
         }
         throw new Exception("cannot use give outside function declaration");
     }
-    public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
