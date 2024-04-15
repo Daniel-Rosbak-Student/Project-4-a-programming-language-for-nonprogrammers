@@ -13,7 +13,7 @@ internal abstract class Node
     public abstract TypeNode typeCheck();
     public abstract void accept(CodeGeneratorVisitor cgv);
 }
-//----------------------------------------Fatma---------------------------------------------
+
 internal abstract class TypeNode : Node
 {
     public override TypeNode typeCheck()
@@ -199,7 +199,7 @@ internal class UseNode : Node
     }
     public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
-//----------------------------------------Daniel---------------------------------------------
+
 internal class InputNode : InFixNode
 {
     public InputNode(Node x, Node y)
@@ -315,7 +315,7 @@ internal class RepeatNode : Node
     }
     public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
-//----------------------------------------Armin---------------------------------------------
+
 internal class ReadNode : Node
 {
     public override TypeNode typeCheck()
@@ -382,7 +382,7 @@ internal class TypeConvertNode : PreSufFixNode
     }
     public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
-//----------------------------------------Niklas---------------------------------------------
+
 internal class CommandNode : InFixNode
 {
     public CommandNode(Node x, Node y)
@@ -547,7 +547,7 @@ internal abstract class NumberInFixNode : InFixNode
         throw new Exception("Bad typing in NumberInfixExpression, attempting to perform invalid operations with a " + leftType.GetType() + " on a " + rightType.GetType() + ".");
     }
 }
-//----------------------------------------Mathias---------------------------------------------
+
 internal class AdditionNode : InFixNode
 {
     //denne gælder også for tekst
@@ -745,7 +745,6 @@ internal class FlagNode : Node
     public override void accept(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-//----------------------------------------Vaal---------------------------------------------
 internal class TextNode : Node
 {
     public TextNode(string x)
