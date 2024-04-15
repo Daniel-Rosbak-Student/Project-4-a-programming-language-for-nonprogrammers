@@ -14,7 +14,7 @@ internal class CodeGeneratorVisitor
         string temp = output;
         output = "#include <stdio.h> \n";
         output += temp + "\nreturn 0;\n}";
-        File.WriteAllText(@"..\\..\\..\\Output.c", output);
+        File.WriteAllText(@"..\\..\\..\\Output.java", output);
     }
     //-------------------------------Daniel----------------------------------
     internal void visit(FunctionNode node)
