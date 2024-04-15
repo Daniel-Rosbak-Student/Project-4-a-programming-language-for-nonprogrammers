@@ -327,55 +327,56 @@ internal class CodeGeneratorVisitor
     //--------------------------------Mathias---------------------------------
     internal void visit(FlagTypeNode node)
     {
-        
+
     }
     internal void visit(TextTypeNode node)
     {
-        
+
     }
     internal void visit(ListTypeNode node)
     {
-        
+
     }
     internal void visit(NothingNode node)
     {
-        
+
     }
     internal void visit(SignatureNode node)
     {
-        
+
     }
     internal void visit(ListOfTypes node)
     {
-        
+
     }
     internal void visit(NumberNode node)
     {
         output += node.value;
     }
     //--------------------------------Niklas---------------------------------
+    //yes?
     internal void visit(FlagNode node)
     {
-        
-    }
+        output += node.value ? "1" : "0";    }
     internal void visit(TextNode node)
     {
-        
+        output += node.value;
     }
     internal void visit(ListElementNode node)
     {
-        
+        output += "[" + node.index + "]";
     }
     internal void visit(IdentifierNode node)
     {
-        
+        output += node.name;
     }
     internal void visit(BreakNode node)
     {
-        
+        output += "break";
     }
     internal void visit(GiveNode node)
     {
-        
+        node.accept(this);
+        output += "return " + node.value;
     }
 }
