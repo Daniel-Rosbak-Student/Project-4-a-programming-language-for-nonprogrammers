@@ -6,17 +6,18 @@ internal class CodeGeneratorVisitor
 
     internal CodeGeneratorVisitor()
     {
-        output = "int main(){\n";
+        output = "public static void main(){\n";
     }
 
     internal void finish()
     {
         string temp = output;
-        output = "#include <stdio.h> \n";
-        output += temp + "\nreturn 0;\n}";
-        File.WriteAllText(@"..\\..\\..\\Output.java", output);
+        output = "package program;\n";
+        output += "import java.util.List;\n";
+        output += "public class Program{\n";
+        output += temp + "\n}\n}";
+        File.WriteAllText(@"..\\..\\..\\Program.java", output);
     }
-    //-------------------------------Daniel----------------------------------
     internal void visit(FunctionNode node)
     {
         string temp = output;
@@ -50,14 +51,10 @@ internal class CodeGeneratorVisitor
     {
         Type list = typeof(ListTypeNode);
         Type param = node.type.GetType();
-        
+
         node.type.generate(this);
         output += " ";
         node.id.generate(this);
-        if (param == list)
-        {
-            output += "[]";
-        }
 
         if (node.next != null)
         {
@@ -88,35 +85,34 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(ReadNode node)
     {
-        //string temp;
-        //scanf("%s",temp);
-        //
-        //mogens = "mogens" + temp;
-        //
-        //TODO: somehow get the variable it is assigning to
-        output += "scanf(\"%s\", %???);";
+        output += "Scanner scanner = new Scanner(System.in);\nScanner.nextline();";
     }
-    //--------------------------------Armin---------------------------------
     internal void visit(PrintNode node)
     {
-        output += "printf(";
+
+        output += "System.out.println(";
         node.node.generate(this);
         output += ");";
     }
     internal void visit(LengthOfNode node)
     {
-        output += "sizeof(";
         node.Identifier.generate(this);
-        output += ")";
+        output += ".length();";
     }
     internal void visit(TypeConvertNode node)
     {
-        // Type casting, so you would say: (number)text for example
-        output += "(";
-        node.type.generate(this);
-        output += ")";
-        
-        node.value.generate(this);
+        if (node.type.GetType() == typeof(NumberTypeNode))
+        {
+            output += "Float.parseFloat(";
+            node.node.generate(this);
+            output += ");";
+        }
+        else if (node.type.GetType() == typeof(TextTypeNode))
+        {
+            output += "String.valueOf(";
+            node.node.generate(this);
+            output += ");";
+        }
     }
     internal void visit(CommandNode node)
     {
@@ -135,7 +131,7 @@ internal class CodeGeneratorVisitor
         node.type.generate(this);
         output += " ";
         node.name.generate(this);
-    
+
         if (node.value != null)
         {
             output += " = ";
@@ -162,7 +158,6 @@ internal class CodeGeneratorVisitor
         output += " - ";
         node.right.generate(this);
     }
-    //--------------------------------Vaalmigi---------------------------------
     internal void visit(MultiplyNode node)
     {
         node.left.generate(this);
@@ -199,7 +194,6 @@ internal class CodeGeneratorVisitor
         output += " >= ";
         node.right.generate(this);
     }
-    //--------------------------------Fatma---------------------------------
     internal void visit(LessNode node)
     {
         node.left.generate(this);
@@ -231,21 +225,22 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(NumberTypeNode node)
     {
-        output += "int";  
+        output += "float";
     }
-    //--------------------------------Mathias---------------------------------
     internal void visit(FlagTypeNode node)
     {
-        output += "int";
+        output += "boolean";
     }
     internal void visit(TextTypeNode node)
     {
-        output += "char*";
+        output += "String";
     }
+
     internal void visit(ListTypeNode node)
     {
+        output += "List<";
         node.type.generate(this);
-        output += "*";
+        output += ">";
     }
     internal void visit(NothingNode node)
     {
@@ -253,6 +248,7 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(SignatureNode node)
     {
+        output += "public static ";
         node.gives.generate(this);
         output += " ";
         node.id.generate(this);
@@ -267,11 +263,10 @@ internal class CodeGeneratorVisitor
     {
         output += node.value;
     }
-    //--------------------------------Niklas---------------------------------
-    
+
     internal void visit(FlagNode node)
     {
-        output += node.value ? "1" : "0";    }
+        output += node.value ? "true" : "false";    }
     internal void visit(TextNode node)
     {
         output += node.value;

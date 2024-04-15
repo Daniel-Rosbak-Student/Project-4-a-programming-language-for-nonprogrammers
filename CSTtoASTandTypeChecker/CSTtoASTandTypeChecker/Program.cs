@@ -19,14 +19,14 @@ public class Program
             var CST = parser.program();
             var AST = new CSTconverter().VisitProgram(CST);
             TypeChecker.typeCheck(AST);
-            
+
             CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
             AST.generate(cgv);
             cgv.finish();
 
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.Arguments = "/c cd ..\\..\\..\\&javac -d out Output.java";
+            cmd.StartInfo.Arguments = "/c cd ..\\..\\..\\&javac -d out Program.java";
             cmd.Start();
             cmd.WaitForExit();
             //Console.WriteLine(cmd.StandardOutput.ReadToEnd());
