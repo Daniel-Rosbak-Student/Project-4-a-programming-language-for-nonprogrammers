@@ -375,9 +375,13 @@ internal class TypeConvertNode : PreSufFixNode
 
     public override TypeNode typeCheck()
     {
-        value.typeCheck(); // Conversition happens here
+        Type val = value.typeCheck().GetType();
+        if ((type.GetType() == typeof(TextTypeNode) && val == typeof(NumberTypeNode))||(type.GetType() == typeof(NumberTypeNode) && val == typeof(TextTypeNode)))
+        {
+            return type;
+        }
 
-        return type;
+        throw new Exception("Bad type convert, trying to convert from " + val + " to " + type.GetType());
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
