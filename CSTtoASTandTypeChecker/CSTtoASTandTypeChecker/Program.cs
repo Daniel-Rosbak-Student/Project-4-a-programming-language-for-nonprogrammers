@@ -1,4 +1,6 @@
-﻿namespace CSTtoASTandTypeChecker;
+﻿using System.Diagnostics;
+
+namespace CSTtoASTandTypeChecker;
 
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
@@ -19,10 +21,16 @@ public class Program
             var AST = new CSTconverter().VisitProgram(CST);
             TypeChecker.typeCheck(AST);
             
-            CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
-            AST.generate(cgv);
-            cgv.finish();
-            
+            //CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
+            //AST.generate(cgv);
+            //cgv.finish();
+
+            Process cmd = new Process();
+            cmd.StartInfo.FileName = "cmd.exe";
+            cmd.StartInfo.Arguments = "/c cd ..\\..\\..\\&gcc Output.c";
+            cmd.Start();
+            cmd.WaitForExit();
+            //Console.WriteLine(cmd.StandardOutput.ReadToEnd());
             Console.WriteLine("SUCCESS");
         }
         catch (System.Exception e)

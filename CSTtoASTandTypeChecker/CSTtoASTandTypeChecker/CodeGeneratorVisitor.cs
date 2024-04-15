@@ -35,7 +35,7 @@ internal class CodeGeneratorVisitor
         {
             node.inputs.generate(this);
         }
-        output += ");";
+        output += ")";
     }
     internal void visit(InputNode node)
     {
@@ -123,7 +123,7 @@ internal class CodeGeneratorVisitor
         if (node.left != null)
         {
             node.left.generate(this);
-            output += "\n";
+            output += ";\n";
         }
         if (node.right != null)
         {
