@@ -370,12 +370,11 @@ internal class LengthOfNode : PreSufFixNode
 
 internal class TypeConvertNode : PreSufFixNode
 {
-    public Node value { get; set; } // The value the user wants to convert to
     public TypeNode type { get; set; }
 
     public override TypeNode typeCheck()
     {
-        Type val = value.typeCheck().GetType();
+        Type val = node.typeCheck().GetType();
         if ((type.GetType() == typeof(TextTypeNode) && val == typeof(NumberTypeNode))||(type.GetType() == typeof(NumberTypeNode) && val == typeof(TextTypeNode)))
         {
             return type;

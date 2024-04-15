@@ -6,17 +6,17 @@ internal class CodeGeneratorVisitor
 
     internal CodeGeneratorVisitor()
     {
-        output = "public static void main(){\n";
+        output = "public static void main(String[] args){\n";
     }
 
     internal void finish()
     {
         string temp = output;
         output = "package program;\n";
-        output += "import java.util.List;\n";
+        output += "import java.util.List;\nimport java.util.Scanner;\n";
         output += "public class Program{\n";
         output += temp + "\n}\n}";
-        File.WriteAllText(@"..\\..\\..\\Program.java", output);
+        File.WriteAllText(@"Program.java", output);
     }
     internal void visit(FunctionNode node)
     {
@@ -85,7 +85,7 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(ReadNode node)
     {
-        output += "Scanner scanner = new Scanner(System.in);\nScanner.nextline();";
+        output += "new Scanner(System.in).nextLine()";
     }
     internal void visit(PrintNode node)
     {

@@ -23,19 +23,21 @@ public class Program
             CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
             AST.generate(cgv);
             cgv.finish();
-
+            
+            File.WriteAllText(@"Manifest.mf","Manifest-Version: 1.0\nMain-Class: Program\n");
+            
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.Arguments = "/c cd ..\\..\\..\\&javac -d out Program.java";
+            cmd.StartInfo.Arguments = "/c cd &javac Program.java&jar cmf program.jar Program.class Program.java";
             cmd.Start();
             cmd.WaitForExit();
-            //Console.WriteLine(cmd.StandardOutput.ReadToEnd());
+            
             Console.WriteLine("SUCCESS");
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
-            return;
+            throw;
         }
     }
 }
