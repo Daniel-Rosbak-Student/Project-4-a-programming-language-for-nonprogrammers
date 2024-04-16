@@ -16,7 +16,12 @@ internal class CodeGeneratorVisitor
         output += "import java.util.List;\nimport java.util.Scanner;\n";
         output += "public class Program{\n";
         output += temp + "\n}\n}";
-        File.WriteAllText(@"Program.java", output);
+
+        string path = "program";
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+        
+        File.WriteAllText(path + @"\Program.java", output);
     }
     internal void visit(FunctionNode node)
     {
