@@ -230,6 +230,20 @@ public partial class SyntaxBaseListener : ISyntaxListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLengthOfValue([NotNull] SyntaxParser.LengthOfValueContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>notValue</c>
+	/// labeled alternative in <see cref="SyntaxParser.value"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNotValue([NotNull] SyntaxParser.NotValueContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>notValue</c>
+	/// labeled alternative in <see cref="SyntaxParser.value"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNotValue([NotNull] SyntaxParser.NotValueContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>listElementValue</c>
 	/// labeled alternative in <see cref="SyntaxParser.value"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -271,20 +285,6 @@ public partial class SyntaxBaseListener : ISyntaxListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTextValue([NotNull] SyntaxParser.TextValueContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>notValue</c>
-	/// labeled alternative in <see cref="SyntaxParser.value"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterNotValue([NotNull] SyntaxParser.NotValueContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>notValue</c>
-	/// labeled alternative in <see cref="SyntaxParser.value"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitNotValue([NotNull] SyntaxParser.NotValueContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>identifierValue</c>
 	/// labeled alternative in <see cref="SyntaxParser.value"/>.
