@@ -360,10 +360,11 @@ internal class LengthOfNode : PreSufFixNode
     {
         if (Identifier != null)
         {
-            return Identifier.typeCheck();
+            Identifier.typeCheck();
+            return new NumberTypeNode();
         }
 
-        return new NumberTypeNode();
+        throw new Exception("Lengthof is missing an identifier");
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }

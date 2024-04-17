@@ -26,8 +26,8 @@ value: this=use                                                                 
      | this=listElement                                                                             #listElementValue
      | this=number                                                                                  #numberValue
      | this=text                                                                                    #textValue
+     | n o t wsc this=expression wsc                                                                #notValue
      | this=identifier                                                                              #identifierValue
-     | n o t wsc this=value                                                                              #notValue
      ;
 
 lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';

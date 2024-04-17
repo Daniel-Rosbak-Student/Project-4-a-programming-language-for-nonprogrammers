@@ -150,19 +150,19 @@ public interface ISyntaxVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitTextValue([NotNull] SyntaxParser.TextValueContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>identifierValue</c>
-	/// labeled alternative in <see cref="SyntaxParser.value"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitIdentifierValue([NotNull] SyntaxParser.IdentifierValueContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>notValue</c>
 	/// labeled alternative in <see cref="SyntaxParser.value"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitNotValue([NotNull] SyntaxParser.NotValueContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>identifierValue</c>
+	/// labeled alternative in <see cref="SyntaxParser.value"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdentifierValue([NotNull] SyntaxParser.IdentifierValueContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SyntaxParser.lengthOf"/>.
 	/// </summary>

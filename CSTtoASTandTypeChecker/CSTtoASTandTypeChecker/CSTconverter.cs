@@ -134,9 +134,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitLengthOfValue(SyntaxParser.LengthOfValueContext context)
     {
-        Node identifierNode = Visit(context.lengthOf());
-        LengthOfNode node = new LengthOfNode(identifierNode);
-        return node;
+        return Visit(context.@this);
     }
 
     public override Node VisitNumberValue(SyntaxParser.NumberValueContext context)
