@@ -55,9 +55,6 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(ParameterNode node)
     {
-        Type list = typeof(ListTypeNode);
-        Type param = node.type.GetType();
-
         node.type.generate(this);
         output += " ";
         node.id.generate(this);

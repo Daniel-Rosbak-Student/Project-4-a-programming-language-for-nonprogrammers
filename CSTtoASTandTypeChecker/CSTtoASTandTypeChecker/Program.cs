@@ -28,7 +28,7 @@ public class Program
             
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.Arguments = "/c cd program&&javac program/*.java&&jar cmf Manifest.mf Program.jar program/Program.class program/Program.java";
+            cmd.StartInfo.Arguments = "/c cd program&&javac program/Program.java&&jar cmf Manifest.mf Program.jar program/Program.class program/Program.java";
             cmd.Start();
             cmd.WaitForExit();
             File.WriteAllText(@"program\Run.bat", "java -jar Program.jar");
