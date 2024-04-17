@@ -12,7 +12,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return Visit(context.cmds);
     }
 
-    
+
     public override Node VisitAssignStatement(SyntaxParser.AssignStatementContext context)
     {
         return Visit(context.@this);
@@ -23,7 +23,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return new AssignNode(Visit(context.id), Visit(context.expr));
     }
 
-    
+
     public override Node VisitInfixExpression(SyntaxParser.InfixExpressionContext context)
     {
         InFixNode node = null;
@@ -90,7 +90,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         node.type = (TypeNode)Visit(context.tp);
         return node;
     }
-    
+
     public override Node VisitValueExpression(SyntaxParser.ValueExpressionContext context)
     {
         return Visit(context.@this);
@@ -115,8 +115,8 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     {
         return new InputNode(Visit(context.expr), null);
     }
-    
-    
+
+
     public override Node VisitUseValue(SyntaxParser.UseValueContext context)
     {
         return Visit(context.@this);
@@ -184,7 +184,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return Visit(context.@this);
     }
 
-    
+
     public override Node VisitNotLastTerm(SyntaxParser.NotLastTermContext context)
     {
         Node next = Visit(context.next);
@@ -210,7 +210,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return Visit(context.@this);
     }
 
-    
+
     public override Node VisitLengthOf(SyntaxParser.LengthOfContext context)
     {
         Node identifierNode = Visit(context.id);
@@ -247,7 +247,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return node;
     }
 
-    
+
     public override Node VisitListElement(SyntaxParser.ListElementContext context)
     {
         return new ListElementNode(Visit(context.id), Visit(context.index));
@@ -277,7 +277,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     {
         return new ParameterNode(Visit(context.tp),Visit(context.id), Visit(context.next));
     }
-    
+
     public override Node VisitLastParameter(SyntaxParser.LastParameterContext context)
     {
         return new ParameterNode(Visit(context.tp),Visit(context.id), null);
@@ -315,7 +315,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return new FunctionNode(sign, Visit(context.trms));
     }
 
-    
+
     public override Node VisitCreateWithInput(SyntaxParser.CreateWithInputContext context)
     {
         return new CreateVariableNode(Visit(context.id), Visit(context.tp), Visit(context.expr));
@@ -384,5 +384,19 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
     public override Node VisitUseStatement(SyntaxParser.UseStatementContext context)
     {
         return Visit(context.@this);
+    }
+
+    public override Node VisitAddToListStatemenet(SyntaxParser.AddToListContext context)
+    {
+        //return new AddToListNode(Visit(context.@this), Visit(context.id), Visit(context.index));
+    }
+
+    public override Node VisitAddNoIndex(SyntaxParser.AddNoIndexContext context)
+    {
+        return new AddToListNode(Visit(context.@this), Visit(context.id), null);
+    }
+    public override Node VisitAddWithIndex(SyntaxParser.AddWithIndexContext context)
+    {
+        return new AddToListNode(Visit(context.@this), Visit(context.id), Visit(context.index));
     }
 }

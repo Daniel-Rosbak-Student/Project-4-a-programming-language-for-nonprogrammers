@@ -21,7 +21,7 @@ internal class CodeGeneratorVisitor
         string path = @"program\program";
         if (!Directory.Exists(path))
             Directory.CreateDirectory(path);
-        
+
         File.WriteAllText(path + @"\Program.java", output);
     }
     internal void visit(FunctionNode node)
@@ -307,5 +307,25 @@ internal class CodeGeneratorVisitor
             node.value.generate(this);
         }
         output += ";";
+    }
+
+    internal void visit(AddToListNode node)
+    {
+        if (node.index != null)
+        {
+            node.right.generate(this);
+            output += ".add(";
+            node.index.generate(this);
+            output += ", ";
+            node.left.generate(this);
+            output += ")";
+        }
+        else
+        {
+            node.right.generate(this);
+            output += ".add(";
+            node.left.generate(this);
+            output += ")";
+        }
     }
 }

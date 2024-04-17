@@ -1,23 +1,5 @@
 ﻿program (
-    print to screen("Please write a word to check if it is a parallelogram");
-    create text word = read user input();
-    
-    create functionality IsParallelogram takes (text s) gives flag (
-        create number i = 0;
-        repeat while i < (lengthof(s) / 2) do (
-            run if s(i) = s(lengthof(s)-i)(
-                i = i;
-            ) else run (
-                give false;
-            )
-            i = i + 1;
-        )
-        give true;
-    )
-    
-    run if use IsParallelogram(word) (
-        print to screen("your word is a parallelogram");
-    ) else run (
-        print to screen("your word is not a parallelogram");
-    )
+    create list of number SomeList;
+
+    add 10 to SomeList;
 )

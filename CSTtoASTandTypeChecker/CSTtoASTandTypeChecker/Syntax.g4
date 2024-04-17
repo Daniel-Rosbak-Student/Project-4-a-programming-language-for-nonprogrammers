@@ -88,6 +88,7 @@ statement: this=create wsc ';' wsc                                              
          | this=use wsc ';' wsc                                                                     #useStatement
          | this=print wsc ';' wsc                                                                   #printStatement
          | this=read wsc ';' wsc                                                                    #readStatement
+         | this=addToList wsc ';' wsc                                                               #addToListStatement
          | this=assignment wsc ';' wsc                                                              #assignStatement
          ;
 
