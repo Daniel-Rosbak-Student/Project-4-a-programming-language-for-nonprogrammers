@@ -24,9 +24,11 @@ public class Program
             AST.generate(cgv);
             cgv.finish();
             
+            File.WriteAllText(@"Manifest.mf", "Main-Class: program/Program\n");
+            
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.Arguments = "/c javac program/*.java&&jar cf program.jar program/*.class";
+            cmd.StartInfo.Arguments = "/c javac program/*.java&&jar cmf Manifest.mf Program.jar program/Program.class program/Program.java";
             cmd.Start();
             cmd.WaitForExit();
             
