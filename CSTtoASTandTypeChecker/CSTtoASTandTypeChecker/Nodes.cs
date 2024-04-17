@@ -472,6 +472,10 @@ internal class CreateVariableNode : Node
                 return type;
             }
         }
+        else
+        {
+            return type;
+        }
 
         throw new Exception("Bad typing in create, attempting to assign a " + variableValue.GetType() + " to a " + type.GetType() + ".");
     }

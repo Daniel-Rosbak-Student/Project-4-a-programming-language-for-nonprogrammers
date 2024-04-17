@@ -386,9 +386,9 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
         return Visit(context.@this);
     }
 
-    public override Node VisitAddToListStatemenet(SyntaxParser.AddToListContext context)
+    public override Node VisitAddToListStatement(SyntaxParser.AddToListStatementContext context)
     {
-        //return new AddToListNode(Visit(context.@this), Visit(context.id), Visit(context.index));
+        return Visit(context.@this);
     }
 
     public override Node VisitAddNoIndex(SyntaxParser.AddNoIndexContext context)

@@ -13,7 +13,7 @@ internal class CodeGeneratorVisitor
     {
         string temp = output;
         output = "package program;\n";
-        output += "import java.util.List;\nimport java.util.Scanner;\n";
+        output += "import java.util.*;\n";
         output += "public class Program{\n";
         output += temp;
         output += "\nnew Scanner(System.in).nextLine();\n}\n}";
@@ -135,7 +135,14 @@ internal class CodeGeneratorVisitor
         output += " ";
         node.name.generate(this);
 
-        if (node.value != null)
+        if (node.type.GetType() == typeof(ListTypeNode))
+        {
+            output += " = new ArrayList<";
+            ListTypeNode list = (ListTypeNode)node.type;
+            list.type.generate(this);
+            output += ">()";
+        }
+        else if (node.value != null)
         {
             output += " = ";
             node.value.generate(this);
@@ -327,5 +334,6 @@ internal class CodeGeneratorVisitor
             node.left.generate(this);
             output += ")";
         }
+        output += ";";
     }
 }
