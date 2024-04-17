@@ -1,0 +1,124 @@
+program (
+    create functionality addition takes (number value1, number value2) gives number (
+        give value1 + value2;
+    )
+
+    create functionality subtraction takes (number value1, number value2) gives number (
+        give value1 - value2;
+    )
+
+    create functionality division takes (number value1, number value2) gives number (
+        give value1 / value2;
+    )
+
+    create functionality multiplication takes (number value1, number value2) gives number (
+        give value1 * value2;
+    )
+
+    create functionality potency takes (number value1, number value2) gives number (
+        create number result = value1;
+        create number x = 1;
+
+        run if (value2 = 0) (
+            give 1;
+        ) else run (
+            repeat while (x < value2) do (
+            result = result * value1;
+            )
+        )
+        give result;
+    )
+
+    create functionality reverse takes (number value) gives number (
+        give value * (-1);
+    )
+
+    create functionality calculator gives nothing (
+        print to screen("Write a starting value. Can be any number.\n");
+        create number AccValue = read user input() as number;
+        create text operand;
+        repeat while not (operand = "exit") do (
+            print to screen("Please pick an operand by typing:\n");
+            print to screen("
+                            + for addition \n
+                            - for subtraction \n
+                            * for multiplication \n
+                            / for division \n
+                            ^ for power \n
+                            r for reverse \n
+                            q for quitting the accumulator.
+                            ");
+                run if(read user input() == "+")(
+                       print to screen("What number would you like to have added?");
+                       create number UserValue = read user input() as number;
+                       AccValue = use addition(AccValue, UserValue);
+                       print to screen ("The result is " + AccValue + "\n Type in another another command\n");
+                )
+                else run(
+                    run if(read user input() == "-")(
+                              print to screen("What number would you like to have subtracted?");
+                              create number UserValue = read user input() as number;
+                              AccValue = use subtraction(AccValue, UserValue);
+                              print to screen ("The result is " + AccValue + "\n Type in another another command\n");
+                       )
+                    else run(
+                        run if(read user input() == "*")(
+                               print to screen("What number would you like to have multiplied?");
+                               create number UserValue = read user input() as number;
+                               AccValue = use multiplication(AccValue, UserValue);
+                               print to screen ("The result is " + AccValue + "\n Type in another another command\n");
+                            )
+                        else run(
+                            run if(read user input() == "/")(
+                                  print to screen("What number would you like to have divided?");
+                                  create number UserValue = read user input() as number;
+                                  AccValue = use division(AccValue, UserValue);
+                                  print to screen ("The result is " + AccValue + "\n Type in another another command\n");
+                                )
+                            else run(
+                                run if(read user input() == "^")(
+                                      print to screen("What number would you like to have the power to?");
+                                      create number UserValue = read user input() as number;
+                                      AccValue = use potency(AccValue, UserValue);
+                                      print to screen ("The result is " + AccValue + "\n Type in another another command\n");
+                                   )
+                                else run(
+                                    run if(read user input() == "r")(
+                                          AccValue = use reverse(AccValue);
+                                          print to screen ("The result is " + AccValue + "\n Type in another another command\n");
+                                       )
+                                    else run(
+                                        run if(read user input() == "q")(
+                                              print to screen("See you!");
+                                              operand = "exit";
+                                           )
+                                        else run(
+                                              print to screen("Improperly formatted. Try again");
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+        give nothing;
+    )
+    use calculator();
+)
+
+
+
+
+
+
+
+list of numbers arbitraryList = (1,2,3,4,5,6,7,8,9);
+arbitraryList = (1,2,3,4,5,6,7,8,9)
+
+add element to arbitraryList;
+arbitraryList = (1,2,3,4,5,6,7,8,9,10)
+
+add 10 to arbitraryList at (3);
+arbitraryList = (1,2,10,4,5,6,7,8,9)
+
