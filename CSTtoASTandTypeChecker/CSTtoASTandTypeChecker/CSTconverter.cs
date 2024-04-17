@@ -113,7 +113,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitLastInput(SyntaxParser.LastInputContext context)
     {
-        return Visit(context.expr);
+        return new InputNode(Visit(context.expr), null);
     }
     
     
