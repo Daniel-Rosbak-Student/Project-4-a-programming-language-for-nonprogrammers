@@ -47,7 +47,7 @@ internal abstract class PreSufFixNode : Node
 internal abstract class ScopeNode : Node
 {
     public static ScopeVariables scope { get; set; }
-    
+
     public static SignatureNode CurrentSignature { get; set; }
     public static bool hasGive { get; set; }
     public static void typeCheckStart(Node AST)
@@ -114,7 +114,7 @@ internal class FunctionNode : Node
         }
         throw new Exception("Signature does not exist");
     }
-    
+
     public override TypeNode typeCheck()
     {
         if (ScopeNode.CurrentSignature == null)
@@ -127,7 +127,7 @@ internal class FunctionNode : Node
         }
         ScopeNode.hasGive = false;
         ScopeNode.addScope();
-        
+
         if (signature != null)
         {
             signature.typeCheck();
@@ -219,7 +219,7 @@ internal class InputNode : InFixNode
                 list.Add(type);
             }
         }
-        
+
         return new ListOfTypes(list);
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
@@ -240,7 +240,7 @@ internal class ParameterNode : Node
     public override TypeNode typeCheck()
     {
         new CreateVariableNode(id, type).addToVariables();
-        
+
         List<TypeNode> list = new List<TypeNode>();
         list.Add(type.typeCheck());
         if (next != null)
@@ -251,7 +251,7 @@ internal class ParameterNode : Node
                 list.Add(type);
             }
         }
-        
+
         return new ListOfTypes(list);
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
@@ -401,7 +401,7 @@ internal class CommandNode : InFixNode
         {
             right.typeCheck();
         }
-        
+
         return null;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
@@ -466,7 +466,7 @@ internal class CreateVariableNode : Node
         if (value != null)
         {
             variableValue = value.typeCheck();
-            
+
             if (type.GetType() == variableValue.GetType())
             {
                 return type;
@@ -786,6 +786,34 @@ internal class ListElementNode : Node
     {
         return id.typeCheck();
     }
+    public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+}
+
+internal class AddToListNode : InFixNode
+{
+    public Node index;
+    public AddToListNode(Node x, Node y, Node z)
+    {
+        left = x;
+        right = y;
+        index = z;
+    }
+
+    public override TypeNode typeCheck()
+    {
+        TypeNode leftType = left.typeCheck();
+        TypeNode rightType = right.typeCheck();
+        if (rightType.GetType() == typeof(ListTypeNode))
+        {
+            ListTypeNode list = (ListTypeNode)rightType;
+            if (leftType.GetType() == list.type.GetType())
+            {
+                return leftType;
+            }
+        }
+        throw new Exception("Cannot add a " + leftType.GetType() + " to a " + rightType.GetType);
+    }
+
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
