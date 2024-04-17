@@ -402,6 +402,13 @@ public interface ISyntaxVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitReadStatement([NotNull] SyntaxParser.ReadStatementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>addToListStatement</c>
+	/// labeled alternative in <see cref="SyntaxParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAddToListStatement([NotNull] SyntaxParser.AddToListStatementContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>assignStatement</c>
 	/// labeled alternative in <see cref="SyntaxParser.statement"/>.
 	/// </summary>

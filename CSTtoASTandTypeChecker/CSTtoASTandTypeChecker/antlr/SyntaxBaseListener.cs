@@ -776,6 +776,20 @@ public partial class SyntaxBaseListener : ISyntaxListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitReadStatement([NotNull] SyntaxParser.ReadStatementContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>addToListStatement</c>
+	/// labeled alternative in <see cref="SyntaxParser.statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAddToListStatement([NotNull] SyntaxParser.AddToListStatementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>addToListStatement</c>
+	/// labeled alternative in <see cref="SyntaxParser.statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAddToListStatement([NotNull] SyntaxParser.AddToListStatementContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>assignStatement</c>
 	/// labeled alternative in <see cref="SyntaxParser.statement"/>.
 	/// <para>The default implementation does nothing.</para>

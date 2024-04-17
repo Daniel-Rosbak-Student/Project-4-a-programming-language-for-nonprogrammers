@@ -661,6 +661,18 @@ public interface ISyntaxListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitReadStatement([NotNull] SyntaxParser.ReadStatementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>addToListStatement</c>
+	/// labeled alternative in <see cref="SyntaxParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAddToListStatement([NotNull] SyntaxParser.AddToListStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>addToListStatement</c>
+	/// labeled alternative in <see cref="SyntaxParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAddToListStatement([NotNull] SyntaxParser.AddToListStatementContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>assignStatement</c>
 	/// labeled alternative in <see cref="SyntaxParser.statement"/>.
 	/// </summary>
