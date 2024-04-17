@@ -392,6 +392,34 @@ public partial class SyntaxBaseListener : ISyntaxListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitListElement([NotNull] SyntaxParser.ListElementContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>addNoIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAddNoIndex([NotNull] SyntaxParser.AddNoIndexContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>addNoIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAddNoIndex([NotNull] SyntaxParser.AddNoIndexContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>addWithIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAddWithIndex([NotNull] SyntaxParser.AddWithIndexContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>addWithIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAddWithIndex([NotNull] SyntaxParser.AddWithIndexContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SyntaxParser.nonKeywordName"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

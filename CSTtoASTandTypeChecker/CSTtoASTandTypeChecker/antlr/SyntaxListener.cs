@@ -335,6 +335,30 @@ public interface ISyntaxListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitListElement([NotNull] SyntaxParser.ListElementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>addNoIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAddNoIndex([NotNull] SyntaxParser.AddNoIndexContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>addNoIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAddNoIndex([NotNull] SyntaxParser.AddNoIndexContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>addWithIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAddWithIndex([NotNull] SyntaxParser.AddWithIndexContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>addWithIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAddWithIndex([NotNull] SyntaxParser.AddWithIndexContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SyntaxParser.nonKeywordName"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

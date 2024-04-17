@@ -210,6 +210,20 @@ public interface ISyntaxVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitListElement([NotNull] SyntaxParser.ListElementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>addNoIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAddNoIndex([NotNull] SyntaxParser.AddNoIndexContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>addWithIndex</c>
+	/// labeled alternative in <see cref="SyntaxParser.addToList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAddWithIndex([NotNull] SyntaxParser.AddWithIndexContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SyntaxParser.nonKeywordName"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
