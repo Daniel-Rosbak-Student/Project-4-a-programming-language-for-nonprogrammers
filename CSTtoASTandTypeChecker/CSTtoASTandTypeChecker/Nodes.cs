@@ -211,17 +211,13 @@ internal class InputNode : InFixNode
     {
         List<TypeNode> list = new List<TypeNode>();
         list.Add(left.typeCheck());
-        if (right.GetType() == typeof(ListOfTypes))
+        if (right != null)
         {
             ListOfTypes types = (ListOfTypes)right.typeCheck();
             foreach (TypeNode type in types.getList())
             {
                 list.Add(type);
             }
-        }
-        else
-        {
-            list.Add(right.typeCheck());
         }
         
         return new ListOfTypes(list);

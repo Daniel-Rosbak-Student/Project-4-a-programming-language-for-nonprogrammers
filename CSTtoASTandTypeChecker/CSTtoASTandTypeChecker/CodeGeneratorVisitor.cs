@@ -100,7 +100,7 @@ internal class CodeGeneratorVisitor
     internal void visit(LengthOfNode node)
     {
         node.Identifier.generate(this);
-        output += ".length();";
+        output += ".length()";
     }
     internal void visit(TypeConvertNode node)
     {
@@ -277,7 +277,18 @@ internal class CodeGeneratorVisitor
     internal void visit(ListElementNode node)
     {
         node.id.generate(this);
-        output += "[" + node.index + "]";
+        if (node.id.typeCheck().GetType() == typeof(TextTypeNode))
+        {
+            output += ".charAt((int)";
+            node.index.generate(this);
+            output += ")";
+        }
+        else
+        {
+            output += "[(int)";
+            node.index.generate(this);
+            output += "]";
+        }
     }
     internal void visit(IdentifierNode node)
     {

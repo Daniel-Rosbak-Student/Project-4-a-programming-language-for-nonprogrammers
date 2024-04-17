@@ -5,14 +5,17 @@
     create functionality IsParallelogram takes (text s) gives flag (
         create number i = 0;
         repeat while i < (lengthof(s) / 2) do (
-            run if not ( s(i) = s(lengthof(s)-i) )(
+            run if s(i) = s(lengthof(s)-i)(
+                i = i;
+            ) else run (
                 give false;
             )
+            i = i + 1;
         )
         give true;
     )
     
-    run if IsParallelogram(word) (
+    run if use IsParallelogram(word) (
         print to screen("your word is a parallelogram");
     ) else run (
         print to screen("your word is not a parallelogram");
