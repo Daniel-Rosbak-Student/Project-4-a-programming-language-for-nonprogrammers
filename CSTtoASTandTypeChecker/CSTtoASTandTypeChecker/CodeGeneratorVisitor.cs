@@ -15,9 +15,10 @@ internal class CodeGeneratorVisitor
         output = "package program;\n";
         output += "import java.util.List;\nimport java.util.Scanner;\n";
         output += "public class Program{\n";
-        output += temp + "\n}\n}";
+        output += temp;
+        output += "\nnew Scanner(System.in).nextLine();\n}\n}";
 
-        string path = "program";
+        string path = @"program\program";
         if (!Directory.Exists(path))
             Directory.CreateDirectory(path);
         

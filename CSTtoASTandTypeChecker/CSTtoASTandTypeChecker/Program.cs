@@ -24,13 +24,14 @@ public class Program
             AST.generate(cgv);
             cgv.finish();
             
-            File.WriteAllText(@"Manifest.mf", "Main-Class: program/Program\n");
+            File.WriteAllText(@"program\Manifest.mf", "Main-Class: program/Program\n");
             
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.Arguments = "/c javac program/*.java&&jar cmf Manifest.mf Program.jar program/Program.class program/Program.java";
+            cmd.StartInfo.Arguments = "/c cd program&&javac program/*.java&&jar cmf Manifest.mf Program.jar program/Program.class program/Program.java";
             cmd.Start();
             cmd.WaitForExit();
+            File.WriteAllText(@"program\Run.bat", "java -jar Program.jar");
             
             Console.WriteLine("SUCCESS");
         }
