@@ -5,7 +5,7 @@
     create functionality IsParallelogram takes (text s) gives flag (
         create number i = 1;
         repeat while i < (lengthof(s) / 2) do (
-            run if not(s(i) = s(lengthof(s)-i))(
+            run if not(s(i) = s(lengthof(s) - i + 1))(
                 give false;
             )
             i = i + 1;
