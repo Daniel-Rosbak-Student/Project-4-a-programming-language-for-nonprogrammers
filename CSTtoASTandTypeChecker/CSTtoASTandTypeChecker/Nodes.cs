@@ -172,7 +172,7 @@ internal class UseNode : Node
         if (FunctionNode.functionExists(id.name))
         {
             signature = FunctionNode.getSignature(id.name);
-            ListOfTypes parameters = (ListOfTypes)signature.takes.typeCheck();
+            ListOfTypes parameters = signature.takes.GetTypes();
             ListOfTypes input = (ListOfTypes)inputs.typeCheck();
             List<TypeNode> paramList = parameters.getList();
             List<TypeNode> inputList = input.getList();
@@ -235,6 +235,22 @@ internal class ParameterNode : Node
         type = (TypeNode)x;
         id = (IdentifierNode)y;
         next = (ParameterNode)z;
+    }
+
+    public ListOfTypes GetTypes()
+    {
+        List<TypeNode> list = new List<TypeNode>();
+        list.Add(type.typeCheck());
+        if (next != null)
+        {
+            ListOfTypes types = next.GetTypes();
+            foreach (TypeNode type in types.getList())
+            {
+                list.Add(type);
+            }
+        }
+
+        return new ListOfTypes(list);
     }
 
     public override TypeNode typeCheck()
@@ -848,6 +864,7 @@ internal class BreakNode : Node
 internal class GiveNode : Node
 {
     public Node value { get; set; }
+    public TypeNode type { get; set; }
 
     public GiveNode(Node x)
     {
@@ -861,6 +878,7 @@ internal class GiveNode : Node
             if (value.typeCheck().GetType() == sign.gives.typeCheck().GetType())
             {
                 ScopeNode.hasGive = true;
+                type = sign.gives;
                 return sign.gives;
             }
 

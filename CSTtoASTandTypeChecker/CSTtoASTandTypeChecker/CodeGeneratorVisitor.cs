@@ -127,6 +127,13 @@ internal class CodeGeneratorVisitor
         if (node.right != null)
         {
             node.right.generate(this);
+            if (node.right.GetType() != typeof(CommandNode))
+            {
+                if (output[output.Length - 1] != ';')
+                {
+                    output += ";";
+                }
+            }
         }
     }
     internal void visit(CreateVariableNode node)
@@ -308,7 +315,7 @@ internal class CodeGeneratorVisitor
     internal void visit(GiveNode node)
     {
         output += "return";
-        if (node.value != null)
+        if (node.type.GetType() != typeof(NothingNode))
         {
             output += " ";
             node.value.generate(this);

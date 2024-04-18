@@ -33,76 +33,44 @@ program (
         give value * (-1);
     )
 
-    create functionality calculator gives nothing (
-        print to screen("Write a starting value. Can be any number.\n");
-        create number AccValue = read user input() as number;
-        create text operand;
-        repeat while not (operand = "exit") do (
-            print to screen("Please pick an operand by typing:\n");
-            print to screen("
-                            + for addition \n
-                            - for subtraction \n
-                            * for multiplication \n
-                            / for division \n
-                            ^ for power \n
-                            r for reverse \n
-                            q for quitting the accumulator.
-                            ");
-                run if(read user input() == "+")(
-                       print to screen("What number would you like to have added?");
-                       create number UserValue = read user input() as number;
-                       AccValue = use addition(AccValue, UserValue);
-                       print to screen ("The result is " + AccValue + "\n Type in another another command\n");
-                )
-                else run(
-                    run if(read user input() == "-")(
-                              print to screen("What number would you like to have subtracted?");
-                              create number UserValue = read user input() as number;
-                              AccValue = use subtraction(AccValue, UserValue);
-                              print to screen ("The result is " + AccValue + "\n Type in another another command\n");
-                       )
-                    else run(
-                        run if(read user input() == "*")(
-                               print to screen("What number would you like to have multiplied?");
-                               create number UserValue = read user input() as number;
-                               AccValue = use multiplication(AccValue, UserValue);
-                               print to screen ("The result is " + AccValue + "\n Type in another another command\n");
+    create functionality calculate takes (number value) gives nothing (
+        print to screen("Now pick an operand. Can be any mathematical symbol that you know. If you wish to exit, write q");
+        create text operand = read user input();
+
+        create flag looping = true;
+        repeat while (looping) do (
+                    run if(operand = "+")(
+                        print to screen("Write a number to add to the starting value.");
+                        create number value2 = read user input() as number;
+                        use addition(value, value2);
+                    )
+                    else run (
+                            run if (operand = "-")(
+                                print to screen("Write a number to subtract from to the starting value.");
+                                    create number value2 = read user input() as number;
+                                    use subtraction(value, value2);
                             )
-                        else run(
-                            run if(read user input() == "/")(
-                                  print to screen("What number would you like to have divided?");
-                                  create number UserValue = read user input() as number;
-                                  AccValue = use division(AccValue, UserValue);
-                                  print to screen ("The result is " + AccValue + "\n Type in another another command\n");
+                            else run (
+                                run if (operand = "*")(
+                                    print to screen("Write a number to multiply with the starting value.");
+                                        create number value2 = read user input() as number;
+                                        use multiplication(value, value2);
                                 )
-                            else run(
-                                run if(read user input() == "^")(
-                                      print to screen("What number would you like to have the power to?");
-                                      create number UserValue = read user input() as number;
-                                      AccValue = use potency(AccValue, UserValue);
-                                      print to screen ("The result is " + AccValue + "\n Type in another another command\n");
-                                   )
-                                else run(
-                                    run if(read user input() == "r")(
-                                          AccValue = use reverse(AccValue);
-                                          print to screen ("The result is " + AccValue + "\n Type in another another command\n");
-                                       )
-                                    else run(
-                                        run if(read user input() == "q")(
-                                              print to screen("See you!");
-                                              operand = "exit";
-                                           )
-                                        else run(
-                                              print to screen("Improperly formatted. Try again");
-                                                )
-                                            )
-                                        )
+                                else run (
+                                    run if (operand = "/")(
+                                        print to screen("Write a number to divide the starting value with.");
+                                            create number value2 = read user input() as number;
+                                            use division(value, value2);
                                     )
                                 )
                             )
                         )
+                    looping = false;
                     )
         give nothing;
     )
-    use calculator();
+
+    print to screen("Write a starting value. Can be any positive number.");
+    create number AccValue = read user input() as number;
+    use calculate(AccValue);
 )

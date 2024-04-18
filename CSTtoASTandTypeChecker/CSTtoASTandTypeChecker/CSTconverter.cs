@@ -348,7 +348,7 @@ internal class CSTconverter : SyntaxBaseVisitor<Node>
 
     public override Node VisitNothingGive(SyntaxParser.NothingGiveContext context)
     {
-        return new GiveNode(null);
+        return new GiveNode(new NothingNode());
     }
 
     public override Node VisitExpressionGive(SyntaxParser.ExpressionGiveContext context)
