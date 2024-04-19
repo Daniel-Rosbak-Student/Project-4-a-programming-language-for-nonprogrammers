@@ -2,7 +2,7 @@
     print to screen("Please write a word to check if it is a parallelogram");
     create text word = read user input();
     
-    create functionality IsParallelogram takes (text s) gives flag (
+    create functionality IsPalindrome takes (text s) gives flag (
         create number i = 1;
         repeat while i < (lengthof(s) / 2) do (
             run if not(s(i) = s(lengthof(s) - i + 1))(
@@ -13,7 +13,7 @@
         give true;
     )
     
-    run if use IsParallelogram(word) (
+    run if use IsPalindrome(word) (
         print to screen("your word is a parallelogram");
     ) else run (
         print to screen("your word is not a parallelogram");
