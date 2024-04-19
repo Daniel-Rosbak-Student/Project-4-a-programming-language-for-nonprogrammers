@@ -23,10 +23,10 @@ value: this=use                                                                 
      | this=read                                                                                    #readValue
      | this=flag                                                                                    #flagValue
      | this=lengthOf                                                                                #lengthOfValue
+     | n o t wsc this=expression wsc                                                                #notValue
      | this=listElement                                                                             #listElementValue
      | this=number                                                                                  #numberValue
      | this=text                                                                                    #textValue
-     | n o t wsc this=expression wsc                                                                #notValue
      | this=identifier                                                                              #identifierValue
      ;
 

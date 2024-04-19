@@ -915,45 +915,45 @@ public partial class SyntaxParser : Parser {
 				}
 				break;
 			case 5:
-				_localctx = new ListElementValueContext(_localctx);
+				_localctx = new NotValueContext(_localctx);
 				EnterOuterAlt(_localctx, 5);
 				{
 				State = 174;
-				((ListElementValueContext)_localctx).@this = listElement();
+				n();
+				State = 175;
+				o();
+				State = 176;
+				t();
+				State = 177;
+				wsc();
+				State = 178;
+				((NotValueContext)_localctx).@this = expression(0);
+				State = 179;
+				wsc();
 				}
 				break;
 			case 6:
-				_localctx = new NumberValueContext(_localctx);
+				_localctx = new ListElementValueContext(_localctx);
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 175;
-				((NumberValueContext)_localctx).@this = number();
+				State = 181;
+				((ListElementValueContext)_localctx).@this = listElement();
 				}
 				break;
 			case 7:
-				_localctx = new TextValueContext(_localctx);
+				_localctx = new NumberValueContext(_localctx);
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 176;
-				((TextValueContext)_localctx).@this = text();
+				State = 182;
+				((NumberValueContext)_localctx).@this = number();
 				}
 				break;
 			case 8:
-				_localctx = new NotValueContext(_localctx);
+				_localctx = new TextValueContext(_localctx);
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 177;
-				n();
-				State = 178;
-				o();
-				State = 179;
-				t();
-				State = 180;
-				wsc();
-				State = 181;
-				((NotValueContext)_localctx).@this = expression(0);
-				State = 182;
-				wsc();
+				State = 183;
+				((TextValueContext)_localctx).@this = text();
 				}
 				break;
 			case 9:
@@ -1474,7 +1474,7 @@ public partial class SyntaxParser : Parser {
 		}
 	}
 	public partial class AddNoIndexContext : AddToListContext {
-		public ValueContext @this;
+		public ExpressionContext @this;
 		public IdentifierContext id;
 		[System.Diagnostics.DebuggerNonUserCode] public AContext a() {
 			return GetRuleContext<AContext>(0);
@@ -1497,8 +1497,8 @@ public partial class SyntaxParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public OContext o() {
 			return GetRuleContext<OContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ValueContext value() {
-			return GetRuleContext<ValueContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
 			return GetRuleContext<IdentifierContext>(0);
@@ -1601,7 +1601,7 @@ public partial class SyntaxParser : Parser {
 				State = 244;
 				wsc();
 				State = 245;
-				((AddNoIndexContext)_localctx).@this = value();
+				((AddNoIndexContext)_localctx).@this = expression(0);
 				State = 246;
 				wsc();
 				State = 247;
@@ -7739,11 +7739,11 @@ public partial class SyntaxParser : Parser {
 		162,1,0,0,0,164,7,1,0,0,0,165,169,3,38,19,0,166,169,3,54,27,0,167,169,
 		3,84,42,0,168,165,1,0,0,0,168,166,1,0,0,0,168,167,1,0,0,0,169,9,1,0,0,
 		0,170,186,3,64,32,0,171,186,3,70,35,0,172,186,3,32,16,0,173,186,3,12,6,
-		0,174,186,3,18,9,0,175,186,3,24,12,0,176,186,3,34,17,0,177,178,3,112,56,
-		0,178,179,3,114,57,0,179,180,3,124,62,0,180,181,3,82,41,0,181,182,3,72,
-		36,0,182,183,3,82,41,0,183,186,1,0,0,0,184,186,3,16,8,0,185,170,1,0,0,
+		0,174,175,3,112,56,0,175,176,3,114,57,0,176,177,3,124,62,0,177,178,3,82,
+		41,0,178,179,3,72,36,0,179,180,3,82,41,0,180,186,1,0,0,0,181,186,3,18,
+		9,0,182,186,3,24,12,0,183,186,3,34,17,0,184,186,3,16,8,0,185,170,1,0,0,
 		0,185,171,1,0,0,0,185,172,1,0,0,0,185,173,1,0,0,0,185,174,1,0,0,0,185,
-		175,1,0,0,0,185,176,1,0,0,0,185,177,1,0,0,0,185,184,1,0,0,0,186,11,1,0,
+		181,1,0,0,0,185,182,1,0,0,0,185,183,1,0,0,0,185,184,1,0,0,0,186,11,1,0,
 		0,0,187,188,3,108,54,0,188,189,3,94,47,0,189,190,3,112,56,0,190,191,3,
 		98,49,0,191,192,3,124,62,0,192,193,3,100,50,0,193,194,3,114,57,0,194,195,
 		3,96,48,0,195,196,3,82,41,0,196,197,5,2,0,0,197,198,3,82,41,0,198,199,
@@ -7759,7 +7759,7 @@ public partial class SyntaxParser : Parser {
 		0,232,17,1,0,0,0,233,234,3,16,8,0,234,235,3,82,41,0,235,236,5,2,0,0,236,
 		237,3,82,41,0,237,238,3,72,36,0,238,239,3,82,41,0,239,240,5,3,0,0,240,
 		19,1,0,0,0,241,242,3,86,43,0,242,243,3,92,46,0,243,244,3,92,46,0,244,245,
-		3,82,41,0,245,246,3,10,5,0,246,247,3,82,41,0,247,248,3,124,62,0,248,249,
+		3,82,41,0,245,246,3,72,36,0,246,247,3,82,41,0,247,248,3,124,62,0,248,249,
 		3,114,57,0,249,250,3,82,41,0,250,251,3,16,8,0,251,269,1,0,0,0,252,253,
 		3,86,43,0,253,254,3,92,46,0,254,255,3,92,46,0,255,256,3,82,41,0,256,257,
 		3,10,5,0,257,258,3,82,41,0,258,259,3,124,62,0,259,260,3,114,57,0,260,261,

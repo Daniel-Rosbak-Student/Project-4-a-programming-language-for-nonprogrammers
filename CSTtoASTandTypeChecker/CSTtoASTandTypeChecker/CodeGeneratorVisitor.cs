@@ -16,7 +16,8 @@ internal class CodeGeneratorVisitor
         output += "import java.util.*;\n";
         output += "public class Program{\n";
         output += temp;
-        output += "\nnew Scanner(System.in).nextLine();\n}\n}";
+        output += "\nnew Scanner(System.in).nextLine();";
+        output += "\n}\n}";
 
         string path = @"program\program";
         if (!Directory.Exists(path))
@@ -237,12 +238,13 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(NotNode node)
     {
-        output += "!";
+        output += "!(";
         node.node.generate(this);
+        output += ")";
     }
     internal void visit(NumberTypeNode node)
     {
-        output += "float";
+        output += "Float";
     }
     internal void visit(FlagTypeNode node)
     {
@@ -278,7 +280,7 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(NumberNode node)
     {
-        output += node.value;
+        output += node.value + "F";
     }
 
     internal void visit(FlagNode node)
@@ -293,15 +295,15 @@ internal class CodeGeneratorVisitor
         node.id.generate(this);
         if (node.id.typeCheck().GetType() == typeof(TextTypeNode))
         {
-            output += ".charAt((int)";
+            output += ".charAt((int)(";
             node.index.generate(this);
-            output += ")";
+            output += " - 1) )";
         }
-        else
+        else if (node.id.typeCheck().GetType() == typeof(ListTypeNode))
         {
-            output += "[(int)";
+            output += ".get((in)(";
             node.index.generate(this);
-            output += "]";
+            output += " - 1))";
         }
     }
     internal void visit(IdentifierNode node)
