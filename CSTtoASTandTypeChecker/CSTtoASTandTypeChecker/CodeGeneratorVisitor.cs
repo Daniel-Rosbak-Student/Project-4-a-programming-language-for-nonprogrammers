@@ -102,7 +102,21 @@ internal class CodeGeneratorVisitor
     {
         output += "(float)";
         node.Identifier.generate(this);
-        output += ".size()";
+        if (node.Identifier.type != null)
+        {
+            if (node.Identifier.Type().GetType() == typeof(TextTypeNode))
+            {
+                output += ".length()";
+            }
+            else
+            {
+                output += ".size()";
+            }
+        }
+        else
+        {
+            output += ".length()";
+        }
     }
     internal void visit(TypeConvertNode node)
     {
@@ -203,9 +217,17 @@ internal class CodeGeneratorVisitor
         node.left.generate(this);
         if (node.left.Type().GetType() == typeof(TextTypeNode))
         {
-            output += ".equals(";
-            node.right.generate(this);
-            output += ")";
+            if (node.left.GetType() != typeof(ListElementNode))
+            {
+                output += ".equals(";
+                node.right.generate(this);
+                output += ")";
+            }
+            else
+            {
+                output += " == ";
+                node.right.generate(this);
+            }
         }
         else
         {

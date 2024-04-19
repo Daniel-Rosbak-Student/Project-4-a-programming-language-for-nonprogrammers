@@ -1,80 +1,21 @@
 ﻿program (
-    create functionality mergeSort takes (list of number arr, number left, number right) gives nothing (
-        run if left < right (
-            create number mid;
-            mid = (left + right) / 2;
-
-            use displayList(use merge(arr, left, mid, right));
-        )
-        give nothing;
-    )
-
-    create functionality merge takes (list of number arr, number left, number mid, number right) gives list of number (
-        create number i;
-        create number j;
-        create number k;
-        create list of number sortedList;
-
-        i = left;
-        j = mid + 1;
-        k = left;
-
-        repeat while ((i <= mid) and (j <= right)) do (
-            run if arr(i) <= arr(j) (
-                create number value = arr(i);
-                add value to sortedList;
-                i = i + 1;
-            ) else run(
-                create number value = arr(i);
-                add value to sortedList;
-                j = j + 1;
-            )
-            k = k + 1;
-        )
-
-        repeat while (i <= mid) do (
-            create number value = arr(i);
-            add value to sortedList;
-            i = i + 1;
-            k = k + 1;
-        )
-
-        repeat while (j <= right) do (
-            create number value = arr(i);
-            add value to sortedList;
-            j = j + 1;
-            k = k + 1;
-        )
-
-        give sortedList;
-    )
-
-    create functionality displayList takes (list of number arr) gives nothing (
-        create number i = 1;
-        create number size;
-        size = lengthOf(arr);
-
-        repeat while (i <= size) do (
-            print to screen(arr(i) as text + " ");
-            i = i + 1;
-        )
-        give nothing;
-    )
-
-    create list of number arr;
-    add 5 to arr;
-    add 3 to arr;
-    add 7 to arr;
-    add 1 to arr;
-    add 8 to arr;
-    add 9 to arr;
-    add 4 to arr;
-    add 51 to arr;
-
-    create number arrSize;
-    arrSize = lengthOf(arr);
+    print to screen("Please write a word to check if it is a parallelogram");
+    create text word = read user input();
     
-    use displayList(arr);
-    print to screen("");
-    use mergeSort(arr, 1, arrSize);
+    create functionality IsParallelogram takes (text s) gives flag (
+        create number i = 1;
+        repeat while i < (lengthof(s) / 2) do (
+            run if not(s(i) = s(lengthof(s) - i + 1))(
+                give false;
+            )
+            i = i + 1;
+        )
+        give true;
+    )
+    
+    run if use IsParallelogram(word) (
+        print to screen("your word is a parallelogram");
+    ) else run (
+        print to screen("your word is not a parallelogram");
+    )
 )

@@ -524,7 +524,7 @@ internal class CreateVariableNode : Node
             }
         }
 
-        return null;
+        throw new Exception("Unable to get variable from scope variables");
     }
 
     public override TypeNode typeCheck()
@@ -896,13 +896,23 @@ internal class ListElementNode : Node
     }
     public override TypeNode typeCheck()
     {
-        ListTypeNode list = (ListTypeNode)id.typeCheck();
-        return list.type;
+        TypeNode type = id.typeCheck();
+        if (type.GetType() == typeof(ListTypeNode))
+        {
+            ListTypeNode list = (ListTypeNode)type;
+            return list.type;
+        }
+        return type;
     }
     public override TypeNode Type()
     {
-        ListTypeNode list = (ListTypeNode)id.Type();
-        return list.type;
+        TypeNode type = id.Type();
+        if (type.GetType() == typeof(ListTypeNode))
+        {
+            ListTypeNode list = (ListTypeNode)type;
+            return list.type;
+        }
+        return type;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
