@@ -8,7 +8,7 @@ public class Program
 {
     static void Main(string[] args)
     {
-        string input = File.ReadAllText(@"..\..\..\CFGtest.txt");
+        string input = File.ReadAllText(@"..\..\..\ProgramInput.txt");
         Console.WriteLine(input);
         ICharStream stream = CharStreams.fromString(input);
         ITokenSource lexer = new SyntaxLexer(stream);
