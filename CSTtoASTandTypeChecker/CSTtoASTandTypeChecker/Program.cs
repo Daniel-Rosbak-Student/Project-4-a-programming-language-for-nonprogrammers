@@ -8,7 +8,12 @@ public class Program
 {
     static void Main(string[] args)
     {
-        string input = File.ReadAllText(@"..\..\..\ProgramInput.txt");
+        if (!File.Exists("ProgramInput.txt"))
+        {
+            File.Create("ProgramInput.txt");
+            return;
+        }
+        string input = File.ReadAllText("ProgramInput.txt");
         Console.WriteLine(input);
         ICharStream stream = CharStreams.fromString(input);
         ITokenSource lexer = new SyntaxLexer(stream);
@@ -33,7 +38,28 @@ public class Program
             cmd.WaitForExit();
             File.WriteAllText(@"program\Run.bat", "java -jar Program.jar");
             
-            Console.WriteLine("SUCCESS");
+            File.Delete(@"program\program\Program.java");
+            File.Delete(@"program\program\Program.class");
+            File.Delete(@"program\Manifest.mf");
+            if (File.Exists("Program.jar"))
+            {
+                File.Delete("Program.jar");
+            }
+            File.Move(@"program\Program.jar", "Program.jar");
+            if (File.Exists("Run.bat"))
+            {
+                File.Delete("Run.bat");
+            }
+            File.Move(@"program\Run.bat", "Run.bat");
+            if (!Directory.EnumerateFileSystemEntries("program/program").Any())
+            {
+                Directory.Delete("program/program");
+            }
+            if (!Directory.EnumerateFileSystemEntries("program").Any())
+            {
+                Directory.Delete("program");
+            }
+            Console.WriteLine("Done");
         }
         catch (Exception e)
         {

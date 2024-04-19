@@ -1,5 +1,5 @@
 ﻿program (
-    print to screen("Please write a word to check if it is a parallelogram");
+    print to screen("Please write a word to check if it is a palindrome");
     create text word = read user input();
     
     create functionality IsPalindrome takes (text s) gives flag (
@@ -14,8 +14,8 @@
     )
     
     run if use IsPalindrome(word) (
-        print to screen("your word is a parallelogram");
+        print to screen("your word is a palindrome");
     ) else run (
-        print to screen("your word is not a parallelogram");
+        print to screen("your word is not a palindrome");
     )
 )
