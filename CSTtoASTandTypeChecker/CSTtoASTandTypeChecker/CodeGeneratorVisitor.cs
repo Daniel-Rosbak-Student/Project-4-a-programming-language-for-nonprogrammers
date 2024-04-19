@@ -305,13 +305,13 @@ internal class CodeGeneratorVisitor
     internal void visit(ListElementNode node)
     {
         node.id.generate(this);
-        if (node.id.typeCheck().GetType() == typeof(TextTypeNode))
+        if (node.id.Type().GetType() == typeof(TextTypeNode))
         {
             output += ".charAt((int)(";
             node.index.generate(this);
             output += " - 1) )";
         }
-        else if (node.id.typeCheck().GetType() == typeof(ListTypeNode))
+        else if (node.id.Type().GetType() == typeof(ListTypeNode))
         {
             output += ".get((in)(";
             node.index.generate(this);

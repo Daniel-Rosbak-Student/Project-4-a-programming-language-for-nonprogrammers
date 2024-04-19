@@ -1,18 +1,22 @@
 program (
     create functionality addition takes (number value1, number value2) gives number (
-        give print to screen(value1 + value2);
+        print to screen(value1 + value2);
+        give (value1 + value2);
     )
 
     create functionality subtraction takes (number value1, number value2) gives number (
-        give print to screen(value1 - value2);
+        print to screen(value1 - value2);
+        give (value1 - value2);
     )
 
     create functionality division takes (number value1, number value2) gives number (
-        give print to screen(value1 / value2);
+        print to screen(value1 / value2);
+        give (value1 / value2);
     )
 
     create functionality multiplication takes (number value1, number value2) gives number (
-        give print to screen(value1 * value2);
+        print to screen(value1 * value2);
+        give (value1 * value2);
     )
 
     create functionality potency takes (number value1, number value2) gives number (
@@ -26,46 +30,51 @@ program (
             result = result * value1;
             )
         )
-        give print to screen(result);
+        print to screen(result);
+        give (result);
     )
 
     create functionality reverse takes (number value) gives number (
-        give print to screen(value * (-1));
+        print to screen(value * (-1));
+        give (value * (-1));
     )
 
     create functionality calculate takes (number value) gives nothing (
-        print to screen("Now pick an operand. Can be any mathematical symbol that you know. If you wish to exit, write q");
-        create text operand = read user input();
-
         create flag looping = true;
         repeat while (looping) do (
+            print to screen("Now pick an operand. Can be any mathematical symbol that you know. If you wish to exit, write q");
+            create text operand = read user input();
                     run if(operand = "+")(
                         print to screen("Write a number to add to the starting value.");
                         create number value2 = read user input() as number;
-                        use addition(value, value2);
+                        value = use addition(value, value2);
                     )
                     else run (
                             run if (operand = "-")(
                                 print to screen("Write a number to subtract from to the starting value.");
                                     create number value2 = read user input() as number;
-                                    use subtraction(value, value2);
+                                    value = use subtraction(value, value2);
                             )
                             else run (
                                 run if (operand = "*")(
                                     print to screen("Write a number to multiply with the starting value.");
                                         create number value2 = read user input() as number;
-                                        use multiplication(value, value2);
+                                        value = use multiplication(value, value2);
                                 )
                                 else run (
                                     run if (operand = "/")(
                                         print to screen("Write a number to divide the starting value with.");
                                             create number value2 = read user input() as number;
-                                            use division(value, value2);
+                                            value = use division(value, value2);
                                     )
                                     else run (
-                                        run if (operand = "q")
+                                        run if (operand = "q")(
                                             print to screen("see you!");
                                             looping = false;
+                                            )
+                                            else run (
+                                                print to screen("Unexpected input");
+                                            )
                                     )
                                 )
                             )
