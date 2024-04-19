@@ -1,21 +1,76 @@
 ﻿program (
-    print to screen("Please write a word to check if it is a parallelogram");
-    create text word = read user input();
-    
-    create functionality IsParallelogram takes (text s) gives flag (
-        create number i = 1;
-        repeat while i < (lengthof(s) / 2) do (
-            run if not(s(i) = s(lengthof(s) - i + 1))(
-                give false;
+    create functionality addition takes (number value1, number value2) gives number (
+        give value1 + value2;
+    )
+
+    create functionality subtraction takes (number value1, number value2) gives number (
+        give value1 - value2;
+    )
+
+    create functionality division takes (number value1, number value2) gives number (
+        give value1 / value2;
+    )
+
+    create functionality multiplication takes (number value1, number value2) gives number (
+        give value1 * value2;
+    )
+
+    create functionality potency takes (number value1, number value2) gives number (
+        create number result = value1;
+        create number x = 1;
+
+        run if (value2 = 0) (
+            give 1;
+        ) else run (
+            repeat while (x < value2) do (
+            result = result * value1;
             )
-            i = i + 1;
         )
-        give true;
+        give result;
     )
-    
-    run if use IsParallelogram(word) (
-        print to screen("your word is a parallelogram");
-    ) else run (
-        print to screen("your word is not a parallelogram");
+
+    create functionality reverse takes (number value) gives number (
+        give value * (-1);
     )
+
+    create functionality calculate takes (number value) gives nothing (
+        print to screen("Now pick an operand. Can be any mathematical symbol that you know. If you wish to exit, write q");
+        create text operand = read user input();
+
+        create flag looping = true;
+        repeat while (looping) do (
+                    run if(operand = "+")(
+                        print to screen("Write a number to add to the starting value.");
+                        create number value2 = read user input() as number;
+                        use addition(value, value2);
+                    )
+                    else run (
+                            run if (operand = "-")(
+                                print to screen("Write a number to subtract from to the starting value.");
+                                    create number value2 = read user input() as number;
+                                    use subtraction(value, value2);
+                            )
+                            else run (
+                                run if (operand = "*")(
+                                    print to screen("Write a number to multiply with the starting value.");
+                                        create number value2 = read user input() as number;
+                                        use multiplication(value, value2);
+                                )
+                                else run (
+                                    run if (operand = "/")(
+                                        print to screen("Write a number to divide the starting value with.");
+                                            create number value2 = read user input() as number;
+                                            use division(value, value2);
+                                    )
+                                )
+                            )
+                        )
+                    looping = false;
+                    )
+        give nothing;
+    )
+
+    print to screen("Write a starting value. Can be any positive number.");
+    create number AccValue = read user input() as number;
+    use calculate(AccValue);
 )
