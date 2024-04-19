@@ -100,8 +100,9 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(LengthOfNode node)
     {
+        output += "(float)";
         node.Identifier.generate(this);
-        output += ".length()";
+        output += ".size()";
     }
     internal void visit(TypeConvertNode node)
     {
@@ -109,13 +110,13 @@ internal class CodeGeneratorVisitor
         {
             output += "Float.parseFloat(";
             node.node.generate(this);
-            output += ");";
+            output += ")";
         }
         else if (node.type.GetType() == typeof(TextTypeNode))
         {
             output += "String.valueOf(";
             node.node.generate(this);
-            output += ");";
+            output += ")";
         }
     }
     internal void visit(CommandNode node)
@@ -313,7 +314,7 @@ internal class CodeGeneratorVisitor
         }
         else if (node.id.Type().GetType() == typeof(ListTypeNode))
         {
-            output += ".get((in)(";
+            output += ".get((int)(";
             node.index.generate(this);
             output += " - 1))";
         }

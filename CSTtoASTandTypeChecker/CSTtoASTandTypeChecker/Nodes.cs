@@ -896,11 +896,13 @@ internal class ListElementNode : Node
     }
     public override TypeNode typeCheck()
     {
-        return id.typeCheck();
+        ListTypeNode list = (ListTypeNode)id.typeCheck();
+        return list.type;
     }
     public override TypeNode Type()
     {
-        return id.Type();
+        ListTypeNode list = (ListTypeNode)id.Type();
+        return list.type;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
