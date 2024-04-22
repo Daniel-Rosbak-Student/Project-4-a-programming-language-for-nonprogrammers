@@ -143,12 +143,9 @@ internal class CodeGeneratorVisitor
         if (node.right != null)
         {
             node.right.generate(this);
-            if (node.right.GetType() != typeof(CommandNode))
+            if (node.right.GetType() != typeof(CommandNode) && output[output.Length - 1] != '}' && output[output.Length - 1] != ';')
             {
-                if (output[output.Length - 1] != ';')
-                {
-                    output += ";";
-                }
+                output += ";";
             }
         }
     }
