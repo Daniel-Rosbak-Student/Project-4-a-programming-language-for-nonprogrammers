@@ -1,0 +1,10 @@
+program(
+    create text Its = "It's ";
+    create text So = "so ";
+    create text Fluffy = "fluffy ";
+    create text Im = "I'm ";
+    create text Gonna = "gonna ";
+    create text Die = "die! ";
+
+    print to screen(Its + So + Fluffy + Im + Gonna + Die);
+)
