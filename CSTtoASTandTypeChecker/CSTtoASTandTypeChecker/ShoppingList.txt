@@ -1,0 +1,23 @@
+﻿program (
+   
+    create list of text shoppingList;
+    create flag running = true;
+    
+    repeat while running do (
+    
+        print to screen("Please write something to add to the shopping list, type 'done' to finish");
+        create text input = read user input();
+        
+        run if not(input = "done")(
+            add input to shoppingList;
+        ) else run(
+            running = false;
+        )
+        
+        create number counter = 1;
+        repeat while counter <= lengthof(shoppingList) do (
+            print to screen(" - " + shoppingList(counter));
+            counter = counter + 1;
+        )
+    )
+)
