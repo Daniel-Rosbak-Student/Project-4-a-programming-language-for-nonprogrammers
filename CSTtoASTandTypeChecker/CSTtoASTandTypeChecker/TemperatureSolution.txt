@@ -1,0 +1,11 @@
+program (
+    create functionality convertDegrees takes (number value) gives number (
+        create number celcius;
+        celcius = value - 32 * 9 / 5;
+        give fahrenheit;
+    )
+    print to screen("Please choose a temperature value: ");
+    create number value = read user input() as number;
+    create text result = use convertDegrees(value) as text;
+    print to screen ("The temperature in celcius is " + result);
+)
