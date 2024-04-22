@@ -11,7 +11,7 @@ internal class TypeChecker
 internal abstract class Node
 {
     public abstract TypeNode typeCheck();
-    
+
     public abstract TypeNode Type();
     public abstract void generate(CodeGeneratorVisitor cgv);
 }
@@ -209,7 +209,7 @@ internal class UseNode : Node
         }
         return signature.gives;
     }
-    
+
     public override TypeNode Type()
     {
         return FunctionNode.getSignature(id.name).Type();
@@ -657,26 +657,8 @@ internal class SubtractNode : NumberInFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class MultiplyNode : InFixNode
+internal class MultiplyNode : NumberInFixNode
 {
-    public override TypeNode typeCheck()
-    {
-        TypeNode leftType = left.typeCheck();
-        TypeNode rightType = right.typeCheck();
-        if ((leftType.GetType() == typeof(NumberTypeNode) && rightType.GetType() == typeof(TextTypeNode)) || ( leftType.GetType() == typeof(TextTypeNode) && rightType.GetType() == typeof(NumberTypeNode)))
-        {
-            return new TextTypeNode();
-        }
-        if (leftType.GetType() == rightType.GetType() && leftType.GetType() == typeof(NumberTypeNode))
-        {
-            return new NumberTypeNode();
-        }
-        throw new Exception("Type mismatch in multiplication");
-    }
-    public override TypeNode Type()
-    {
-        return left.Type();
-    }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 

@@ -1,0 +1,17 @@
+program(
+    create text Its = "It's ";
+    create text So = "so ";
+    create text Fluffy = "fluffy ";
+    create text Im = "I'm ";
+    create text Gonna = "gonna ";
+    create text Die = "die! ";
+
+    create number index = 1;
+    print to screen("Solution 1:");
+    repeat while index < 4 do (
+        print to screen(Its + So + Fluffy + Im + Gonna + Die);
+        index = index + 1;
+    )
+
+    print to screen("Solution 2:" + Its + So + Fluffy + Im + Gonna + Die + Its + So + Fluffy + Im + Gonna + Die + Its + So + Fluffy + Im + Gonna + Die);
+)
