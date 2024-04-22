@@ -1,0 +1,14 @@
+﻿program (
+    create list of text shoppingList;
+    
+    add "Bananas" to shoppingList;
+    add "Potatoes" to shoppingList;
+    add "Milk" to shoppingList;
+    add "Eggs" to shoppingList;
+    
+    create number counter = 1;
+    repeat while counter <= lengthof(shoppingList) do (
+        print to screen(" - " + shoppingList(counter));
+        counter = counter + 1;
+    )
+)
