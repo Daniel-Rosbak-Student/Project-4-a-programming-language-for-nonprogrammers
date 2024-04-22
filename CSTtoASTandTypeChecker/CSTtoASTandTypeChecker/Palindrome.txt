@@ -1,6 +1,6 @@
 ﻿program (
     print to screen("Please write a word to check if it is a palindrome");
-    create text word = read user input();
+    create text word = read user input;
 
     create functionality IsPalindrome takes (text s) gives flag (
         create number i = 1;
