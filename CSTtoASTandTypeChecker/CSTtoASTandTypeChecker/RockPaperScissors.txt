@@ -1,20 +1,18 @@
 ﻿program (
-    create text player 1 = "paper";
-    create text player 2 = "rock";
-   
-   create functionality whoWinsRPS takes (text p1, text p2) gives text (
-    run if (p1 = p2) (
-        give "draw";
-    )
-    
-   run if (((p1 = "rock") and (p2 = "paper")) or (((p1 = "paper") and (p2 = "scissors")) or ((p1 = "scissors") and (p2 = "rock"))) (
-                give "Player 2 wins";
-            )
-            else run (
-                give "Player 1 wins";
-            )
+    create text player1 = "paper";
+    create text player2 = "rock";
+
+    create functionality whoWinsRPS takes (text p1, text p2) gives text (
+        run if (p1 = p2) (
+            give "draw";
         )
-        
-        print to screen(use whoWinsRPS(player1, player2));
+
+    run if ((p1 = "rock") and (p2 = "paper")) or (((p1 = "paper") and (p2 = "scissors")) or ((p1 = "scissors") and (p2 = "rock"))) (
+            give "Player 2 wins";
+        )
+        else run (
+            give "Player 1 wins";
+        )
     )
-    
+    print to screen(use whoWinsRPS(player1, player2));
+)
