@@ -1,4 +1,4 @@
-program(
+program (
     create text Text1 = "It's ";
     create text Text2 = "so ";
     create text Text3 = "fluffy ";
