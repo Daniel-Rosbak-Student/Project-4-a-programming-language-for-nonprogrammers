@@ -8,6 +8,7 @@
 
     create number counter = 1;
     print to screen("The contents of the shopping list are:");
+
     repeat while counter <= length of shoppingList do (
         print to screen(" - " + shoppingList(counter));
         counter = counter + 1;

@@ -1,10 +1,10 @@
 program(
-    create text Its = "It's ";
-    create text So = "so ";
-    create text Fluffy = "fluffy ";
-    create text Im = "I'm ";
-    create text Gonna = "gonna ";
-    create text Die = "die! ";
+    create text Text1 = "It's ";
+    create text Text2 = "so ";
+    create text Text3 = "fluffy ";
+    create text Text4 = "I'm ";
+    create text Text5 = "gonna ";
+    create text Text6 = "die! ";
 
-    print to screen(Its + So + Fluffy + Im + Gonna + Die);
+    print to screen(Text1 + Text2 + Text3 + Text4 + Text5 + Text6);
 )
