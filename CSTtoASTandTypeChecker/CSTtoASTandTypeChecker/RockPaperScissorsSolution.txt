@@ -1,0 +1,20 @@
+program (
+    print to screen("Enter the hand of Player 1");
+    create text player1 = read user input;
+    print to screen("Enter the hand of Player 2");
+    create text player2 = read user input;
+
+    create functionality whoWinsRPS takes (text p1, text p2) gives text (
+        run if (p1 = p2) (
+            give "draw";
+        )
+
+        run if ((p1 = "rock") and (p2 = "paper")) or (((p1 = "paper") and (p2 = "scissors")) or ((p1 = "scissors") and (p2 = "rock"))) (
+                give "Player 2 wins";
+            )
+            else run (
+                give "Player 1 wins";
+            )
+    )
+    print to screen(use whoWinsRPS(player1, player2));
+)

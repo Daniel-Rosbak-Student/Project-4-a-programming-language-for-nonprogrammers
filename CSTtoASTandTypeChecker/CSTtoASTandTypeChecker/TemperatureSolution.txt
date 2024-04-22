@@ -5,7 +5,7 @@ program (
         give fahrenheit;
     )
     print to screen("Please choose a temperature value: ");
-    create number value = read user input() as number;
+    create number value = read user input as number;
     create text result = use convertDegrees(value) as text;
     print to screen ("The temperature in celsius is " + result);
 )

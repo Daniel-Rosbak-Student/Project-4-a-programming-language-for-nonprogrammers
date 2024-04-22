@@ -43,28 +43,28 @@ program (
         create flag looping = true;
         repeat while (looping) do (
             print to screen("Now pick an operand. Can be any mathematical symbol that you know. If you wish to exit, write q");
-            create text operand = read user input();
+            create text operand = read user input;
                     run if(operand = "+")(
                         print to screen("Write a number to add to the starting value.");
-                        create number value2 = read user input() as number;
+                        create number value2 = read user input as number;
                         value = use addition(value, value2);
                     )
                     else run (
                             run if (operand = "-")(
                                 print to screen("Write a number to subtract from to the starting value.");
-                                    create number value2 = read user input() as number;
+                                    create number value2 = read user input as number;
                                     value = use subtraction(value, value2);
                             )
                             else run (
                                 run if (operand = "*")(
                                     print to screen("Write a number to multiply with the starting value.");
-                                        create number value2 = read user input() as number;
+                                        create number value2 = read user input as number;
                                         value = use multiplication(value, value2);
                                 )
                                 else run (
                                     run if (operand = "/")(
                                         print to screen("Write a number to divide the starting value with.");
-                                            create number value2 = read user input() as number;
+                                            create number value2 = read user input as number;
                                             value = use division(value, value2);
                                     )
                                     else run (
@@ -84,6 +84,6 @@ program (
     )
 
     print to screen("Write a starting value. Can be any positive number.");
-    create number AccValue = read user input() as number;
+    create number AccValue = read user input as number;
     use calculate(AccValue);
 )

@@ -6,7 +6,7 @@
     repeat while running do (
 
         print to screen("Please write something to add to the shopping list, type 'done' to finish");
-        create text input = read user input();
+        create text input = read user input;
 
         run if not(input = "done")(
             add input to shoppingList;
@@ -16,7 +16,7 @@
 
         print to screen("The contents of the shopping list are:");
         create number counter = 1;
-        repeat while counter <= lengthof(shoppingList) do (
+        repeat while counter <= length of shoppingList do (
             print to screen(" - " + shoppingList(counter));
             counter = counter + 1;
         )

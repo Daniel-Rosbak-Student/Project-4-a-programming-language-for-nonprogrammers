@@ -113,7 +113,7 @@ useInput: wsc expr=expression wsc ',' wsc next=useInput                         
         ;
 
 print: p r i n t wsc t o wsc s c r e e n wsc '(' wsc expr=expression wsc ')';
-read: r e a d wsc u s e r wsc i n p u t wsc ('(' wsc ')')?;
+read: r e a d wsc u s e r wsc i n p u t;
 
 
 expression: left=expression wsc op=operator wsc right=expression                                    #infixExpression
