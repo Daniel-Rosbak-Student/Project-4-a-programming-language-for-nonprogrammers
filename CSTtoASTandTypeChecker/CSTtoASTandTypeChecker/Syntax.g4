@@ -30,7 +30,7 @@ value: this=use                                                                 
      | this=identifier                                                                              #identifierValue
      ;
 
-lengthOf: l e n g t h o f wsc '(' wsc id=identifier wsc ')';
+lengthOf: l e n g t h wsc o f wsc id=identifier;
 type: n u m b e r                                                                                   #numberType
     | t e x t                                                                                       #textType
     | f l a g                                                                                       #flagType
