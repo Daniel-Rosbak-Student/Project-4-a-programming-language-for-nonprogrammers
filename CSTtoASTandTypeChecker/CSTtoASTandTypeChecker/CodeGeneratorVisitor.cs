@@ -151,8 +151,6 @@ internal class CodeGeneratorVisitor
     }
     internal void visit(CreateVariableNode node)
     {
-        //string temp = output;
-        //output = "";
         node.type.generate(this);
         output += " ";
         node.name.generate(this);
@@ -170,7 +168,6 @@ internal class CodeGeneratorVisitor
             node.value.generate(this);
         }
         output += ";";
-        //output += temp;
     }
     internal void visit(AssignNode node)
     {
