@@ -1,0 +1,63 @@
+The language is not case sensitive.
+
+Each command must end with a ";" symbol, except for control structures.
+
+All the types of variables: "Number", "Text", "List of (type)", "Flag".
+NOTE: Flag is a variable that can only be "true" or "false".
+NOTE: Lists are always created as empty lists.
+Numbers look like so; 1.
+Text looks like so; "text".
+Flags look like so; true / false.
+
+Important keywords:
+"gives" what a function must give back.
+"takes" any input and information that a function may need.
+"give" to return something from a function (is written at the end of the function).
+"break" is used to exit a loop early.
+"create" is used to create something new.
+
+Important commands:
+Calculating the length of a list or the amount of characters in a text: "length of (name of variable)".
+Getting a user input as text "read user input".
+Getting a user input as a number "read user input as number".
+Displaying any text: "print to screen'(''"'(text to display)'"'')'".
+Displaying variables: "print to screen'('(name of variable) as text')'".
+Adding an element to a list: "add (something) to (name of list)".
+NOTE: What is added to the list must be of the same type as the list.
+Valid Example:
+"
+create list of numbers ThisIsAList;
+add 5 to ThisIsAList;
+"
+Invalid example:
+"
+create list of numbers ThisIsAList;
+add "hello" to ThisIsAList;
+"
+
+Creating a new variable without a value: "create (type) (name of variable)".
+Creating a new variable with a value: "create (type) (name of variable) = (value)". NOTE: The value must be of the same type as the variable!
+Creating a list: "create list of (type) (name of list)".
+Creating a flag: that is true: "create flag = true".
+Creating a flag: that is false: "create flag = false".
+
+Control structures:
+Creating a function: "create functionality (name of function) (takes ((type) (name of variable)), (additional arguments)) gives (type) '('(code within function)')'".
+NOTE: If the function is not to return a value, the gives argument becomes "gives nothing".
+All functions MUST HAVE the "give" keyword within. Following the give, is something that must matches the "gives" in the declaration of the function.
+Example:
+"
+create functionality ThisIsAFunction takes (number ThisIsANumber) gives number
+(
+    create number result = ThisIsANumber + 5;
+    give result;
+)
+"
+
+Code that runs based on a condition: "run if ( condition ) '('(code to run if the condition is true)')'".
+Code that if the condition is false: "else run '('(code to run if the condition is false)')'".
+Making a loop: "repeat while ( condition ) do '('(code within loop)')'".
+
+Using a function: "use (name of function) '('(inputs that the function may need')'".
+
+Using an element of a list, or a specific character in a text: "name of list '('(index)')'".
