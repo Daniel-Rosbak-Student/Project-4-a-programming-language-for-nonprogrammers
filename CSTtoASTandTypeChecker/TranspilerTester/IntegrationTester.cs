@@ -24,17 +24,27 @@ public class IntegrationTester
         func.name = "add";
         Node node = new FunctionNode(new SignatureNode(func, null, new NumberTypeNode()), new GiveNode(add, new NumberTypeNode()));
         node.generate(cgv);
-        Console.WriteLine(cgv.output);
-        Debug.Assert(cgv.output == "", "Integration test failure: code genration, function");
+        string expected = "public static Float add()\n{\nreturn 5F + 14F;\n}\npublic static void main(String[] args){\n";
+        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
 
         //Niklas
-
-
-
+        //List, while, text, break, length of, print to screen
+        cgv = new CodeGeneratorVisitor();
+        
+        
+        
+        node.generate(cgv);
+        expected = "";
+        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
+        // if, flag(boolean), and, create, get user input
         //Vaal
+        cgv = new CodeGeneratorVisitor();
         
         
-
+        
+        node.generate(cgv);
+        expected = "";
+        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
     }
     //IntegrationTests
 }

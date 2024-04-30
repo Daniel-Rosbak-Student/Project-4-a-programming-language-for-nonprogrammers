@@ -146,6 +146,7 @@ public class CodeGeneratorVisitor
     }
     internal void visit(CreateVariableNode node)
     {
+        output += "public static ";
         node.type.generate(this);
         output += " ";
         node.name.generate(this);
