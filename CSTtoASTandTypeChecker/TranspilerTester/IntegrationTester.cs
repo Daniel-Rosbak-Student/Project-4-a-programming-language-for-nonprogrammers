@@ -30,18 +30,31 @@ public class IntegrationTester
         //Niklas
         //List, while, text, break, length of, print to screen
         cgv = new CodeGeneratorVisitor();
-        
-        
-        
-        node.generate(cgv);
-        expected = "";
-        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
+        IdentifierNode list = new IdentifierNode();
+        list.name = "list";
+        list.type = new ListTypeNode();
+        AddToListNode addToList = new AddToListNode(new TextNode("\"Hello\""), list, null);
+        ListElementNode listElement = new ListElementNode(list, new NumberNode(1));
+        LessNode condition = new LessNode();
+        condition.left = new NumberNode(0);
+        condition.right = new LengthOfNode(list);
+        CommandNode print = new CommandNode(new PrintNode(listElement), new BreakNode());
+        RepeatNode repeat = new RepeatNode(condition, print);
+        CommandNode commands = new CommandNode(addToList, repeat);
+
+        commands.generate(cgv);
+
+        expected = "public static void main(String[] args){\nlist.add(\"Hello\");;\n while(0F < (float)list.size()){\n System.out.println(list.get((int)(1F - 1)));;\n break;}";
+        Console.WriteLine(cgv.output);
+        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, repeat");
+
+
         // if, flag(boolean), and, create, get user input
         //Vaal
         cgv = new CodeGeneratorVisitor();
-        
-        
-        
+
+
+
         node.generate(cgv);
         expected = "";
         Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
