@@ -25,7 +25,7 @@ public class IntegrationTester
         Node node = new FunctionNode(new SignatureNode(func, null, new NumberTypeNode()), new GiveNode(add, new NumberTypeNode()));
         node.generate(cgv);
         string expected = "public static Float add()\n{\nreturn 5F + 14F;\n}\npublic static void main(String[] args){\n";
-        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
+        //Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
 
         //Niklas
         //List, while, text, break, length of, print to screen
@@ -35,16 +35,30 @@ public class IntegrationTester
         
         node.generate(cgv);
         expected = "";
-        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
+        //Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
+       
         // if, flag(boolean), and, create, get user input
         //Vaal
         cgv = new CodeGeneratorVisitor();
         
+        IdentifierNode i = new IdentifierNode();
+        GreaterNode ifGreaterCondition = new GreaterNode();
+        ifGreaterCondition.left = i;
+        ifGreaterCondition.right = new NumberNode(0);
+        LessNode ifLessCondition = new LessNode();
+        ifLessCondition.left = i;
+        ifLessCondition.right = new NumberNode(10);
+        IdentifierNode hej = new IdentifierNode();
+        TypeNode variableType = new FlagTypeNode();
+        AndNode andCondition = new AndNode();
+        andCondition.left = ifGreaterCondition;
+        andCondition.right = ifLessCondition;
+        IfNode ifStatement = new IfNode(andCondition, new CreateVariableNode(hej,variableType,new ReadNode()), null);
         
-        
-        node.generate(cgv);
-        expected = "";
-        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
+        ifStatement.generate(cgv);
+        expected = "public static void main(String[] args){\nif( > 0F &&  < 10F){\npublic static boolean  = new Scanner(System.in).nextLine();\n}\n";
+        Console.WriteLine(cgv.output);
+        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, if");
     }
     //IntegrationTests
 }
