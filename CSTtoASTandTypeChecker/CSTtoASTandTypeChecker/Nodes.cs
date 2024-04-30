@@ -540,13 +540,9 @@ public class CreateVariableNode : Node
             {
                 return type;
             }
+            throw new Exception("Bad typing in create, attempting to assign a " + variableValue.GetType() + " to a " + type.GetType() + ".");
         }
-        else
-        {
-            return type;
-        }
-
-        throw new Exception("Bad typing in create, attempting to assign a " + variableValue.GetType() + " to a " + type.GetType() + ".");
+        return type;
     }
     public override TypeNode Type()
     {
