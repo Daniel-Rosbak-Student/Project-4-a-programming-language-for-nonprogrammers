@@ -1,6 +1,6 @@
 ﻿namespace CSTtoASTandTypeChecker;
 
-internal class TypeChecker
+public class TypeChecker
 {
     public static void typeCheck(Node AST)
     {
@@ -8,7 +8,7 @@ internal class TypeChecker
         Console.WriteLine("The program is properly typed");
     }
 }
-internal abstract class Node
+public abstract class Node
 {
     public abstract TypeNode typeCheck();
 
@@ -16,7 +16,7 @@ internal abstract class Node
     public abstract void generate(CodeGeneratorVisitor cgv);
 }
 
-internal abstract class TypeNode : Node
+public abstract class TypeNode : Node
 {
     public override TypeNode typeCheck()
     {
@@ -28,13 +28,13 @@ internal abstract class TypeNode : Node
     }
 }
 
-internal abstract class InFixNode : Node
+public abstract class InFixNode : Node
 {
     public Node left { get; set; }
     public Node right { get; set; }
 }
 
-internal abstract class PreSufFixNode : Node
+public abstract class PreSufFixNode : Node
 {
     public Node node { get; set; }
 
@@ -50,7 +50,7 @@ internal abstract class PreSufFixNode : Node
     }
 }
 
-internal abstract class ScopeNode : Node
+public abstract class ScopeNode : Node
 {
     public static ScopeVariables scope { get; set; }
 
@@ -74,7 +74,7 @@ internal abstract class ScopeNode : Node
     }
 }
 
-internal class FunctionNode : Node
+public class FunctionNode : Node
 {
     private static List<FunctionNode> functions = new List<FunctionNode>();
     public SignatureNode signature { get; set; }
@@ -168,7 +168,7 @@ internal class FunctionNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class UseNode : Node
+public class UseNode : Node
 {
     public IdentifierNode id { get; set; }
     public InputNode inputs { get; set; }
@@ -217,7 +217,7 @@ internal class UseNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class InputNode : InFixNode
+public class InputNode : InFixNode
 {
     public InputNode(Node x, Node y)
     {
@@ -246,7 +246,7 @@ internal class InputNode : InFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class ParameterNode : Node
+public class ParameterNode : Node
 {
     public TypeNode type { get; set; }
     public IdentifierNode id { get; set; }
@@ -298,7 +298,7 @@ internal class ParameterNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class IfNode : Node
+public class IfNode : Node
 {
     public Node condition { get; set; }
     public Node Body { get; set; }
@@ -336,7 +336,7 @@ internal class IfNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class RepeatNode : Node
+public class RepeatNode : Node
 {
     public Node condition { get; set; }
     public Node Body { get; set; }
@@ -361,7 +361,7 @@ internal class RepeatNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class ReadNode : Node
+public class ReadNode : Node
 {
     public override TypeNode typeCheck()
     {
@@ -374,7 +374,7 @@ internal class ReadNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class PrintNode : PreSufFixNode
+public class PrintNode : PreSufFixNode
 {
     public PrintNode(Node input)
     {
@@ -400,7 +400,7 @@ internal class PrintNode : PreSufFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class LengthOfNode : PreSufFixNode
+public class LengthOfNode : PreSufFixNode
 {
     public IdentifierNode Identifier { get; set; }
 
@@ -426,7 +426,7 @@ internal class LengthOfNode : PreSufFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class TypeConvertNode : PreSufFixNode
+public class TypeConvertNode : PreSufFixNode
 {
     public TypeNode type { get; set; }
 
@@ -447,7 +447,7 @@ internal class TypeConvertNode : PreSufFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class CommandNode : InFixNode
+public class CommandNode : InFixNode
 {
     public CommandNode(Node x, Node y)
     {
@@ -476,7 +476,7 @@ internal class CommandNode : InFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class CreateVariableNode : Node
+public class CreateVariableNode : Node
 {
     public IdentifierNode name { get; set; }
     public TypeNode type { get; set; }
@@ -555,7 +555,7 @@ internal class CreateVariableNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class ScopeVariables
+public class ScopeVariables
 {
     public ScopeVariables upperScopes { get; set; }
     public List<CreateVariableNode> variables { get; set; }
@@ -586,7 +586,7 @@ internal class ScopeVariables
     }
 }
 
-internal class AssignNode : InFixNode
+public class AssignNode : InFixNode
 {
     public AssignNode(Node x, Node y)
     {
@@ -612,7 +612,7 @@ internal class AssignNode : InFixNode
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
-internal abstract class NumberInFixNode : InFixNode
+public abstract class NumberInFixNode : InFixNode
 {
     public override TypeNode typeCheck()
     {
@@ -632,9 +632,8 @@ internal abstract class NumberInFixNode : InFixNode
     }
 }
 
-internal class AdditionNode : InFixNode
+public class AdditionNode : InFixNode
 {
-    //denne gælder også for tekst
     public override TypeNode typeCheck()
     {
         TypeNode leftType = left.typeCheck();
@@ -652,27 +651,27 @@ internal class AdditionNode : InFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class SubtractNode : NumberInFixNode
+public class SubtractNode : NumberInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class MultiplyNode : NumberInFixNode
+public class MultiplyNode : NumberInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class DivideNode : NumberInFixNode
+public class DivideNode : NumberInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class ModuloNode : NumberInFixNode
+public class ModuloNode : NumberInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal abstract class FlagInFixNode : InFixNode
+public abstract class FlagInFixNode : InFixNode
 {
     public override TypeNode typeCheck()
     {
@@ -690,42 +689,42 @@ internal abstract class FlagInFixNode : InFixNode
     }
 }
 
-internal class EqualsNode : FlagInFixNode
+public class EqualsNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class GreaterNode : FlagInFixNode
+public class GreaterNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class GreaterEqualsNode : FlagInFixNode
+public class GreaterEqualsNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class LessNode : FlagInFixNode
+public class LessNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class LessEqualsNode : FlagInFixNode
+public class LessEqualsNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class AndNode : FlagInFixNode
+public class AndNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class OrNode : FlagInFixNode
+public class OrNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class NotNode : PreSufFixNode
+public class NotNode : PreSufFixNode
 {
     public NotNode(Node x)
     {
@@ -746,33 +745,33 @@ internal class NotNode : PreSufFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class NumberTypeNode : TypeNode
+public class NumberTypeNode : TypeNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class FlagTypeNode : TypeNode
+public class FlagTypeNode : TypeNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class TextTypeNode : TypeNode
+public class TextTypeNode : TypeNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class ListTypeNode : TypeNode
+public class ListTypeNode : TypeNode
 {
     public TypeNode type { get; set; }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class NothingNode : TypeNode
+public class NothingNode : TypeNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class SignatureNode : TypeNode
+public class SignatureNode : TypeNode
 {
     public IdentifierNode id { get; set; }
     public ParameterNode takes { get; set; }
@@ -793,7 +792,7 @@ internal class SignatureNode : TypeNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class ListOfTypes : TypeNode
+public class ListOfTypes : TypeNode
 {
     private List<TypeNode> types;
 
@@ -809,7 +808,7 @@ internal class ListOfTypes : TypeNode
     public override void generate(CodeGeneratorVisitor cgv){}
 }
 
-internal class NumberNode : Node
+public class NumberNode : Node
 {
     public NumberNode(double x)
     {
@@ -828,7 +827,7 @@ internal class NumberNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class FlagNode : Node
+public class FlagNode : Node
 {
     public FlagNode(bool x)
     {
@@ -847,7 +846,7 @@ internal class FlagNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class TextNode : Node
+public class TextNode : Node
 {
     public TextNode(string x)
     {
@@ -866,7 +865,7 @@ internal class TextNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class ListElementNode : Node
+public class ListElementNode : Node
 {
     public IdentifierNode id { get; set; }
     public Node index;
@@ -899,7 +898,7 @@ internal class ListElementNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class AddToListNode : InFixNode
+public class AddToListNode : InFixNode
 {
     public Node index;
     public AddToListNode(Node x, Node y, Node z)
@@ -931,7 +930,7 @@ internal class AddToListNode : InFixNode
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class IdentifierNode : Node
+public class IdentifierNode : Node
 {
     public TypeNode type { get; set; }
     public string name { get; set; }
@@ -952,7 +951,7 @@ internal class IdentifierNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class BreakNode : Node
+public class BreakNode : Node
 {
     public override TypeNode typeCheck()
     {
@@ -965,7 +964,7 @@ internal class BreakNode : Node
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
 }
 
-internal class GiveNode : Node
+public class GiveNode : Node
 {
     public Node value { get; set; }
     public TypeNode type { get; set; }
@@ -974,6 +973,13 @@ internal class GiveNode : Node
     {
         value = x;
     }
+    
+    public GiveNode(Node x, Node y)
+    {
+        value = x;
+        type = (TypeNode)y;
+    }
+    
     public override TypeNode typeCheck()
     {
         SignatureNode sign = ScopeNode.CurrentSignature;

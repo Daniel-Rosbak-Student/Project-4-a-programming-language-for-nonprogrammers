@@ -1,13 +1,8 @@
 ﻿namespace CSTtoASTandTypeChecker;
 
-internal class CodeGeneratorVisitor
+public class CodeGeneratorVisitor
 {
-    private string output;
-
-    internal CodeGeneratorVisitor()
-    {
-        output = "public static void main(String[] args){\n";
-    }
+    public string output = "public static void main(String[] args){\n";
 
     internal void finish()
     {
