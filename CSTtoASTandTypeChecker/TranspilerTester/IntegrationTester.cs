@@ -22,9 +22,10 @@ public class IntegrationTester
         add.right = new NumberNode(14);
         IdentifierNode func = new IdentifierNode();
         func.name = "add";
-        Node node = new FunctionNode(new SignatureNode(func, null, new NumberTypeNode()), new GiveNode(add, new NumberTypeNode()));
+        Node node = new CommandNode(new FunctionNode(new SignatureNode(func, null, new NumberTypeNode()), new GiveNode(add, new NumberTypeNode())), new UseNode(func, null));
         node.generate(cgv);
-        string expected = "public static Float add()\n{\nreturn 5F + 14F;\n}\npublic static void main(String[] args){\n";
+        Console.WriteLine(cgv.output);
+        string expected = "public static Float add()\n{\nreturn 5F + 14F;\n}\npublic static void main(String[] args){\n;\nadd();";
         Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
 
         //Niklas
