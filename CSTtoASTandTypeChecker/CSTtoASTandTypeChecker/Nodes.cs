@@ -7,6 +7,12 @@ public class TypeChecker
         ScopeNode.typeCheckStart(AST);
         Console.WriteLine("The program is properly typed");
     }
+
+    public static void resetStaticVariables()
+    {
+        ScopeNode.reset();
+        FunctionNode.reset();
+    }
 }
 public abstract class Node
 {
@@ -71,6 +77,13 @@ public abstract class ScopeNode : Node
     public static void removeScope()
     {
         scope = scope.upperScopes;
+    }
+
+    internal static void reset()
+    {
+        scope = null;
+        CurrentSignature = null;
+        hasGive = false;
     }
 }
 
@@ -163,6 +176,11 @@ public class FunctionNode : Node
     public override TypeNode Type()
     {
         return signature.Type();
+    }
+
+    internal static void reset()
+    {
+        functions = new List<FunctionNode>();
     }
 
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
@@ -782,7 +800,10 @@ public class SignatureNode : TypeNode
 
     public override TypeNode typeCheck()
     {
-        takes.typeCheck();
+        if (takes != null)
+        {
+            takes.typeCheck();
+        }
         return gives.typeCheck();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}

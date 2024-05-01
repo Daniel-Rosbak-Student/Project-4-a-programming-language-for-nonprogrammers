@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using CSTtoASTandTypeChecker;
+using Antlr4.Runtime;
 
 namespace TranspilerTester;
 
@@ -7,63 +8,101 @@ public class IntegrationTester
 {
     public static void testAll()
     {
+        testTypeChecking();
         testCodeGenerator();
-        //call all testmethods in the class
     }
 
     private static void testCodeGenerator()
     {
-        //function, signature, Identifier, addition, return
         CodeGeneratorVisitor cgv = new CodeGeneratorVisitor();
-        IdentifierNode id = new IdentifierNode();
-        id.name = "variables";
-        AdditionNode add = new AdditionNode();
-        add.left = new NumberNode(5);
-        add.right = new NumberNode(14);
-        IdentifierNode func = new IdentifierNode();
-        func.name = "add";
-        Node node = new CommandNode(new FunctionNode(new SignatureNode(func, null, new NumberTypeNode()), new GiveNode(add, new NumberTypeNode())), new UseNode(func, null));
+        Node node = ASTcase1();
+        TypeChecker.typeCheck(node);
         node.generate(cgv);
-        Console.WriteLine(cgv.output);
-        string expected = "public static Float add()\n{\nreturn 5F + 14F;\n}\npublic static void main(String[] args){\n;\nadd();";
-        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
-
+        string expected = "public static boolean IsPalindrome(String s)\n{\npublic static Float i = 1F;;\nwhile(i < (float)s.length() / 2F){\nif(!(s.charAt((int)(i - 1) ) == s.charAt((int)((float)s.length() - i + 1F - 1) ))){\nreturn false;\n};\ni = i + 1F;};\nreturn true;\n}\npublic static void main(String[] args){\nSystem.out.println(\"Please write a word to check if it is a palindrome\");;\npublic static String word = new Scanner(System.in).nextLine();;\n;\nif(IsPalindrome(word)){\nSystem.out.println(\"your word is a palindrome\");\n}else{\nSystem.out.println(\"your word is not a palindrome\");\n}";
+        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, case 1");
+        TypeChecker.resetStaticVariables();
         
         cgv = new CodeGeneratorVisitor();
-        IdentifierNode list = new IdentifierNode();
-        list.name = "list";
-        list.type = new ListTypeNode();
-        AddToListNode addToList = new AddToListNode(new TextNode("\"Hello\""), list, null);
-        ListElementNode listElement = new ListElementNode(list, new NumberNode(1));
-        LessNode condition = new LessNode();
-        condition.left = new NumberNode(0);
-        condition.right = new LengthOfNode(list);
-        CommandNode print = new CommandNode(new PrintNode(listElement), new BreakNode());
-        RepeatNode repeat = new RepeatNode(condition, print);
-        CommandNode commands = new CommandNode(addToList, repeat);
-        commands.generate(cgv);
-        expected = "public static void main(String[] args){\nlist.add(\"Hello\");;\n while(0F < (float)list.size()){\n System.out.println(list.get((int)(1F - 1)));;\n break;}";
-        Console.WriteLine(cgv.output);
-        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, repeat");
-
+        node = ASTcase2();
+        TypeChecker.typeCheck(node);
+        node.generate(cgv);
+        expected = "public static void main(String[] args){\npublic static List<String> shoppingList = new ArrayList<String>();;\nshoppingList.add(\"Bananas\");;\nshoppingList.add(\"Potatoes\");;\nshoppingList.add(\"Milk\");;\nshoppingList.add(\"Eggs\");;\npublic static Float counter = 1F;;\nSystem.out.println(\"The contents of the shopping list are:\");;\nwhile(counter <= (float)shoppingList.size()){\nSystem.out.println(\" - \" + shoppingList.get((int)(counter - 1)));;\ncounter = counter + 1F;}";
+        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, case 2");
+        TypeChecker.resetStaticVariables();
         
         cgv = new CodeGeneratorVisitor();
-        IdentifierNode i = new IdentifierNode();
-        GreaterNode ifGreaterCondition = new GreaterNode();
-        ifGreaterCondition.left = i;
-        ifGreaterCondition.right = new NumberNode(0);
-        LessNode ifLessCondition = new LessNode();
-        ifLessCondition.left = i;
-        ifLessCondition.right = new NumberNode(10);
-        IdentifierNode hej = new IdentifierNode();
-        TypeNode variableType = new FlagTypeNode();
-        AndNode andCondition = new AndNode();
-        andCondition.left = ifGreaterCondition;
-        andCondition.right = ifLessCondition;
-        IfNode ifStatement = new IfNode(andCondition, new CreateVariableNode(hej,variableType,new ReadNode()), null);
-        ifStatement.generate(cgv);
-        expected = "public static void main(String[] args){\nif( > 0F &&  < 10F){\npublic static boolean  = new Scanner(System.in).nextLine();\n}\n";
-        Console.WriteLine(cgv.output);
-        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, if");
+        node = ASTcase3();
+        TypeChecker.typeCheck(node);
+        node.generate(cgv);
+        expected = "public static void main(String[] args){\npublic static String Text1 = \"It's \";;\npublic static String Text2 = \"so \";;\npublic static String Text3 = \"fluffy \";;\npublic static String Text4 = \"I'm \";;\npublic static String Text5 = \"gonna \";;\npublic static String Text6 = \"die! \";;\nSystem.out.println(Text1 + Text2 + Text3 + Text4 + Text5 + Text6);";
+        Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, case 3");
+        TypeChecker.resetStaticVariables();
+    }
+
+    private static void testTypeChecking()
+    {
+        bool success = true;
+        try
+        {
+            TypeChecker.typeCheck(ASTcase1());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            success = false;
+        }
+        Debug.Assert(success, "Integration test failure: type checking, case 1");
+        TypeChecker.resetStaticVariables();
+        success = true;
+        try
+        {
+            TypeChecker.typeCheck(ASTcase2());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            success = false;
+        }
+        Debug.Assert(success, "Integration test failure: type checking, case 2");
+        TypeChecker.resetStaticVariables();
+        success = true;
+        try
+        {
+            TypeChecker.typeCheck(ASTcase3());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            success = false;
+        }
+        Debug.Assert(success, "Integration test failure: type checking, case 3");
+        TypeChecker.resetStaticVariables();
+    }
+
+    private static Node ASTcase1()
+    {
+        return getAST(@"..\..\..\..\CSTtoASTandTypeChecker\Palindrome.txt");
+    }
+    
+    private static Node ASTcase2()
+    {
+        return getAST(@"..\..\..\..\CSTtoASTandTypeChecker\ShoppingList.txt");
+
+    }
+    
+    private static Node ASTcase3()
+    {
+        return getAST(@"..\..\..\..\CSTtoASTandTypeChecker\AddStringProgram.txt");
+    }
+
+    private static Node getAST(string path)
+    {
+        string input = File.ReadAllText(path);
+        ICharStream stream = CharStreams.fromString(input);
+        ITokenSource lexer = new SyntaxLexer(stream);
+        ITokenStream tokens = new CommonTokenStream(lexer);
+        SyntaxParser parser = new SyntaxParser(tokens);
+        var CST = parser.program();
+        return new CSTconverter().VisitProgram(CST);
     }
 }

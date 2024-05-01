@@ -2,7 +2,7 @@
 
 namespace CSTtoASTandTypeChecker;
 
-internal class CSTconverter : SyntaxBaseVisitor<Node>
+public class CSTconverter : SyntaxBaseVisitor<Node>
 {
 
     public override Node VisitProgram(SyntaxParser.ProgramContext context)
