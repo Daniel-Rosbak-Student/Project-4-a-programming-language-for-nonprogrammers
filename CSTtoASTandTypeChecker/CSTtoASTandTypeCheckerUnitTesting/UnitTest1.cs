@@ -4,7 +4,7 @@ using CSTtoASTandTypeChecker;
 
 namespace CSTtoASTandTypeCheckerUnitTesting
 {
-    public class UnitTest1
+    public class TypeChecking
     {
         [Fact]
         public void TestAdditionNodeTypeCheck_Success()
@@ -32,6 +32,15 @@ namespace CSTtoASTandTypeCheckerUnitTesting
             // Act & Assert
             Exception ex = Assert.Throws<Exception>(() => additionNode.typeCheck());
             Assert.Contains("Type mismatch in addition", ex.Message);
+        }
+    }
+
+    public class CSTConverter
+    {
+        [Fact]
+        public void next_test()
+        {
+            
         }
     }
 }
