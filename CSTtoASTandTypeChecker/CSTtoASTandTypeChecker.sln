@@ -1,8 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSTtoASTandTypeChecker", "CSTtoASTandTypeChecker\CSTtoASTandTypeChecker.csproj", "{0F108801-A6EC-4CED-B913-37108F8624CE}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSTtoASTandTypeChecker", "CSTtoASTandTypeChecker\CSTtoASTandTypeChecker.csproj", "{0F108801-A6EC-4CED-B913-37108F8624CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranspilerTester", "TranspilerTester\TranspilerTester.csproj", "{6025ECFC-A88C-4786-85D5-6BEDFFA3A331}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranspilerTester", "TranspilerTester\TranspilerTester.csproj", "{6025ECFC-A88C-4786-85D5-6BEDFFA3A331}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSTtoASTandTypeCheckerUnitTesting", "CSTtoASTandTypeCheckerUnitTesting\CSTtoASTandTypeCheckerUnitTesting.csproj", "{AD18A2B1-3ECA-4C6C-88F8-2B54069CA851}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +23,15 @@ Global
 		{6025ECFC-A88C-4786-85D5-6BEDFFA3A331}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6025ECFC-A88C-4786-85D5-6BEDFFA3A331}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6025ECFC-A88C-4786-85D5-6BEDFFA3A331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD18A2B1-3ECA-4C6C-88F8-2B54069CA851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD18A2B1-3ECA-4C6C-88F8-2B54069CA851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD18A2B1-3ECA-4C6C-88F8-2B54069CA851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD18A2B1-3ECA-4C6C-88F8-2B54069CA851}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D3601EA-F23A-459A-91D1-D4165A314BFD}
 	EndGlobalSection
 EndGlobal
