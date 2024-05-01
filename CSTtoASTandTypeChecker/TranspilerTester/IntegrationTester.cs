@@ -28,8 +28,7 @@ public class IntegrationTester
         string expected = "public static Float add()\n{\nreturn 5F + 14F;\n}\npublic static void main(String[] args){\n;\nadd();";
         Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, function");
 
-        //Niklas
-        //List, while, text, break, length of, print to screen
+        
         cgv = new CodeGeneratorVisitor();
         IdentifierNode list = new IdentifierNode();
         list.name = "list";
@@ -42,18 +41,13 @@ public class IntegrationTester
         CommandNode print = new CommandNode(new PrintNode(listElement), new BreakNode());
         RepeatNode repeat = new RepeatNode(condition, print);
         CommandNode commands = new CommandNode(addToList, repeat);
-
         commands.generate(cgv);
-
         expected = "public static void main(String[] args){\nlist.add(\"Hello\");;\n while(0F < (float)list.size()){\n System.out.println(list.get((int)(1F - 1)));;\n break;}";
         Console.WriteLine(cgv.output);
         Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, repeat");
 
-
-        // if, flag(boolean), and, create, get user input
-        //Vaal
-        cgv = new CodeGeneratorVisitor();
         
+        cgv = new CodeGeneratorVisitor();
         IdentifierNode i = new IdentifierNode();
         GreaterNode ifGreaterCondition = new GreaterNode();
         ifGreaterCondition.left = i;
@@ -67,11 +61,9 @@ public class IntegrationTester
         andCondition.left = ifGreaterCondition;
         andCondition.right = ifLessCondition;
         IfNode ifStatement = new IfNode(andCondition, new CreateVariableNode(hej,variableType,new ReadNode()), null);
-        
         ifStatement.generate(cgv);
         expected = "public static void main(String[] args){\nif( > 0F &&  < 10F){\npublic static boolean  = new Scanner(System.in).nextLine();\n}\n";
         Console.WriteLine(cgv.output);
         Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, if");
     }
-    //IntegrationTests
 }
