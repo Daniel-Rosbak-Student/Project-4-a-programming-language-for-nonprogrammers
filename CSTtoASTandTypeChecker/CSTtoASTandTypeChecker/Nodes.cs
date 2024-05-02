@@ -184,6 +184,11 @@ public class FunctionNode : Node
     }
 
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "FN" + signature + cmds;
+    }
 }
 
 public class UseNode : Node
@@ -233,6 +238,11 @@ public class UseNode : Node
         return FunctionNode.getSignature(id.name).Type();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "U" + id + inputs;
+    }
 }
 
 public class InputNode : InFixNode
@@ -262,6 +272,11 @@ public class InputNode : InFixNode
         return left.Type();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "IN" + left + right;
+    }
 }
 
 public class ParameterNode : Node
@@ -314,6 +329,15 @@ public class ParameterNode : Node
         return type.Type();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        if (next != null)
+        {
+            return "P" + type + id + next;
+        }
+        return "P" + type + id;
+    }
 }
 
 public class IfNode : Node
@@ -352,6 +376,11 @@ public class IfNode : Node
         return null;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "I" + condition + Body + ElseBody;
+    }
 }
 
 public class RepeatNode : Node
@@ -377,6 +406,11 @@ public class RepeatNode : Node
         return null;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "RW" + condition + Body;
+    }
 }
 
 public class ReadNode : Node
@@ -390,6 +424,11 @@ public class ReadNode : Node
         return new TextTypeNode();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "R";
+    }
 }
 
 public class PrintNode : PreSufFixNode
@@ -416,6 +455,11 @@ public class PrintNode : PreSufFixNode
         return null;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "P" + node;
+    }
 }
 
 public class LengthOfNode : PreSufFixNode
@@ -442,6 +486,11 @@ public class LengthOfNode : PreSufFixNode
         return Identifier.Type();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "LO" + Identifier;
+    }
 }
 
 public class TypeConvertNode : PreSufFixNode
@@ -463,6 +512,11 @@ public class TypeConvertNode : PreSufFixNode
         return type.Type();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "TC" + type + node;
+    }
 }
 
 public class CommandNode : InFixNode
@@ -492,6 +546,11 @@ public class CommandNode : InFixNode
         return null;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "C" + left + right;
+    }
 }
 
 public class CreateVariableNode : Node
@@ -567,6 +626,15 @@ public class CreateVariableNode : Node
         return type.Type();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        if (value != null)
+        {
+            return "CV" + name + value + type;
+        }
+        return "CV" + name + type;
+    }
 }
 
 public class ScopeVariables
@@ -625,6 +693,11 @@ public class AssignNode : InFixNode
         return left.Type();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "A" + left + right;
+    }
 }
 public abstract class NumberInFixNode : InFixNode
 {
@@ -648,6 +721,14 @@ public abstract class NumberInFixNode : InFixNode
 
 public class AdditionNode : InFixNode
 {
+    public AdditionNode(){}
+
+    public AdditionNode(Node left, Node right)
+    {
+        this.left = left;
+        this.right = right;
+    }
+    
     public override TypeNode typeCheck()
     {
         TypeNode leftType = left.typeCheck();
@@ -663,26 +744,50 @@ public class AdditionNode : InFixNode
         return left.Type();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "+" + right;
+    }
 }
 
 public class SubtractNode : NumberInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    public override string ToString()
+    {
+        return left + "-" + right;
+    }
 }
 
 public class MultiplyNode : NumberInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "*" + right;
+    }
 }
 
 public class DivideNode : NumberInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "/" + right;
+    }
 }
 
 public class ModuloNode : NumberInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "%" + right;
+    }
 }
 
 public abstract class FlagInFixNode : InFixNode
@@ -706,36 +811,71 @@ public abstract class FlagInFixNode : InFixNode
 public class EqualsNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "=" + right;
+    }
 }
 
 public class GreaterNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + ">" + right;
+    }
 }
 
 public class GreaterEqualsNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + ">=" + right;
+    }
 }
 
 public class LessNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "<" + right;
+    }
 }
 
 public class LessEqualsNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "<=" + right;
+    }
 }
 
 public class AndNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "&" + right;
+    }
 }
 
 public class OrNode : FlagInFixNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return left + "|" + right;
+    }
 }
 
 public class NotNode : PreSufFixNode
@@ -757,32 +897,62 @@ public class NotNode : PreSufFixNode
         return new FlagTypeNode();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "!" + node;
+    }
 }
 
 public class NumberTypeNode : TypeNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "NT";
+    }
 }
 
 public class FlagTypeNode : TypeNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "FT";
+    }
 }
 
 public class TextTypeNode : TypeNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "TT";
+    }
 }
 
 public class ListTypeNode : TypeNode
 {
     public TypeNode type { get; set; }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "LT";
+    }
 }
 
 public class NothingNode : TypeNode
 {
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "NT";
+    }
 }
 
 public class SignatureNode : TypeNode
@@ -807,6 +977,11 @@ public class SignatureNode : TypeNode
         return gives.typeCheck();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "S" + id + takes + gives;
+    }
 }
 
 public class ListOfTypes : TypeNode
@@ -823,6 +998,11 @@ public class ListOfTypes : TypeNode
         return types;
     }
     public override void generate(CodeGeneratorVisitor cgv){}
+    
+    public override string ToString()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class NumberNode : Node
@@ -842,6 +1022,11 @@ public class NumberNode : Node
         return new NumberTypeNode();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "N" + value;
+    }
 }
 
 public class FlagNode : Node
@@ -861,6 +1046,11 @@ public class FlagNode : Node
         return new FlagTypeNode();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "F" + value;
+    }
 }
 
 public class TextNode : Node
@@ -880,6 +1070,11 @@ public class TextNode : Node
         return new TextTypeNode();
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "T" + value;
+    }
 }
 
 public class ListElementNode : Node
@@ -913,6 +1108,11 @@ public class ListElementNode : Node
         return type;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "LE" + id + index;
+    }
 }
 
 public class AddToListNode : InFixNode
@@ -945,12 +1145,24 @@ public class AddToListNode : InFixNode
     }
 
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "ATL" + index;
+    }
 }
 
 public class IdentifierNode : Node
 {
     public TypeNode type { get; set; }
     public string name { get; set; }
+    
+    public IdentifierNode(){}
+
+    public IdentifierNode(string name)
+    {
+        this.name = name;
+    }
 
     public override TypeNode typeCheck()
     {
@@ -966,6 +1178,11 @@ public class IdentifierNode : Node
         return type;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "I" + name;
+    }
 }
 
 public class BreakNode : Node
@@ -979,6 +1196,11 @@ public class BreakNode : Node
         return null;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+    
+    public override string ToString()
+    {
+        return "B";
+    }
 }
 
 public class GiveNode : Node
@@ -989,12 +1211,6 @@ public class GiveNode : Node
     public GiveNode(Node x)
     {
         value = x;
-    }
-    
-    public GiveNode(Node x, Node y)
-    {
-        value = x;
-        type = (TypeNode)y;
     }
     
     public override TypeNode typeCheck()
@@ -1018,4 +1234,9 @@ public class GiveNode : Node
         return null;
     }
     public override void generate(CodeGeneratorVisitor cgv){cgv.visit(this);}
+
+    public override string ToString()
+    {
+        return "G" + value;
+    }
 }
