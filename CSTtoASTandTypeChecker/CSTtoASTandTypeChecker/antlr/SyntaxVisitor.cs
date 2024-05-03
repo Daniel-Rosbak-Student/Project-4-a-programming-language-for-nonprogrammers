@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/nikla/RiderProjects/Project-4-a-programming-language-for-nonprogrammers/CSTtoASTandTypeChecker/CSTtoASTandTypeChecker/Syntax.g4 by ANTLR 4.13.1
+// Generated from C:/Users/Daniel/IdeaProjects/LanguageSyntax/src/Syntax.g4 by ANTLR 4.13.1
 
 // Unreachable code detected
 #pragma warning disable 0162

@@ -45,7 +45,7 @@ addToList: a d d wsc this=expression wsc t o wsc id=identifier                  
          ;
 nonKeywordName: character (digit | character)*;
 
-number: ('-')? nonZeroNumber | '0';
+number: ('-')? (nonZeroNumber | '0') ('.' number)? ;
 nonZeroNumber: nonZeroDigit digit*;
 digit: '0' | nonZeroDigit;
 nonZeroDigit: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' ;
