@@ -24,7 +24,7 @@ public class IntegrationTester
         Node create5 = new CreateVariableNode(new IdentifierNode("Text5"), new TextTypeNode(), new TextNode("\"gonna \""));
         Node create6 = new CreateVariableNode(new IdentifierNode("Text6"), new TextTypeNode(), new TextNode("\"die! \""));
         Node expected = new CommandNode(new CommandNode(create1,new CommandNode(create2, new CommandNode(create3, new CommandNode(create4, new CommandNode(create5, create6))))), print);
-        Debug.Assert(ASTcompare(node, expected),"Integration test failure: CST converter, case 1");
+        Debug.Assert(ASTcompare(node, expected),"Integration test failure: CST converter, case 3");
     }
     
     private static void testTypeChecking()
