@@ -480,8 +480,8 @@ public class LengthOfNode : PreSufFixNode
             {
                 return type;
             }
+            throw new Exception("Trying to Lengthof on " + type);
         }
-
         throw new Exception("Lengthof is missing an identifier");
     }
     public override TypeNode Type()
