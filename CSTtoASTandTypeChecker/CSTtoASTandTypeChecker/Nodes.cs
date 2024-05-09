@@ -475,12 +475,11 @@ public class LengthOfNode : PreSufFixNode
     {
         if (Identifier != null)
         {
-            if (Identifier.typeCheck().GetType() == typeof(ListTypeNode) || Identifier.typeCheck().GetType() == typeof(TextTypeNode))
+            TypeNode type = Identifier.typeCheck();
+            if (type.GetType() == typeof(ListTypeNode) || type.typeCheck().GetType() == typeof(TextTypeNode))
             {
-                
+                return type;
             }
-            
-            return new NumberTypeNode();
         }
 
         throw new Exception("Lengthof is missing an identifier");
