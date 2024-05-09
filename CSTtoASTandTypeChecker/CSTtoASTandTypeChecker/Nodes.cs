@@ -475,7 +475,11 @@ public class LengthOfNode : PreSufFixNode
     {
         if (Identifier != null)
         {
-            Identifier.typeCheck();
+            if (Identifier.typeCheck().GetType() == typeof(ListTypeNode) || Identifier.typeCheck().GetType() == typeof(TextTypeNode))
+            {
+                
+            }
+            
             return new NumberTypeNode();
         }
 
