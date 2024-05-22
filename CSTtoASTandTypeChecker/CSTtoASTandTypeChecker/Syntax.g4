@@ -41,7 +41,7 @@ type: n u m b e r                                                               
 identifier: id=nonKeywordName;
 listElement: id=identifier wsc '(' wsc index=expression wsc ')';
 addToList: a d d wsc this=expression wsc t o wsc id=identifier                                      #addNoIndex
-         | a d d wsc this=value wsc t o wsc id=identifier wsc a t wsc index=expression              #addWithIndex
+         | a d d wsc this=expression wsc t o wsc id=identifier wsc a t wsc index=expression              #addWithIndex
          ;
 nonKeywordName: character (digit | character)*;
 
