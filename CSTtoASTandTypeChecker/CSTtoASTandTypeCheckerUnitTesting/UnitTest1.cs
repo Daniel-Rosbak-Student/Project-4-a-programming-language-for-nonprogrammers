@@ -64,7 +64,7 @@ namespace CSTtoASTandTypeCheckerUnitTesting
          
             CreateVariableNode createVariableNode = new CreateVariableNode(name, new NumberTypeNode(), value);
 
-            var expected = "public static void main(String[] args){\npublic static Float variable = 10F;";
+            var expected = "public static void main(String[] args){\nFloat variable = 10F;";
 
             //Act
             createVariableNode.generate(cgv);

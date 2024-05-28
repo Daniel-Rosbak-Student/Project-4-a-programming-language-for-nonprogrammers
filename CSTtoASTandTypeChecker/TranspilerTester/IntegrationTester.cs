@@ -74,21 +74,21 @@ public class IntegrationTester
         Node node = ASTcase1();
         TypeChecker.typeCheck(node);
         node.generate(cgv);
-        string expected = "public static boolean IsPalindrome(String s)\n{\npublic static Float i = 1F;;\nwhile(i < (float)s.length() / 2F){\nif(!(s.charAt((int)(i - 1) ) == s.charAt((int)((float)s.length() - i + 1F - 1) ))){\nreturn false;\n};\ni = i + 1F;};\nreturn true;\n}\npublic static void main(String[] args){\nSystem.out.println(\"Please write a word to check if it is a palindrome\");;\npublic static String word = new Scanner(System.in).nextLine();;\n;\nif(IsPalindrome(word)){\nSystem.out.println(\"your word is a palindrome\");\n}else{\nSystem.out.println(\"your word is not a palindrome\");\n}";
+        string expected = "public static boolean IsPalindrome(String s)\n{\n Float i = 1F;;\nwhile(i < (float)s.length() / 2F){\nif(!(s.charAt((int)(i - 1) ) == s.charAt((int)((float)s.length() - i + 1F - 1) ))){\nreturn false;\n};\ni = i + 1F;};\nreturn true;\n}\n void main(String[] args){\nSystem.out.println(\"Please write a word to check if it is a palindrome\");;\n String word = new Scanner(System.in).nextLine();;\n;\nif(IsPalindrome(word)){\nSystem.out.println(\"your word is a palindrome\");\n}else{\nSystem.out.println(\"your word is not a palindrome\");\n}";
         Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, case 1");
         //case 2
         cgv = new CodeGeneratorVisitor();
         node = ASTcase2();
         TypeChecker.typeCheck(node);
         node.generate(cgv);
-        expected = "public static void main(String[] args){\npublic static List<String> shoppingList = new ArrayList<String>();;\nshoppingList.add(\"Bananas\");;\nshoppingList.add(\"Potatoes\");;\nshoppingList.add(\"Milk\");;\nshoppingList.add(\"Eggs\");;\npublic static Float counter = 1F;;\nSystem.out.println(\"The contents of the shopping list are:\");;\nwhile(counter <= (float)shoppingList.size()){\nSystem.out.println(\" - \" + shoppingList.get((int)(counter - 1)));;\ncounter = counter + 1F;}";
+        expected = "public static void main(String[] args){\n List<String> shoppingList = new ArrayList<String>();;\nshoppingList.add(\"Bananas\");;\nshoppingList.add(\"Potatoes\");;\nshoppingList.add(\"Milk\");;\nshoppingList.add(\"Eggs\");;\n Float counter = 1F;;\nSystem.out.println(\"The contents of the shopping list are:\");;\nwhile(counter <= (float)shoppingList.size()){\nSystem.out.println(\" - \" + shoppingList.get((int)(counter - 1)));;\ncounter = counter + 1F;}";
         Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, case 2");
         //case 3
         cgv = new CodeGeneratorVisitor();
         node = ASTcase3();
         TypeChecker.typeCheck(node);
         node.generate(cgv);
-        expected = "public static void main(String[] args){\npublic static String Text1 = \"It's \";;\npublic static String Text2 = \"so \";;\npublic static String Text3 = \"fluffy \";;\npublic static String Text4 = \"I'm \";;\npublic static String Text5 = \"gonna \";;\npublic static String Text6 = \"die! \";;\nSystem.out.println(Text1 + Text2 + Text3 + Text4 + Text5 + Text6);";
+        expected = "public static void main(String[] args){\n String Text1 = \"It's \";;\n String Text2 = \"so \";;\n String Text3 = \"fluffy \";;\n String Text4 = \"I'm \";;\n String Text5 = \"gonna \";;\n String Text6 = \"die! \";;\nSystem.out.println(Text1 + Text2 + Text3 + Text4 + Text5 + Text6);";
         Debug.Assert(cgv.output.Equals(expected), "Integration test failure: code generation, case 3");
     }
 
